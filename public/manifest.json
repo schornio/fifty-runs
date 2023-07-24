@@ -1,0 +1,17 @@
+{
+  "name": "50runs",
+  "short_name": "50runs",
+
+  "display": "standalone",
+
+  "scope": "/",
+  "start_url": "/",
+
+  "icons": [
+    {
+      "src": "/image/Logo_50runs_neu_square.png",
+      "sizes": "500x500",
+      "type": "image/png"
+    }
+  ]
+}

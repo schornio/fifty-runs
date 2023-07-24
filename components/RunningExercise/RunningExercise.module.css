@@ -1,0 +1,10 @@
+.user-image {
+  border: var(--border-2);
+  border-radius: 50%;
+  border-color: var(--color-blue);
+}
+
+.image {
+  display: block;
+  max-width: 100%;
+}

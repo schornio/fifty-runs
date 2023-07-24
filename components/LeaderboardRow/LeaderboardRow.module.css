@@ -1,0 +1,9 @@
+.user-image {
+  border: var(--border-1);
+  border-radius: var(--border-radius-1);
+  border-color: var(--color-blue);
+}
+
+.column-main {
+  width: 100%;
+}

@@ -1,0 +1,5 @@
+.user-image {
+  border: var(--border-2);
+  border-radius: var(--border-radius-1);
+  border-color: var(--color-green);
+}
