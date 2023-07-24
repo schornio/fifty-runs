@@ -2,6 +2,7 @@
 
 import { FormEvent, useCallback, useState } from 'react';
 import { Box } from '@/components/view/Box';
+import { Button } from '@/components/view/Button';
 import { ButtonAction } from '@/components/view/ButtonAction';
 import { InputImage } from '@/components/view/InputImage';
 import { InputText } from '@/components/view/InputText';
@@ -13,7 +14,6 @@ import { runningExperciseSchema } from '@/schema/runningExercise';
 import { usePromise } from '@/util/usePromise';
 import { useRouter } from 'next/navigation';
 import { useValidation } from '@/util/form/useValidation';
-import { Button } from '../view/Button';
 
 const visibilityItems = [
   {
@@ -83,13 +83,7 @@ export function RunningExerciseCreateForm() {
   }
 
   return (
-    <Box
-      color="accent1"
-      corner="1"
-      padding="2"
-      maxWidth="phone"
-      variant="outline"
-    >
+    <Box corner="1" padding="2" maxWidth="phone" variant="outline">
       <form onSubmit={onSubmit} ref={formRef}>
         <Stack alignBlock="stretch" gap="1">
           <Typography align="center">

@@ -8,7 +8,7 @@ const meta: Meta<typeof Button> = {
 export default meta;
 type Story = StoryObj<typeof Button>;
 
-const defaultColor = 'accent1';
+const defaultColor = 'blue';
 
 export const Fill: Story = {
   args: {

@@ -1,14 +1,9 @@
-import {
-  ReactionType,
-  reactions as availableReactions,
-} from '@/model/reaction';
-import { Box } from '../view/Box';
 import Image from 'next/image';
-import { Stack } from '../view/Stack';
-import { Typography } from '../view/Typography';
-import { prisma } from '@/prisma';
 import { ReactionButton } from '../ReactionButton';
+import { Stack } from '../view/Stack';
+import { reactions as availableReactions } from '@/model/reaction';
 import { getCurrentSession } from '@/util/server/getCurrentSession';
+import { prisma } from '@/prisma';
 import styles from './Reactions.module.css';
 
 export async function Reactions({ exerciseId }: { exerciseId: string }) {

@@ -1,9 +1,9 @@
 import { Box } from '@/components/view/Box';
 import Image from 'next/image';
+import { Reactions } from '@/components/Reactions';
 import { Stack } from '@/components/view/Stack';
 import { Typography } from '@/components/view/Typography';
 import styles from './RunningExercise.module.css';
-import { Reactions } from '../Reactions';
 
 const { format } = new Intl.DateTimeFormat('de-de', {
   dateStyle: 'full',

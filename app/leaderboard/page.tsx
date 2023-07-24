@@ -1,6 +1,5 @@
-import { LeaderboardRow } from '@/components/LeaderboardRow';
 import { Box } from '@/components/view/Box';
-import { ProgressBar } from '@/components/view/ProgressBar';
+import { LeaderboardRow } from '@/components/LeaderboardRow';
 import { Stack } from '@/components/view/Stack';
 import { Typography } from '@/components/view/Typography';
 import { prisma } from '@/prisma';

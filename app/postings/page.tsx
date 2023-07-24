@@ -4,7 +4,6 @@ import { RunningExerciseCreateForm } from '@/components/RunningExerciseCreateFor
 import { Stack } from '@/components/view/Stack';
 import { getCurrentSession } from '@/util/server/getCurrentSession';
 import { prisma } from '@/prisma';
-import { ReactionType } from '@/model/reaction';
 
 export default async function PostingsPage() {
   const session = await getCurrentSession();
@@ -21,17 +20,17 @@ export default async function PostingsPage() {
 
   const postings = await prisma.runningExercise.findMany({
     include: {
-      reactions: {
-        select: {
-          type: true,
-          user: {
-            select: {
-              image: true,
-              name: true,
-            },
-          },
-        },
-      },
+      // reactions: {
+      //   select: {
+      //     type: true,
+      //     user: {
+      //       select: {
+      //         image: true,
+      //         name: true,
+      //       },
+      //     },
+      //   },
+      // },
       user: {
         select: {
           image: true,
@@ -66,7 +65,6 @@ export default async function PostingsPage() {
             id,
             image,
             notes,
-            reactions,
             user,
           }) => (
             <RunningExercise
@@ -77,12 +75,6 @@ export default async function PostingsPage() {
               image={image}
               key={id}
               notes={notes}
-              reactions={
-                reactions as {
-                  type: ReactionType;
-                  user: { image?: string | null; name: string };
-                }[]
-              }
               userName={user.name}
               userImage={user.image}
             />

@@ -16,8 +16,8 @@ export function UserImageChangeForm() {
 
     try {
       const result = await fetch('/api/user/image', {
-        method: 'POST',
         body: formData,
+        method: 'POST',
       });
 
       if (result.ok) {
@@ -26,7 +26,7 @@ export function UserImageChangeForm() {
         throw new Error('Fehler beim Speichern');
       }
     } catch (error) {
-      setErrors((errors) => [...errors, String(error)]);
+      setErrors((currentErrors) => [...currentErrors, String(error)]);
     }
   };
 
