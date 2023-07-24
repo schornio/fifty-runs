@@ -18,6 +18,7 @@ export const metadata: Metadata = {
     icon: '/image/Logo_50runs_neu_square.png',
     shortcut: '/image/Logo_50runs_neu_square.png',
   },
+  manifest: '/manifest.json',
   title: '50runs',
 };
 
