@@ -83,7 +83,7 @@ export function RunningExerciseCreateForm() {
   }
 
   return (
-    <Box corner="1" padding="2" maxWidth="phone" variant="outline">
+    <Box corner="1" maxWidth="phone" variant="outline">
       <form onSubmit={onSubmit} ref={formRef}>
         <Stack alignBlock="stretch" gap="1">
           <Typography align="center">

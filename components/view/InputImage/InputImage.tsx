@@ -117,7 +117,7 @@ function InputImageComponent({
   });
 
   return (
-    <div className={className} style={{ height, width }}>
+    <div className={className} style={{ height, maxWidth: width }}>
       <label
         className={classNameLabel}
         htmlFor={inputId}
