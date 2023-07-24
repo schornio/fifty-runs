@@ -1,38 +1,40 @@
-import { prisma } from "@/prisma";
-import { getCurrentSession } from "@/util/server/getCurrentSession";
-import { del } from "@/util/server/vercelBlobShim";
-import { badRequest } from "@/util/serverResponse/badRequest";
-import { success } from "@/util/serverResponse/success";
+import { del } from '@/util/server/vercelBlobShim';
+import { getCurrentSession } from '@/util/server/getCurrentSession';
+import { prisma } from '@/prisma';
 
 export async function DELETE(
   _request: Request,
   { params: { id } }: { params: { id: string } }
 ) {
-  const session = await getCurrentSession();
-  if (!session) {
-    return badRequest("Invalid session");
+  try {
+    const session = await getCurrentSession();
+    if (!session) {
+      throw new Error('Invalid session');
+    }
+
+    const runningExercise = await prisma.runningExercise.findUnique({
+      where: {
+        id,
+        userId: session.userId,
+      },
+    });
+
+    if (!runningExercise) {
+      throw new Error('Invalid runningExercise');
+    }
+
+    if (runningExercise.image) {
+      await del(runningExercise.image);
+    }
+
+    await prisma.runningExercise.delete({
+      where: {
+        id: runningExercise.id,
+      },
+    });
+
+    return new Response();
+  } catch {
+    return new Response(undefined, { status: 500 });
   }
-
-  const runningExercise = await prisma.runningExercise.findUnique({
-    where: {
-      id,
-      userId: session.userId,
-    },
-  });
-
-  if (!runningExercise) {
-    return badRequest("Invalid runningExercise");
-  }
-
-  if (runningExercise.image) {
-    await del(runningExercise.image);
-  }
-
-  await prisma.runningExercise.delete({
-    where: {
-      id: runningExercise.id,
-    },
-  });
-
-  return success({});
 }
