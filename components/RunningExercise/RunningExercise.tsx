@@ -2,6 +2,7 @@ import { Box } from '@/components/view/Box';
 import Image from 'next/image';
 import { Reactions } from '@/components/Reactions';
 import { Stack } from '@/components/view/Stack';
+import { Suspense } from 'react';
 import { Typography } from '@/components/view/Typography';
 import styles from './RunningExercise.module.css';
 
@@ -91,7 +92,15 @@ export function RunningExercise({
         </Typography>
       </Box>
       <Box padding="2">
-        <Reactions exerciseId={id} />
+        <Suspense
+          fallback={
+            <Typography color="accent1" align="center">
+              ...
+            </Typography>
+          }
+        >
+          <Reactions exerciseId={id} />
+        </Suspense>
       </Box>
     </Box>
   );
