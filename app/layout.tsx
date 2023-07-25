@@ -20,6 +20,11 @@ export const metadata: Metadata = {
   },
   manifest: '/manifest.json',
   title: '50runs',
+  viewport: {
+    initialScale: 1,
+    interactiveWidget: 'overlays-content',
+    width: 'device-width',
+  },
 };
 
 export default async function RootLayout({
