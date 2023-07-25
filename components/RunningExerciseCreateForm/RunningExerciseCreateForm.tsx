@@ -108,14 +108,14 @@ export function RunningExerciseCreateForm() {
               label="Kilometer"
               name="distanceKilometers"
               onChange={validateFormJustInTime}
-              type="text"
+              type="number"
             />
             <InputText
               error={errors}
               label="Meter"
               name="distanceMeters"
               onChange={validateFormJustInTime}
-              type="text"
+              type="number"
             />
           </Stack>
           <Typography align="center">
@@ -127,21 +127,21 @@ export function RunningExerciseCreateForm() {
               label="Stunden"
               name="durationHours"
               onChange={validateFormJustInTime}
-              type="text"
+              type="number"
             />
             <InputText
               error={errors}
               label="Minuten"
               name="durationMinutes"
               onChange={validateFormJustInTime}
-              type="text"
+              type="number"
             />
             <InputText
               error={errors}
               label="Sekunden"
               name="durationSeconds"
               onChange={validateFormJustInTime}
-              type="text"
+              type="number"
             />
           </Stack>
           <InputTextMultiline

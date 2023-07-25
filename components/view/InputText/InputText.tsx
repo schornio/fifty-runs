@@ -16,7 +16,7 @@ function InputTextComponent({
   label: ReactNode;
   name: string;
   onChange?: InputHTMLAttributes<HTMLInputElement>['onChange'];
-  type?: 'email' | 'text' | 'password';
+  type?: 'email' | 'text' | 'password' | 'number';
   value?: string;
 }) {
   const inputId = useId();
@@ -31,6 +31,10 @@ function InputTextComponent({
     error: hasError,
   });
 
+  // In order to use the numeric keyboard on IOS, we need to use type="text" and pattern="[0-9]*"
+  const inputType = type === 'number' ? 'text' : type;
+  const inputPattern = type === 'number' ? '[0-9]*' : undefined;
+
   return (
     <div>
       <label className={styles.label} htmlFor={inputId}>
@@ -42,7 +46,8 @@ function InputTextComponent({
         id={inputId}
         name={name}
         onChange={onChange}
-        type={type}
+        pattern={inputPattern}
+        type={inputType}
         value={value}
       />
       {hasError ? (
