@@ -7,6 +7,7 @@ import {
   ReactNode,
   memo,
   useCallback,
+  useEffect,
   useId,
   useRef,
   useState,
@@ -38,6 +39,7 @@ function InputImageComponent({
 }) {
   const inputId = useId();
   const inputRef = useRef<HTMLInputElement>(null);
+  const inputHiddenRef = useRef<HTMLInputElement>(null);
 
   const [image, setImage] = useState<File | undefined>(undefined);
   const [isDragging, setIsDragging] = useState(false);
@@ -100,6 +102,17 @@ function InputImageComponent({
     onChange?.();
   }, [onChange]);
 
+  useEffect(() => {
+    const inputHidden = inputHiddenRef.current;
+    if (inputHidden) {
+      const transfer = new DataTransfer();
+      if (image) {
+        transfer.items.add(image);
+      }
+      inputHidden.files = transfer.files;
+    }
+  }, [image]);
+
   const errorMessages = error?.get(name) ?? [];
   const hasError = errorMessages.length > 0;
 
@@ -149,10 +162,15 @@ function InputImageComponent({
         accept="image/*"
         className={styles.input}
         id={inputId}
-        name={name}
         onChange={onImageChange}
         ref={inputRef}
         type="file"
+      />
+      <input
+        className={styles['input-hidden']}
+        type="file"
+        name={name}
+        ref={inputHiddenRef}
       />
       {hasError ? (
         <div aria-live="polite" className={styles['error-message']}>

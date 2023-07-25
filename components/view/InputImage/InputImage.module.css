@@ -32,6 +32,10 @@
   display: none;
 }
 
+.input-hidden {
+  display: none;
+}
+
 .label {
   display: flex;
   position: relative;
