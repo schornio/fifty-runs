@@ -91,6 +91,7 @@ export function RunningExerciseCreateForm() {
           </Typography>
           <Stack alignInline="center" direction="horizontal">
             <InputImage
+              error={errors}
               height={300}
               label="Bild hinzufügen"
               name="image"
