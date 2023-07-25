@@ -23,6 +23,7 @@ export const metadata: Metadata = {
   viewport: {
     initialScale: 1,
     interactiveWidget: 'overlays-content',
+    maximumScale: 1,
     width: 'device-width',
   },
 };
