@@ -1,0 +1,54 @@
+.color__primary {
+  --progress-bar-color: var(--color-primary);
+}
+
+.color__secondary {
+  --progress-bar-color: var(--color-secondary);
+}
+
+.color__text {
+  --progress-bar-color: var(--color-text);
+}
+
+.color__background {
+  --progress-bar-color: var(--color-background);
+}
+
+.color__gray {
+  --progress-bar-color: var(--color-gray);
+}
+
+.color__success {
+  --progress-bar-color: var(--color-success);
+}
+
+.color__error {
+  --progress-bar-color: var(--color-error);
+}
+
+.container {
+  position: relative;
+  border-radius: var(--border-radius);
+  background: var(--color-gray);
+  width: 100%;
+  height: 3rem;
+  overflow: hidden;
+}
+
+.children {
+  display: flex;
+  position: absolute;
+  align-items: center;
+  z-index: 50;
+  padding: 0.5rem;
+  height: 100%;
+}
+
+.progress {
+  position: absolute;
+  inset: 0;
+  inset-inline-start: calc((1 - var(--progress)) * -100%);
+  background: var(--progress-bar-color);
+  width: 100%;
+  height: 100%;
+}

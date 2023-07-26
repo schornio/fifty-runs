@@ -1,7 +1,7 @@
 'use client';
 
 import { FormEvent, useState } from 'react';
-import { InputImage } from '@/components/view/InputImage';
+import { InputImage } from '@/components/atomics/InputImage';
 import { useRouter } from 'next/navigation';
 
 export function UserImageChangeForm() {
@@ -31,21 +31,19 @@ export function UserImageChangeForm() {
   };
 
   return (
-    <form onSubmit={onSubmit}>
-      <InputImage
-        height={300}
-        label="Bild hinzufügen"
-        name="image"
-        width={600}
-      />
-      <button type="submit">Speichern</button>
-      {errors.length > 0 ? (
-        <ul>
-          {errors.map((error) => (
-            <li key={error}>{error}</li>
-          ))}
-        </ul>
-      ) : null}
-    </form>
+    <>
+      <h2>Profilbild ändern</h2>
+      <form onSubmit={onSubmit}>
+        <InputImage label="Bild hinzufügen" name="image" type="userImage" />
+        <button type="submit">Speichern</button>
+        {errors.length > 0 ? (
+          <ul>
+            {errors.map((error) => (
+              <li key={error}>{error}</li>
+            ))}
+          </ul>
+        ) : null}
+      </form>
+    </>
   );
 }

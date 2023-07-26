@@ -1,16 +1,7 @@
-import {
-  ZodEffects,
-  infer as ZodInfer,
-  ZodIssue,
-  ZodObject,
-  ZodRawShape,
-  ZodType,
-} from 'zod';
+import { ZodIssue, ZodType } from 'zod';
 import { useCallback, useMemo, useRef, useState } from 'react';
 
-export function useValidation<T extends ZodType<any, any, any>>(schema: {
-  safeParse: ZodType['safeParse'];
-}) {
+export function useValidation(schema: { safeParse: ZodType['safeParse'] }) {
   const formRef = useRef<HTMLFormElement>(null);
   const [justInTimeValidation, setJustInTimeValidation] = useState(false);
   const [errorState, setErrorState] = useState<ZodIssue[] | undefined>(

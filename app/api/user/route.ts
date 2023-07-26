@@ -10,6 +10,7 @@ export async function POST(request: Request) {
   try {
     const formData = await request.formData();
     const entities = Object.fromEntries(formData.entries());
+
     const {
       email,
       image,

@@ -1,0 +1,193 @@
+.color__primary {
+  color: var(--color-primary);
+}
+
+.color__secondary {
+  color: var(--color-secondary);
+}
+
+.color__text {
+  color: var(--color-text);
+}
+
+.color__background {
+  color: var(--color-background);
+}
+
+.color__gray {
+  color: var(--color-gray);
+}
+
+.color__success {
+  color: var(--color-success);
+}
+
+.color__error {
+  color: var(--color-error);
+}
+
+.fontSize__sub {
+  font-size: var(--font-size-sub);
+}
+
+.fontSize__normal {
+  font-size: var(--font-size-normal);
+}
+
+.fontSize__heading1 {
+  font-size: var(--font-size-heading1);
+}
+
+.fontSize__heading2 {
+  font-size: var(--font-size-heading2);
+}
+
+.fontSize__heading3 {
+  font-size: var(--font-size-heading3);
+}
+
+.fontWeight__normal {
+  font-weight: var(--font-weight-normal);
+}
+
+.fontWeight__bold {
+  font-weight: var(--font-weight-bold);
+}
+
+.textAlign__start {
+  text-align: start;
+}
+
+.textAlign__center {
+  text-align: center;
+}
+
+.textAlign__end {
+  text-align: end;
+}
+
+@media (width < 700px) {
+  .fontSizeOnMobile__sub {
+    font-size: var(--font-size-sub);
+  }
+
+  .fontSizeOnMobile__normal {
+    font-size: var(--font-size-normal);
+  }
+
+  .fontSizeOnMobile__heading1 {
+    font-size: var(--font-size-heading1);
+  }
+
+  .fontSizeOnMobile__heading2 {
+    font-size: var(--font-size-heading2);
+  }
+
+  .fontSizeOnMobile__heading3 {
+    font-size: var(--font-size-heading3);
+  }
+
+  .fontWeightOnMobile__normal {
+    font-weight: var(--font-weight-normal);
+  }
+
+  .fontWeightOnMobile__bold {
+    font-weight: var(--font-weight-bold);
+  }
+
+  .textAlignOnMobile__start {
+    text-align: start;
+  }
+
+  .textAlignOnMobile__center {
+    text-align: center;
+  }
+
+  .textAlignOnMobile__end {
+    text-align: end;
+  }
+}
+
+@media (width < 1000px) {
+  .fontSizeOnTablet__sub {
+    font-size: var(--font-size-sub);
+  }
+
+  .fontSizeOnTablet__normal {
+    font-size: var(--font-size-normal);
+  }
+
+  .fontSizeOnTablet__heading1 {
+    font-size: var(--font-size-heading1);
+  }
+
+  .fontSizeOnTablet__heading2 {
+    font-size: var(--font-size-heading2);
+  }
+
+  .fontSizeOnTablet__heading3 {
+    font-size: var(--font-size-heading3);
+  }
+
+  .fontWeightOnTablet__normal {
+    font-weight: var(--font-weight-normal);
+  }
+
+  .fontWeightOnTablet__bold {
+    font-weight: var(--font-weight-bold);
+  }
+
+  .textAlignOnTablet__start {
+    text-align: start;
+  }
+
+  .textAlignOnTablet__center {
+    text-align: center;
+  }
+
+  .textAlignOnTablet__end {
+    text-align: end;
+  }
+}
+
+@media (width < 1200px) {
+  .fontSizeOnDesktop__sub {
+    font-size: var(--font-size-sub);
+  }
+
+  .fontSizeOnDesktop__normal {
+    font-size: var(--font-size-normal);
+  }
+
+  .fontSizeOnDesktop__heading1 {
+    font-size: var(--font-size-heading1);
+  }
+
+  .fontSizeOnDesktop__heading2 {
+    font-size: var(--font-size-heading2);
+  }
+
+  .fontSizeOnDesktop__heading3 {
+    font-size: var(--font-size-heading3);
+  }
+
+  .fontWeightOnDesktop__normal {
+    font-weight: var(--font-weight-normal);
+  }
+
+  .fontWeightOnDesktop__bold {
+    font-weight: var(--font-weight-bold);
+  }
+
+  .textAlignOnDesktop__start {
+    text-align: start;
+  }
+
+  .textAlignOnDesktop__center {
+    text-align: center;
+  }
+
+  .textAlignOnDesktop__end {
+    text-align: end;
+  }
+}

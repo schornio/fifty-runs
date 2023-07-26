@@ -42,7 +42,7 @@ export async function put(
     Key: filePath,
   });
 
-  const result = await client.send(putObjectCommand);
+  await client.send(putObjectCommand);
 
   return {
     url: `https://fifty-runs-files.s3.fr-par.scw.cloud/${filePath}`,
@@ -54,5 +54,5 @@ export async function del(url: string) {
     Bucket: process.env.SCW_BUCKET_NAME ?? '',
     Key: url.replace('https://fifty-runs-files.s3.fr-par.scw.cloud/', ''),
   });
-  const result = await client.send(deleteObjectCommand);
+  await client.send(deleteObjectCommand);
 }

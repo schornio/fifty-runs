@@ -1,0 +1,70 @@
+.default {
+  border: var(--border-bold);
+  border-radius: 2em;
+  background: transparent;
+  cursor: pointer;
+  padding-block: 0.5em;
+  padding-inline: 1em;
+  font: inherit;
+  font-weight: var(--font-weight-bold);
+}
+
+.color__primary {
+  --button-color-text: var(--color-primary);
+  --button-color-background: var(--color-background);
+}
+
+.color__secondary {
+  --button-color-text: var(--color-secondary);
+  --button-color-background: var(--color-background);
+}
+
+.color__text {
+  --button-color-text: var(--color-text);
+  --button-color-background: var(--color-background);
+}
+
+.color__background {
+  --button-color-text: var(--color-background);
+  --button-color-background: var(--color-text);
+}
+
+.color__gray {
+  --button-color-text: var(--color-gray);
+  --button-color-background: var(--color-background);
+}
+
+.color__success {
+  --button-color-text: var(--color-success);
+  --button-color-background: var(--color-background);
+}
+
+.color__error {
+  --button-color-text: var(--color-error);
+  --button-color-background: var(--color-background);
+}
+
+.disabled {
+  --button-color-text: var(--color-gray);
+  --button-color-background: var(--color-background);
+
+  cursor: default;
+}
+
+.variant__filled {
+  border-color: var(--button-color-text);
+  background: var(--button-color-text);
+  color: var(--button-color-background);
+}
+
+.variant__outlined {
+  border-color: var(--button-color-text);
+  background: transparent;
+  color: var(--button-color-text);
+}
+
+.variant__text {
+  border-color: transparent;
+  background: transparent;
+  color: var(--button-color-text);
+}

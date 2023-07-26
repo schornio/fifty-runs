@@ -1,0 +1,106 @@
+.default {
+  border: var(--border-thin);
+  border-color: transparent;
+}
+
+.color__primary {
+  --box-color-text: var(--color-primary);
+  --box-color-background: var(--color-background);
+}
+
+.color__secondary {
+  --box-color-text: var(--color-secondary);
+  --box-color-background: var(--color-background);
+}
+
+.color__text {
+  --box-color-text: var(--color-text);
+  --box-color-background: var(--color-background);
+}
+
+.color__background {
+  --box-color-text: var(--color-background);
+  --box-color-background: var(--color-text);
+}
+
+.color__gray {
+  --box-color-text: var(--color-gray);
+  --box-color-background: var(--color-background);
+}
+
+.color__success {
+  --box-color-text: var(--color-success);
+  --box-color-background: var(--color-background);
+}
+
+.color__error {
+  --box-color-text: var(--color-error);
+  --box-color-background: var(--color-background);
+}
+
+.maxWidth__mobile {
+  width: 100%;
+  max-width: 700px;
+}
+
+.maxWidth__tablet {
+  width: 100%;
+  max-width: 1000px;
+}
+
+.maxWidth__desktop {
+  width: 100%;
+  max-width: 1200px;
+}
+
+.roundedCorners {
+  border-radius: var(--border-radius);
+}
+
+.variant__filled {
+  border-color: var(--box-color-text);
+  background: var(--box-color-text);
+}
+
+.variant__outlined {
+  border-color: var(--box-color-text);
+  background: var(--box-color-background);
+}
+
+.padding__normal {
+  padding: var(--size-normal);
+}
+
+.padding__double {
+  padding: var(--size-double);
+}
+
+@media (width < 700px) {
+  .paddingOnMobile__normal {
+    padding: var(--size-normal);
+  }
+
+  .paddingOnMobile__double {
+    padding: var(--size-double);
+  }
+}
+
+@media (width < 1000px) {
+  .paddingOnTablet__normal {
+    padding: var(--size-normal);
+  }
+
+  .paddingOnTablet__double {
+    padding: var(--size-double);
+  }
+}
+
+@media (width < 1200px) {
+  .paddingOnDesktop__normal {
+    padding: var(--size-normal);
+  }
+
+  .paddingOnDesktop__double {
+    padding: var(--size-double);
+  }
+}

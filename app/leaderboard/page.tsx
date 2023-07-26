@@ -1,7 +1,9 @@
-import { Box } from '@/components/view/Box';
-import { LeaderboardRow } from '@/components/LeaderboardRow';
-import { Stack } from '@/components/view/Stack';
-import { Typography } from '@/components/view/Typography';
+import { Box } from '@/components/atomics/Box';
+import { ProgressBar } from '@/components/atomics/ProgressBar';
+import { Stack } from '@/components/atomics/Stack';
+import { TableCell } from '@/components/atomics/TableCell';
+import { Text } from '@/components/atomics/Text';
+import { UserLabel } from '@/components/composed/UserLabel';
 import { prisma } from '@/prisma';
 
 export default async function LeaderboardPage() {
@@ -84,76 +86,108 @@ export default async function LeaderboardPage() {
     0
   );
 
+  //   <LeaderboardRow
+  //   key={id}
+  //   userImage={image}
+  //   userName={name}
+  //   value={_count.exercises / 50}
+  // >
+  //   <Text color="background">
+  //     <strong>{_count.exercises} / 50 runs</strong>
+  //   </Text>
+  // </LeaderboardRow>
+
   return (
-    <Box maxWidth="desktop" padding="1">
-      <Stack alignBlock="stretch" gap="2">
-        <Typography align="center">
+    <Box maxWidth="desktop" padding="normal">
+      <Stack alignBlock="stretch" direction="column" gap="double">
+        <Text textAlign="center">
           <h2>Leaderboard - runs</h2>
-        </Typography>
+        </Text>
         <table>
           <tbody>
             {topUsersRuns.map(({ _count, id, image, name }) => (
-              <LeaderboardRow
-                key={id}
-                userImage={image}
-                userName={name}
-                value={_count.exercises / 50}
-              >
-                <Typography color="inverse">
-                  <strong>{_count.exercises} / 50 runs</strong>
-                </Typography>
-              </LeaderboardRow>
+              <tr key={id}>
+                <TableCell>
+                  <UserLabel userId={id} userName={name} userImage={image} />
+                </TableCell>
+                <TableCell grow={true}>
+                  <ProgressBar value={_count.exercises / 50}>
+                    <Text color="background">
+                      <strong>{_count.exercises} / 50 runs</strong>
+                    </Text>
+                  </ProgressBar>
+                </TableCell>
+              </tr>
             ))}
           </tbody>
         </table>
-        <Typography align="center">
+        <Text textAlign="center">
           <h2>Leaderboard - Distanz</h2>
-        </Typography>
+        </Text>
         <table>
           <tbody>
             {topDistance.map(({ _sum, userId }) => (
-              <LeaderboardRow
-                key={userId}
-                userName={
-                  topUserDistance.find(({ id }) => id === userId)?.name ?? ''
-                }
-                userImage={
-                  topUserDistance.find(({ id }) => id === userId)?.image
-                }
-                value={(_sum.distanceInMeters ?? 0) / maxDistance}
-              >
-                <Typography color="inverse">
-                  <strong>
-                    {Math.round((_sum.distanceInMeters ?? 0) / 100) / 10} km
-                  </strong>
-                </Typography>
-              </LeaderboardRow>
+              <tr key={userId}>
+                <TableCell>
+                  <UserLabel
+                    userId={userId}
+                    userName={
+                      topUserDistance.find(({ id }) => id === userId)?.name ??
+                      ''
+                    }
+                    userImage={
+                      topUserDistance.find(({ id }) => id === userId)?.image
+                    }
+                  />
+                </TableCell>
+                <TableCell grow={true}>
+                  <ProgressBar
+                    value={(_sum.distanceInMeters ?? 0) / maxDistance}
+                  >
+                    <Text color="background">
+                      <strong>
+                        {Math.round((_sum.distanceInMeters ?? 0) / 100) / 10} km
+                      </strong>
+                    </Text>
+                  </ProgressBar>
+                </TableCell>
+              </tr>
             ))}
           </tbody>
         </table>
-        <Typography align="center">
+        <Text textAlign="center">
           <h2>Leaderboard - Dauer</h2>
-        </Typography>
+        </Text>
         <table>
           <tbody>
             {topDuration.map(({ _sum, userId }) => (
-              <LeaderboardRow
-                key={userId}
-                userName={
-                  topUserDuration.find(({ id }) => id === userId)?.name ?? ''
-                }
-                userImage={
-                  topUserDuration.find(({ id }) => id === userId)?.image
-                }
-                value={(_sum.durationInSeconds ?? 0) / maxDuration}
-              >
-                <Typography color="inverse">
-                  <strong>
-                    {Math.floor((_sum.durationInSeconds ?? 0) / 3600)} h{' '}
-                    {Math.floor((_sum.durationInSeconds ?? 0) / 60) % 60} min
-                  </strong>
-                </Typography>
-              </LeaderboardRow>
+              <tr key={userId}>
+                <TableCell>
+                  <UserLabel
+                    userId={userId}
+                    userName={
+                      topUserDuration.find(({ id }) => id === userId)?.name ??
+                      ''
+                    }
+                    userImage={
+                      topUserDuration.find(({ id }) => id === userId)?.image
+                    }
+                  />
+                </TableCell>
+                <TableCell grow={true}>
+                  <ProgressBar
+                    value={(_sum.durationInSeconds ?? 0) / maxDuration}
+                  >
+                    <Text color="background">
+                      <strong>
+                        {Math.floor((_sum.durationInSeconds ?? 0) / 3600)} h{' '}
+                        {Math.floor((_sum.durationInSeconds ?? 0) / 60) % 60}{' '}
+                        min
+                      </strong>
+                    </Text>
+                  </ProgressBar>
+                </TableCell>
+              </tr>
             ))}
           </tbody>
         </table>

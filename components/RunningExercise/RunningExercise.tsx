@@ -1,9 +1,10 @@
-import { Box } from '@/components/view/Box';
+import { Box } from '@/components/atomics/Box';
 import Image from 'next/image';
 import { Reactions } from '@/components/Reactions';
-import { Stack } from '@/components/view/Stack';
+import { Stack } from '@/components/atomics/Stack';
 import { Suspense } from 'react';
-import { Typography } from '@/components/view/Typography';
+import { Text } from '@/components/atomics/Text';
+import { UserLabel } from '@/components/composed/UserLabel';
 import styles from './RunningExercise.module.css';
 
 const { format } = new Intl.DateTimeFormat('de-de', {
@@ -18,6 +19,7 @@ export function RunningExercise({
   id,
   image,
   notes,
+  userId,
   userImage,
   userName,
 }: {
@@ -27,6 +29,7 @@ export function RunningExercise({
   id: string;
   image?: string | null;
   notes?: string | null;
+  userId: string;
   userImage?: string | null;
   userName: string;
 }) {
@@ -38,26 +41,17 @@ export function RunningExercise({
   const durationSeconds = durationInSeconds % 60;
 
   return (
-    <Box color="blue" corner="2" variant="outline">
-      <Box padding="2">
-        <Stack alignInline="space-between" direction="horizontal">
-          <Stack alignBlock="center" direction="horizontal" gap="1">
-            {userImage ? (
-              <Image
-                alt=""
-                className={styles['user-image']}
-                height={30}
-                src={userImage}
-                width={30}
-              />
-            ) : undefined}
-            <Typography size="larger">
-              <strong>{userName}</strong>
-            </Typography>
-          </Stack>
-          <Typography align="right" size="smaller">
+    <Box color="primary" roundedCorners={true} variant="outlined">
+      <Box padding="double">
+        <Stack alignInline="spaceBetween">
+          <UserLabel
+            userId={userId}
+            userImage={userImage}
+            userName={userName}
+          />
+          <Text fontSize="sub" textAlign="end">
             {format(new Date(date))}
-          </Typography>
+          </Text>
         </Stack>
       </Box>
       {image ? (
@@ -70,14 +64,14 @@ export function RunningExercise({
         />
       ) : undefined}
       {notes && notes.length > 0 ? (
-        <Box padding="2">
-          <Typography align="center" size="larger">
+        <Box padding="double">
+          <Text textAlign="center" fontSize="sub">
             {notes}{' '}
-          </Typography>
+          </Text>
         </Box>
       ) : undefined}
-      <Box padding="2">
-        <Typography align="center" size="larger">
+      <Box padding="double">
+        <Text textAlign="center" fontSize="sub">
           Distanz:{' '}
           <strong>
             {distanceKilometers > 0 ? `${distanceKilometers} km` : undefined}{' '}
@@ -89,14 +83,14 @@ export function RunningExercise({
             {durationMinutes > 0 ? `${durationMinutes} min` : undefined}{' '}
             {durationSeconds > 0 ? `${durationSeconds} s` : undefined}
           </strong>
-        </Typography>
+        </Text>
       </Box>
-      <Box padding="2">
+      <Box padding="double">
         <Suspense
           fallback={
-            <Typography color="accent1" align="center">
+            <Text color="primary" textAlign="center">
               ...
-            </Typography>
+            </Text>
           }
         >
           <Reactions exerciseId={id} />

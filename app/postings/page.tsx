@@ -1,7 +1,7 @@
-import { Box } from '@/components/view/Box';
+import { Box } from '@/components/atomics/Box';
 import { RunningExercise } from '@/components/RunningExercise';
-import { RunningExerciseCreateForm } from '@/components/RunningExerciseCreateForm';
-import { Stack } from '@/components/view/Stack';
+import { RunningExerciseCreateForm } from '@/components/view/RunningExerciseCreateForm';
+import { Stack } from '@/components/atomics/Stack';
 import { getCurrentSession } from '@/util/server/getCurrentSession';
 import { prisma } from '@/prisma';
 
@@ -33,6 +33,7 @@ export default async function PostingsPage() {
       // },
       user: {
         select: {
+          id: true,
           image: true,
           name: true,
         },
@@ -54,8 +55,8 @@ export default async function PostingsPage() {
   });
 
   return (
-    <Box padding="1">
-      <Stack alignBlock="stretch" gap="2">
+    <Box padding="normal">
+      <Stack alignBlock="stretch" direction="column" gap="double">
         {session ? <RunningExerciseCreateForm /> : undefined}
         {postings.map(
           ({
@@ -75,6 +76,7 @@ export default async function PostingsPage() {
               image={image}
               key={id}
               notes={notes}
+              userId={user.id}
               userName={user.name}
               userImage={user.image}
             />

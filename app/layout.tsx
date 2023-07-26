@@ -1,12 +1,12 @@
 import './globals.css';
-import { Footer } from '@/components/server/Footer';
-import { Header } from '@/components/server/Header';
+import { Footer } from '@/components/view/Footer';
+import { Header } from '@/components/view/Header';
 import { Metadata } from 'next';
 import { Montserrat } from 'next/font/google';
 import { ReactNode } from 'react';
-import { Stack } from '@/components/view/Stack';
-import { getCurrentSession } from '@/util/server/getCurrentSession';
-import { prisma } from '@/prisma';
+import { Stack } from '@/components/atomics/Stack';
+// import { getCurrentSession } from '@/util/server/getCurrentSession';
+// import { prisma } from '@/prisma';
 
 const montserrat = Montserrat({ subsets: ['latin'] });
 
@@ -28,21 +28,17 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function RootLayout({
-  children,
-}: {
-  children: ReactNode;
-}) {
-  const session = await getCurrentSession();
-  const user = await (session
-    ? prisma.user.findUnique({ where: { id: session.userId } })
-    : undefined);
+export default function RootLayout({ children }: { children: ReactNode }) {
+  // const session = await getCurrentSession();
+  // const user = await (session
+  //   ? prisma.user.findUnique({ where: { id: session.userId } })
+  //   : undefined);
 
   return (
     <html lang="de">
       <body className={montserrat.className}>
         <Header />
-        <Stack alignBlock="center" direction="vertical">
+        <Stack alignBlock="center" direction="column">
           {children}
         </Stack>
         <Footer />

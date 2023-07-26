@@ -2,7 +2,7 @@
 
 import { PromiseState, usePromise } from '@/util/usePromise';
 import { ReactNode, useCallback } from 'react';
-import { Button } from '@/components/view/Button';
+import { Button } from '@/components/atomics/Button';
 import { ReactionType } from '@/model/reaction';
 import styles from './ReactionButton.module.css';
 import { useRouter } from 'next/navigation';
@@ -35,7 +35,7 @@ function selectColor(status: PromiseState['status'], selected: boolean) {
     case 'pending':
     case 'resolved':
     default:
-      return selected ? 'green' : 'blue';
+      return selected ? 'secondary' : 'primary';
     case 'rejected':
       return 'error';
   }
@@ -68,7 +68,7 @@ export function ReactionButton({
         color={selectColor(status, selected)}
         onClick={onClick}
         type="button"
-        variant={selected ? 'fill' : 'outline'}
+        variant={selected ? 'filled' : 'outlined'}
       >
         {status === 'pending' ? '...' : children}
       </Button>

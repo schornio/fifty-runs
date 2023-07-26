@@ -9,7 +9,8 @@
     "lint": "next lint",
     "prisma:generate": "prisma generate",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "generate": "node ./components/_template/generate.mjs"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.374.0",
@@ -28,17 +29,17 @@
     "zod": "^3.21.4"
   },
   "devDependencies": {
-    "@storybook/addon-essentials": "^7.0.27",
-    "@storybook/addon-interactions": "^7.0.27",
-    "@storybook/addon-links": "^7.0.27",
-    "@storybook/blocks": "^7.0.27",
-    "@storybook/nextjs": "^7.0.27",
-    "@storybook/react": "^7.0.27",
-    "@storybook/testing-library": "^0.0.14-next.2",
+    "@storybook/addon-essentials": "^7.1.1",
+    "@storybook/addon-interactions": "^7.1.1",
+    "@storybook/addon-links": "^7.1.1",
+    "@storybook/blocks": "^7.1.1",
+    "@storybook/nextjs": "^7.1.1",
+    "@storybook/react": "^7.1.1",
+    "@storybook/testing-library": "^0.2.0",
     "@types/bcrypt": "^5.0.0",
-    "eslint-plugin-storybook": "^0.6.12",
+    "eslint-plugin-storybook": "^0.6.13",
     "prisma": "^5.0.0",
-    "storybook": "^7.0.27",
+    "storybook": "^7.1.1",
     "stylelint": "^15.10.1",
     "stylelint-config-concentric-order": "^5.1.0",
     "stylelint-config-standard": "^34.0.0"

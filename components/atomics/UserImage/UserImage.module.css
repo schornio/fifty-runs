@@ -1,0 +1,43 @@
+.default {
+  object-fit: cover;
+  border: var(--border-bold);
+  border-radius: 50%;
+}
+
+.color__primary {
+  border-color: var(--color-primary);
+}
+
+.color__secondary {
+  border-color: var(--color-secondary);
+}
+
+.color__text {
+  border-color: var(--color-text);
+}
+
+.color__background {
+  border-color: var(--color-background);
+}
+
+.color__gray {
+  border-color: var(--color-gray);
+}
+
+.color__success {
+  border-color: var(--color-success);
+}
+
+.color__error {
+  border-color: var(--color-error);
+}
+
+.size__inline {
+  display: inline-block;
+  width: 3em;
+  height: 3em;
+}
+
+.size__standalone {
+  display: block;
+}

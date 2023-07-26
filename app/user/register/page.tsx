@@ -1,5 +1,4 @@
-import { RegisterForm } from '@/components/RegisterForm';
-import { prisma } from '@/prisma';
+import { RegisterForm } from '@/components/view/RegisterForm';
 
 export default function RegisterPage() {
   return <RegisterForm />;

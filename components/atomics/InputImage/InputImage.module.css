@@ -1,0 +1,111 @@
+.color__primary {
+  --input-color-text: var(--color-primary);
+  --input-color-background: var(--color-background);
+}
+
+.color__secondary {
+  --input-color-text: var(--color-secondary);
+  --input-color-background: var(--color-background);
+}
+
+.color__text {
+  --input-color-text: var(--color-text);
+  --input-color-background: var(--color-background);
+}
+
+.color__background {
+  --input-color-text: var(--color-background);
+  --input-color-background: var(--color-text);
+}
+
+.color__gray {
+  --input-color-text: var(--color-gray);
+  --input-color-background: var(--color-background);
+}
+
+.color__success {
+  --input-color-text: var(--color-success);
+  --input-color-background: var(--color-background);
+}
+
+.color__error {
+  --input-color-text: var(--color-error);
+  --input-color-background: var(--color-background);
+}
+
+.default {
+  position: relative;
+}
+
+.default.type__postImage {
+  width: 100%;
+  aspect-ratio: 1000 / 400;
+}
+
+.default.type__userImage {
+  width: 150px;
+  height: 150px;
+}
+
+.input {
+  display: none;
+}
+
+.label {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  text-align: center;
+}
+
+.label.type__postImage {
+  border: var(--border-thin);
+  border-radius: var(--border-radius);
+  border-color: var(--input-color-text);
+}
+
+.label.type__userImage {
+  border: var(--border-bold);
+  border-radius: 50%;
+  border-color: var(--input-color-text);
+}
+
+.deleteButton {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  border: none;
+  border-radius: 50%;
+  background: var(--color-primary);
+  cursor: pointer;
+  width: 1.5rem;
+  height: 1.5rem;
+  color: var(--color-text);
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.label.isDragging {
+  border-style: dashed;
+}
+
+.errorMessage {
+  background: var(--color-error);
+  padding-block: 0.5em;
+  padding-inline: 1em;
+  color: var(--color-accent-3);
+}

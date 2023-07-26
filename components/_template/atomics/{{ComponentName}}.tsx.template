@@ -1,0 +1,10 @@
+import { mapStyles } from '@/util/mapStyles';
+import { memo } from 'react';
+import styles from './{{ComponentName}}.module.css';
+
+function {{ComponentName}}Component() {
+  const className = mapStyles(styles, ['default']);
+  return <div className={className}>{{ComponentName}}</div>;
+}
+
+export const {{ComponentName}} = memo({{ComponentName}}Component);

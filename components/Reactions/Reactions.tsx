@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { ReactionButton } from '../ReactionButton';
-import { Stack } from '../view/Stack';
+import { Stack } from '@/components/atomics/Stack';
 import { reactions as availableReactions } from '@/model/reaction';
 import { getCurrentSession } from '@/util/server/getCurrentSession';
 import { prisma } from '@/prisma';
@@ -43,7 +43,7 @@ export async function Reactions({ exerciseId }: { exerciseId: string }) {
   );
 
   return (
-    <Stack alignInline="center" direction="horizontal" gap="1">
+    <Stack alignInline="center" gap="normal">
       {reactionSummaries.map(({ count, icon, reactionsByType, type }) => (
         <ReactionButton
           exerciseId={exerciseId}
@@ -51,14 +51,9 @@ export async function Reactions({ exerciseId }: { exerciseId: string }) {
           selected={userReaction?.type === type}
           tooltip={
             count > 0 ? (
-              <Stack gap="1">
+              <Stack gap="normal">
                 {reactionsByType.map(({ user }) => (
-                  <Stack
-                    alignBlock="center"
-                    direction="horizontal"
-                    key={user.id}
-                    gap="1"
-                  >
+                  <Stack alignBlock="center" key={user.id} gap="normal">
                     {user.image ? (
                       <Image
                         alt=""
