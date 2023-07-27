@@ -76,7 +76,6 @@ export default async function PostingsPage() {
               image={image}
               key={id}
               notes={notes}
-              userId={user.id}
               userName={user.name}
               userImage={user.image}
             />

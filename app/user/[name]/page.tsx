@@ -5,6 +5,7 @@ import { Stack } from '@/components/atomics/Stack';
 import { UserImage } from '@/components/atomics/UserImage';
 import { UserImageChangeForm } from '@/components/UserImageChangeForm';
 import { getCurrentSession } from '@/util/server/getCurrentSession';
+import { notFound } from 'next/navigation';
 import { prisma } from '@/prisma';
 
 function selectVisibility(hasSession: boolean, isOwnProfile: boolean) {
@@ -20,28 +21,31 @@ function selectVisibility(hasSession: boolean, isOwnProfile: boolean) {
 }
 
 export default async function UserByIdPage({
-  params: { id },
+  params: { name },
 }: {
-  params: { id: string };
+  params: { name: string };
 }) {
   const session = await getCurrentSession();
-  const isOwnProfile = session?.userId === id;
+  const user = await prisma.user.findUnique({
+    where: {
+      name,
+    },
+  });
 
-  const [user, postings] = await Promise.all([
-    prisma.user.findUniqueOrThrow({
-      where: {
-        id,
+  if (!user) {
+    notFound();
+  }
+
+  const isOwnProfile = session?.userId === user?.id;
+
+  const postings = await prisma.runningExercise.findMany({
+    where: {
+      userId: user.id,
+      visibility: {
+        in: selectVisibility(Boolean(session), isOwnProfile),
       },
-    }),
-    prisma.runningExercise.findMany({
-      where: {
-        userId: id,
-        visibility: {
-          in: selectVisibility(Boolean(session), isOwnProfile),
-        },
-      },
-    }),
-  ]);
+    },
+  });
 
   return (
     <>
@@ -89,7 +93,6 @@ export default async function UserByIdPage({
                 image={image}
                 key={postingId}
                 notes={notes}
-                userId={user.id}
                 userName={user.name}
                 userImage={user.image}
               />

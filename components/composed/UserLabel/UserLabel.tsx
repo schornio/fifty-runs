@@ -8,16 +8,14 @@ import styles from './UserLabel.module.css';
 
 function UserLabelComponent({
   color = 'primary',
-  userId,
   userImage,
   userName,
 }: {
   color?: Color;
-  userId: string;
   userImage?: string | null;
   userName: string;
 }) {
-  const href = `/user/${userId}`;
+  const href = `/user/${userName}`;
   const className = mapStyles(styles, ['default']);
   return (
     <Link className={className} href={href}>

@@ -19,7 +19,6 @@ export function RunningExercise({
   id,
   image,
   notes,
-  userId,
   userImage,
   userName,
 }: {
@@ -29,7 +28,6 @@ export function RunningExercise({
   id: string;
   image?: string | null;
   notes?: string | null;
-  userId: string;
   userImage?: string | null;
   userName: string;
 }) {
@@ -44,11 +42,7 @@ export function RunningExercise({
     <Box color="primary" roundedCorners={true} variant="outlined">
       <Box padding="double">
         <Stack alignInline="spaceBetween">
-          <UserLabel
-            userId={userId}
-            userImage={userImage}
-            userName={userName}
-          />
+          <UserLabel userImage={userImage} userName={userName} />
           <Text fontSize="sub" textAlign="end">
             {format(new Date(date))}
           </Text>

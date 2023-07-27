@@ -108,7 +108,7 @@ export default async function LeaderboardPage() {
             {topUsersRuns.map(({ _count, id, image, name }) => (
               <tr key={id}>
                 <TableCell>
-                  <UserLabel userId={id} userName={name} userImage={image} />
+                  <UserLabel userName={name} userImage={image} />
                 </TableCell>
                 <TableCell grow={true}>
                   <ProgressBar value={_count.exercises / 50}>
@@ -130,7 +130,6 @@ export default async function LeaderboardPage() {
               <tr key={userId}>
                 <TableCell>
                   <UserLabel
-                    userId={userId}
                     userName={
                       topUserDistance.find(({ id }) => id === userId)?.name ??
                       ''
@@ -164,7 +163,6 @@ export default async function LeaderboardPage() {
               <tr key={userId}>
                 <TableCell>
                   <UserLabel
-                    userId={userId}
                     userName={
                       topUserDuration.find(({ id }) => id === userId)?.name ??
                       ''

@@ -56,7 +56,6 @@ export async function Header() {
                     {user?.name ? (
                       <>
                         <UserLabel
-                          userId={user.id}
                           userImage={user.image}
                           userName={user.name}
                         />
