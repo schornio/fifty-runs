@@ -6,7 +6,6 @@ import { ButtonAction } from '@/components/composed/ButtonAction';
 import { InputImage } from '@/components/atomics/InputImage';
 import { InputText } from '@/components/atomics/InputText';
 import { Stack } from '@/components/atomics/Stack';
-import { Text } from '@/components/atomics/Text';
 import { registerSchema } from '@/schema/register';
 import { usePromise } from '@/util/usePromise';
 import { useRouter } from 'next/navigation';
@@ -49,9 +48,9 @@ export function RegisterForm() {
     <Box padding="double" maxWidth="mobile">
       <form onSubmit={onSubmit} ref={formRef}>
         <Stack alignBlock="stretch" direction="column" gap="normal">
-          <Text textAlign="center">
+          <Box textAlign="center">
             <h1>Registrieren</h1>
-          </Text>
+          </Box>
           <Stack alignInline="center" direction="row">
             <InputImage
               error={errors}

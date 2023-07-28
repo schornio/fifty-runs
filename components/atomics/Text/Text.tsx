@@ -13,7 +13,6 @@ function TextComponent({
 }: BreakpointProps<{
   fontSize?: FontSize;
   fontWeight?: FontWeight;
-  textAlign?: 'start' | 'center' | 'end';
 }> & {
   children?: ReactNode;
   color?: Color;

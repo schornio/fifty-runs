@@ -67,6 +67,18 @@
   background: var(--box-color-background);
 }
 
+.textAlign__start {
+  text-align: start;
+}
+
+.textAlign__center {
+  text-align: center;
+}
+
+.textAlign__end {
+  text-align: end;
+}
+
 .padding__normal {
   padding: var(--size-normal);
 }
@@ -83,6 +95,18 @@
   .paddingOnMobile__double {
     padding: var(--size-double);
   }
+
+  .textAlign__start {
+    text-align: start;
+  }
+
+  .textAlign__center {
+    text-align: center;
+  }
+
+  .textAlign__end {
+    text-align: end;
+  }
 }
 
 @media (width < 1000px) {
@@ -93,6 +117,18 @@
   .paddingOnTablet__double {
     padding: var(--size-double);
   }
+
+  .textAlign__start {
+    text-align: start;
+  }
+
+  .textAlign__center {
+    text-align: center;
+  }
+
+  .textAlign__end {
+    text-align: end;
+  }
 }
 
 @media (width < 1200px) {
@@ -102,5 +138,17 @@
 
   .paddingOnDesktop__double {
     padding: var(--size-double);
+  }
+
+  .textAlign__start {
+    text-align: start;
+  }
+
+  .textAlign__center {
+    text-align: center;
+  }
+
+  .textAlign__end {
+    text-align: end;
   }
 }

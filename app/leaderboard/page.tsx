@@ -78,9 +78,9 @@ export default async function LeaderboardPage() {
   return (
     <Box maxWidth="desktop" padding="normal">
       <Stack alignBlock="stretch" direction="column" gap="double">
-        <Text textAlign="center">
+        <Box textAlign="center">
           <h2>Leaderboard - runs</h2>
-        </Text>
+        </Box>
         <table>
           <tbody>
             {topUsersByRuns.map(({ numberOfRuns, user }) => (
@@ -103,9 +103,9 @@ export default async function LeaderboardPage() {
             ))}
           </tbody>
         </table>
-        <Text textAlign="center">
+        <Box textAlign="center">
           <h2>Leaderboard - Distanz</h2>
-        </Text>
+        </Box>
         <table>
           <tbody>
             {topUsersByDistance.map(({ distanceInMeters, user }) => (
@@ -130,9 +130,9 @@ export default async function LeaderboardPage() {
             ))}
           </tbody>
         </table>
-        <Text textAlign="center">
+        <Box textAlign="center">
           <h2>Leaderboard - Dauer</h2>
-        </Text>
+        </Box>
         <table>
           <tbody>
             {topUsersByDuration.map(({ durationInSeconds, user }) => (

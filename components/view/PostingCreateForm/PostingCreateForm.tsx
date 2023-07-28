@@ -9,7 +9,6 @@ import { InputImage } from '@/components/atomics/InputImage';
 import { InputText } from '@/components/atomics/InputText';
 import { InputTextMultiline } from '@/components/atomics/InputTextMultiline';
 import { Stack } from '@/components/atomics/Stack';
-import { Text } from '@/components/atomics/Text';
 import { postingSchema } from '@/schema/posting';
 import { runningExperciseSchema } from '@/schema/runningExercise';
 import { usePromise } from '@/util/usePromise';
@@ -118,13 +117,13 @@ export function PostingCreateForm() {
               value={type}
             />
           </Stack>
-          <Text textAlign="center">
+          <Box textAlign="center">
             {type === 'runningExercise' ? (
               <h2>Training hinzufügen</h2>
             ) : (
               <h2>Beitrag hinzufügen</h2>
             )}
-          </Text>
+          </Box>
           <Stack alignInline="center" direction="row">
             <InputImage
               error={errors}
@@ -134,9 +133,9 @@ export function PostingCreateForm() {
               type="postImage"
             />
           </Stack>
-          <Text textAlign="center">
+          <Box textAlign="center">
             <h3>Distanz</h3>
-          </Text>
+          </Box>
           {type === 'runningExercise' ? (
             <>
               <Stack alignInline="center" direction="row" gap="normal">
@@ -155,9 +154,9 @@ export function PostingCreateForm() {
                   type="number"
                 />
               </Stack>
-              <Text textAlign="center">
+              <Box textAlign="center">
                 <h3>Dauer</h3>
-              </Text>
+              </Box>
               <Stack alignInline="center" direction="row" gap="normal">
                 <InputText
                   error={errors}

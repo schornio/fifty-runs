@@ -44,9 +44,7 @@ export function Posting({
             userName={userName}
             userNameId={userNameId}
           />
-          <Text fontSize="sub" textAlign="end">
-            {format(new Date(date))}
-          </Text>
+          <Text fontSize="sub">{format(new Date(date))}</Text>
         </Stack>
       </Box>
       {image ? (
@@ -59,10 +57,8 @@ export function Posting({
         />
       ) : undefined}
       {text && text.length > 0 ? (
-        <Box padding="double">
-          <Text textAlign="center" fontSize="sub">
-            {text}
-          </Text>
+        <Box textAlign="center" padding="double">
+          {text}
         </Box>
       ) : undefined}
       {runningExercise ? (
@@ -73,9 +69,9 @@ export function Posting({
       <Box padding="double">
         <Suspense
           fallback={
-            <Text color="primary" textAlign="center">
+            <Box color="primary" textAlign="center">
               ...
-            </Text>
+            </Box>
           }
         >
           <Reactions postingId={id} />

@@ -14,6 +14,7 @@ function BoxComponent({
   variant,
   ...breakpointProps
 }: BreakpointProps<{
+  textAlign?: 'start' | 'center' | 'end';
   padding?: Size;
 }> & {
   children?: ReactNode;

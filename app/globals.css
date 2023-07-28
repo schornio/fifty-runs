@@ -35,6 +35,25 @@ body {
   min-height: 100dvh;
 }
 
+h1 {
+  font-size: var(--font-size-heading1);
+  font-weight: var(--font-weight-bold);
+}
+
+h2 {
+  font-size: var(--font-size-heading2);
+  font-weight: var(--font-weight-bold);
+}
+
+h3 {
+  font-size: var(--font-size-heading3);
+  font-weight: var(--font-weight-bold);
+}
+
+strong {
+  font-weight: var(--font-weight-bold);
+}
+
 ul,
 ol {
   padding-inline-start: 1em;

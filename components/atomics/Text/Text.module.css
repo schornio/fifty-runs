@@ -54,18 +54,6 @@
   font-weight: var(--font-weight-bold);
 }
 
-.textAlign__start {
-  text-align: start;
-}
-
-.textAlign__center {
-  text-align: center;
-}
-
-.textAlign__end {
-  text-align: end;
-}
-
 @media (width < 700px) {
   .fontSizeOnMobile__sub {
     font-size: var(--font-size-sub);
@@ -93,18 +81,6 @@
 
   .fontWeightOnMobile__bold {
     font-weight: var(--font-weight-bold);
-  }
-
-  .textAlignOnMobile__start {
-    text-align: start;
-  }
-
-  .textAlignOnMobile__center {
-    text-align: center;
-  }
-
-  .textAlignOnMobile__end {
-    text-align: end;
   }
 }
 
@@ -136,18 +112,6 @@
   .fontWeightOnTablet__bold {
     font-weight: var(--font-weight-bold);
   }
-
-  .textAlignOnTablet__start {
-    text-align: start;
-  }
-
-  .textAlignOnTablet__center {
-    text-align: center;
-  }
-
-  .textAlignOnTablet__end {
-    text-align: end;
-  }
 }
 
 @media (width < 1200px) {
@@ -177,17 +141,5 @@
 
   .fontWeightOnDesktop__bold {
     font-weight: var(--font-weight-bold);
-  }
-
-  .textAlignOnDesktop__start {
-    text-align: start;
-  }
-
-  .textAlignOnDesktop__center {
-    text-align: center;
-  }
-
-  .textAlignOnDesktop__end {
-    text-align: end;
   }
 }

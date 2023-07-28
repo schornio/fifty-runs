@@ -5,7 +5,6 @@ import { Box } from '@/components/atomics/Box';
 import { ButtonAction } from '@/components/composed/ButtonAction';
 import { InputText } from '@/components/atomics/InputText';
 import { Stack } from '@/components/atomics/Stack';
-import { Text } from '@/components/atomics/Text';
 import { loginSchema } from '@/schema/login';
 import { usePromise } from '@/util/usePromise';
 import { useRouter } from 'next/navigation';
@@ -48,9 +47,9 @@ export function LoginForm() {
     <Box padding="double" maxWidth="mobile">
       <form onSubmit={onSubmit} ref={formRef}>
         <Stack alignBlock="stretch" direction="column" gap="normal">
-          <Text textAlign="center">
+          <Box textAlign="center">
             <h1>Anmelden</h1>
-          </Text>
+          </Box>
           <InputText
             error={errors}
             label="Benutzername oder Email"

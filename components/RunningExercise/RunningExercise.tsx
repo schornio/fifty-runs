@@ -1,4 +1,4 @@
-import { Text } from '@/components/atomics/Text';
+import { Box } from '@/components/atomics/Box';
 
 export function RunningExercise({
   distanceInMeters,
@@ -15,7 +15,7 @@ export function RunningExercise({
   const durationSeconds = durationInSeconds % 60;
 
   return (
-    <Text textAlign="center" fontSize="sub">
+    <Box textAlign="center">
       Distanz:{' '}
       <strong>
         {distanceKilometers > 0 ? `${distanceKilometers} km` : undefined}{' '}
@@ -27,6 +27,6 @@ export function RunningExercise({
         {durationMinutes > 0 ? `${durationMinutes} min` : undefined}{' '}
         {durationSeconds > 0 ? `${durationSeconds} s` : undefined}{' '}
       </strong>
-    </Text>
+    </Box>
   );
 }
