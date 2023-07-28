@@ -23,6 +23,7 @@ export default async function PostingsPage() {
 
   const postings = await prisma.posting.findMany({
     include: {
+      reactions: true,
       runningExercise: true,
       user: {
         select: {
@@ -51,19 +52,27 @@ export default async function PostingsPage() {
     <Box maxWidth="mobile" padding="normal">
       <Stack alignBlock="stretch" direction="column" gap="double">
         {session ? <PostingCreateForm /> : undefined}
-        {postings.map(({ date, id, image, runningExercise, text, user }) => (
-          <Posting
-            date={date.toISOString()}
-            runningExercise={runningExercise}
-            id={id}
-            image={image}
-            key={id}
-            text={text}
-            userImage={user.image}
-            userName={user.name}
-            userNameId={user.nameId}
-          />
-        ))}
+        {postings.map(
+          ({ date, id, image, reactions, runningExercise, text, user }) => (
+            <Posting
+              date={date.toISOString()}
+              runningExercise={runningExercise}
+              id={id}
+              image={image}
+              key={id}
+              reactions={reactions}
+              text={text}
+              userImage={user.image}
+              userName={user.name}
+              userNameId={user.nameId}
+              userReactionType={
+                reactions.find(
+                  (reaction) => reaction.userId === session?.userId
+                )?.type
+              }
+            />
+          )
+        )}
       </Stack>
     </Box>
   );

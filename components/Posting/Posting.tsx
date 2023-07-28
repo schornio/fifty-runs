@@ -1,7 +1,8 @@
 import { Box } from '@/components/atomics/Box';
 import Image from 'next/image';
-import { Reactions } from '@/components/Reactions';
-import { RunningExercise } from '../RunningExercise';
+import { Reaction } from '@prisma/client';
+import { Reactions } from '@/components/composed/Reactions';
+import { RunningExercise } from '../composed/RunningExercise';
 import { Stack } from '@/components/atomics/Stack';
 import { Suspense } from 'react';
 import { Text } from '@/components/atomics/Text';
@@ -17,23 +18,28 @@ export function Posting({
   date,
   id,
   image,
+  reactions,
   runningExercise,
   text,
   userImage,
   userName,
   userNameId,
+  userReactionType,
 }: {
   date: string;
+  id: string;
+  image?: string | null;
+  reactions?: Reaction[];
   runningExercise?: {
     distanceInMeters: number;
     durationInSeconds: number;
   } | null;
-  id: string;
-  image?: string | null;
+
   text?: string | null;
   userImage?: string | null;
   userName: string;
   userNameId: string;
+  userReactionType?: string;
 }) {
   return (
     <Box color="primary" roundedCorners={true} variant="outlined">
@@ -74,7 +80,11 @@ export function Posting({
             </Box>
           }
         >
-          <Reactions postingId={id} />
+          <Reactions
+            postingId={id}
+            reactions={reactions}
+            userReactionType={userReactionType}
+          />
         </Suspense>
       </Box>
     </Box>
