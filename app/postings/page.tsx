@@ -48,7 +48,7 @@ export default async function PostingsPage() {
   });
 
   return (
-    <Box padding="normal">
+    <Box maxWidth="mobile" padding="normal">
       <Stack alignBlock="stretch" direction="column" gap="double">
         {session ? <PostingCreateForm /> : undefined}
         {postings.map(({ date, id, image, runningExercise, text, user }) => (

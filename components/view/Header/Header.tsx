@@ -60,7 +60,7 @@ export async function Header() {
                           userName={user.name}
                           userNameId={user.nameId}
                         />
-                        <Link href="/user/logout">
+                        <Link href="/user/logout" prefetch={false}>
                           <Text fontSize="heading3" fontWeight="bold">
                             Abmelden
                           </Text>

@@ -1,4 +1,4 @@
-import { cookies } from 'next/headers';
+import { getCurrentSession } from '@/util/server/getCurrentSession';
 import { postingSchema } from '@/schema/posting';
 import { prisma } from '@/prisma';
 import { put } from '@/util/server/vercelBlobShim';
@@ -13,17 +13,7 @@ export async function POST(request: Request) {
     const entities = Object.fromEntries(formData.entries());
     const posting = requestSchema.parse(entities);
 
-    const sessionToken = cookies().get('sessionToken');
-
-    if (!sessionToken) {
-      throw new Error('Invalid session token');
-    }
-
-    const session = await prisma.session.findUnique({
-      where: {
-        token: sessionToken.value,
-      },
-    });
+    const session = await getCurrentSession();
 
     if (!session) {
       throw new Error('Invalid session');

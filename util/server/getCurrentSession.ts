@@ -1,8 +1,8 @@
-import { prisma } from "@/prisma";
-import { cookies } from "next/headers";
+import { cookies } from 'next/headers';
+import { prisma } from '@/prisma';
 
 export async function getCurrentSession() {
-  const cookie = cookies().get("sessionToken");
+  const cookie = cookies().get('sessionToken');
   const token = cookie?.value;
 
   if (!token) {

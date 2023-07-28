@@ -39,27 +39,3 @@ export async function POST(request: Request) {
     return new Response(undefined, { status: 400 });
   }
 }
-
-export async function DELETE() {
-  try {
-    const sessionToken = cookies().get('sessionToken');
-
-    if (!sessionToken) {
-      throw new Error('Invalid session token');
-    }
-
-    await prisma.session.delete({
-      where: {
-        token: sessionToken.value,
-      },
-    });
-
-    cookies().set('sessionToken', '', {
-      expires: new Date(0),
-    });
-
-    return new Response();
-  } catch {
-    return new Response(undefined, { status: 400 });
-  }
-}
