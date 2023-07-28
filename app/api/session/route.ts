@@ -1,5 +1,4 @@
 import { compare } from 'bcrypt';
-import { cookies } from 'next/headers';
 import { createSession } from '@/util/server/createSession';
 import { loginSchema } from '@/schema/login';
 import { prisma } from '@/prisma';
