@@ -4,7 +4,7 @@ import { prisma } from '@/prisma';
 
 export async function PUT(
   request: Request,
-  { params: { id: exerciseId } }: { params: { id: string } }
+  { params: { id } }: { params: { id: string } }
 ) {
   try {
     const formData = await request.formData();
@@ -18,7 +18,7 @@ export async function PUT(
 
     await prisma.reaction.upsert({
       create: {
-        exerciseId,
+        postingId: id,
         type,
         userId: session.userId,
       },
@@ -27,8 +27,8 @@ export async function PUT(
       },
       where: {
         // eslint-disable-next-line camelcase
-        userId_exerciseId: {
-          exerciseId,
+        userId_postingId: {
+          postingId: id,
           userId: session.userId,
         },
       },
@@ -42,7 +42,7 @@ export async function PUT(
 
 export async function DELETE(
   _request: Request,
-  { params: { id: exerciseId } }: { params: { id: string } }
+  { params: { id } }: { params: { id: string } }
 ) {
   const session = await getCurrentSession();
   if (!session) {
@@ -52,8 +52,8 @@ export async function DELETE(
   await prisma.reaction.delete({
     where: {
       // eslint-disable-next-line camelcase
-      userId_exerciseId: {
-        exerciseId,
+      userId_postingId: {
+        postingId: id,
         userId: session.userId,
       },
     },

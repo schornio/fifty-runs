@@ -14,9 +14,13 @@ export const registerSchema = object({
       { message: 'Bild zu groß' }
     )
     .optional(),
-  name: string().min(3, {
-    message: 'Benutzername muss mindestens 3 Zeichen lang sein',
-  }),
+  name: string()
+    .min(3, {
+      message: 'Benutzername muss mindestens 3 Zeichen lang sein',
+    })
+    .regex(/^[a-z0-9]+$/iu, {
+      message: 'Benutzername darf nur aus Buchstaben und Zahlen bestehen',
+    }),
   password: string()
     .min(10, { message: 'Passwort mindestens 10 Zeichen lang sein' })
     .regex(/[a-z]/u, {
@@ -32,7 +36,12 @@ export const registerSchema = object({
       message: 'Passwort muss ein mindestens Sonderzeichen enthalten',
     }),
   repeatPassword: string(),
-}).refine((data) => data.password === data.repeatPassword, {
-  message: 'Passwörter stimmen nicht überein',
-  path: ['repeatPassword'],
-});
+})
+  .refine((data) => data.password === data.repeatPassword, {
+    message: 'Passwörter stimmen nicht überein',
+    path: ['repeatPassword'],
+  })
+  .transform((data) => ({
+    ...data,
+    nameId: data.name.toLowerCase(),
+  }));

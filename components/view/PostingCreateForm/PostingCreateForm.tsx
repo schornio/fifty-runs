@@ -10,10 +10,25 @@ import { InputText } from '@/components/atomics/InputText';
 import { InputTextMultiline } from '@/components/atomics/InputTextMultiline';
 import { Stack } from '@/components/atomics/Stack';
 import { Text } from '@/components/atomics/Text';
+import { postingSchema } from '@/schema/posting';
 import { runningExperciseSchema } from '@/schema/runningExercise';
 import { usePromise } from '@/util/usePromise';
 import { useRouter } from 'next/navigation';
 import { useValidation } from '@/util/form/useValidation';
+import { z } from 'zod';
+
+const requestSchema = z.union([postingSchema, runningExperciseSchema]);
+
+const types = [
+  {
+    id: 'posting',
+    label: 'Beitrag',
+  },
+  {
+    id: 'runningExercise',
+    label: 'Training',
+  },
+];
 
 const visibilityItems = [
   {
@@ -30,8 +45,8 @@ const visibilityItems = [
   },
 ];
 
-async function createRunningExercise(formData: FormData) {
-  const result = await fetch('/api/runningExercise', {
+async function createPosting(formData: FormData) {
+  const result = await fetch('/api/posting', {
     body: formData,
     method: 'POST',
   });
@@ -40,14 +55,13 @@ async function createRunningExercise(formData: FormData) {
   }
 }
 
-export function RunningExerciseCreateForm() {
+export function PostingCreateForm() {
   const router = useRouter();
   const { errors, formRef, validateForm, validateFormJustInTime } =
-    useValidation(runningExperciseSchema);
-  const { invoke: invokeCreateRunningExercise, status } = usePromise(
-    createRunningExercise
-  );
+    useValidation(requestSchema);
+  const { invoke: invokeCreatePosting, status } = usePromise(createPosting);
   const [formVisible, setFormVisible] = useState(false);
+  const [type, setType] = useState('runningExercise');
 
   const onShowClick = useCallback(() => {
     setFormVisible(true);
@@ -57,13 +71,17 @@ export function RunningExerciseCreateForm() {
     setFormVisible(false);
   }, []);
 
+  const onTypeChange = useCallback((newType: string) => {
+    setType(newType);
+  }, []);
+
   const onSubmit = useCallback(
     async (eventArgs: FormEvent<HTMLFormElement>) => {
       eventArgs.preventDefault();
       const formData = validateForm();
 
       if (formData) {
-        const result = await invokeCreateRunningExercise(formData);
+        const result = await invokeCreatePosting(formData);
 
         if (result.status === 'resolved') {
           router.refresh();
@@ -71,7 +89,7 @@ export function RunningExerciseCreateForm() {
         }
       }
     },
-    [validateForm, invokeCreateRunningExercise, router]
+    [validateForm, invokeCreatePosting, router]
   );
 
   if (!formVisible) {
@@ -92,8 +110,20 @@ export function RunningExerciseCreateForm() {
     >
       <form onSubmit={onSubmit} ref={formRef}>
         <Stack alignBlock="stretch" direction="column" gap="normal">
+          <Stack alignInline="center" gap="normal">
+            <ButtonRadioGroup
+              items={types}
+              name="type"
+              onChange={onTypeChange}
+              value={type}
+            />
+          </Stack>
           <Text textAlign="center">
-            <h2>Training hinzufügen</h2>
+            {type === 'runningExercise' ? (
+              <h2>Training hinzufügen</h2>
+            ) : (
+              <h2>Beitrag hinzufügen</h2>
+            )}
           </Text>
           <Stack alignInline="center" direction="row">
             <InputImage
@@ -107,52 +137,56 @@ export function RunningExerciseCreateForm() {
           <Text textAlign="center">
             <h3>Distanz</h3>
           </Text>
-          <Stack alignInline="center" direction="row" gap="normal">
-            <InputText
-              error={errors}
-              label="Kilometer"
-              name="distanceKilometers"
-              onChange={validateFormJustInTime}
-              type="number"
-            />
-            <InputText
-              error={errors}
-              label="Meter"
-              name="distanceMeters"
-              onChange={validateFormJustInTime}
-              type="number"
-            />
-          </Stack>
-          <Text textAlign="center">
-            <h3>Dauer</h3>
-          </Text>
-          <Stack alignInline="center" direction="row" gap="normal">
-            <InputText
-              error={errors}
-              label="Stunden"
-              name="durationHours"
-              onChange={validateFormJustInTime}
-              type="number"
-            />
-            <InputText
-              error={errors}
-              label="Minuten"
-              name="durationMinutes"
-              onChange={validateFormJustInTime}
-              type="number"
-            />
-            <InputText
-              error={errors}
-              label="Sekunden"
-              name="durationSeconds"
-              onChange={validateFormJustInTime}
-              type="number"
-            />
-          </Stack>
+          {type === 'runningExercise' ? (
+            <>
+              <Stack alignInline="center" direction="row" gap="normal">
+                <InputText
+                  error={errors}
+                  label="Kilometer"
+                  name="distanceKilometers"
+                  onChange={validateFormJustInTime}
+                  type="number"
+                />
+                <InputText
+                  error={errors}
+                  label="Meter"
+                  name="distanceMeters"
+                  onChange={validateFormJustInTime}
+                  type="number"
+                />
+              </Stack>
+              <Text textAlign="center">
+                <h3>Dauer</h3>
+              </Text>
+              <Stack alignInline="center" direction="row" gap="normal">
+                <InputText
+                  error={errors}
+                  label="Stunden"
+                  name="durationHours"
+                  onChange={validateFormJustInTime}
+                  type="number"
+                />
+                <InputText
+                  error={errors}
+                  label="Minuten"
+                  name="durationMinutes"
+                  onChange={validateFormJustInTime}
+                  type="number"
+                />
+                <InputText
+                  error={errors}
+                  label="Sekunden"
+                  name="durationSeconds"
+                  onChange={validateFormJustInTime}
+                  type="number"
+                />
+              </Stack>
+            </>
+          ) : undefined}
           <InputTextMultiline
             error={errors}
-            label="Notizen"
-            name="notes"
+            label="Text"
+            name="text"
             onChange={validateFormJustInTime}
           />
           <Stack alignInline="center" gap="normal">

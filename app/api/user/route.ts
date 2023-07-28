@@ -15,6 +15,7 @@ export async function POST(request: Request) {
       email,
       image,
       name,
+      nameId,
       password: passwordPlain,
     } = registerSchema.parse(entities);
 
@@ -24,6 +25,7 @@ export async function POST(request: Request) {
       data: {
         email,
         name,
+        nameId,
         password,
       },
     });

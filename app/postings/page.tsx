@@ -1,14 +1,17 @@
 import { Box } from '@/components/atomics/Box';
-import { RunningExercise } from '@/components/RunningExercise';
-import { RunningExerciseCreateForm } from '@/components/view/RunningExerciseCreateForm';
+import { Posting } from '@/components/Posting';
+import { PostingCreateForm } from '@/components/view/PostingCreateForm';
 import { Stack } from '@/components/atomics/Stack';
+import { Visibility } from '@prisma/client';
 import { getCurrentSession } from '@/util/server/getCurrentSession';
 import { prisma } from '@/prisma';
 
 export default async function PostingsPage() {
   const session = await getCurrentSession();
 
-  const visibility = session ? ['public', 'protected'] : ['public'];
+  const visibility: Visibility[] = session
+    ? ['public', 'protected']
+    : ['public'];
 
   const ownPostingsQuery = session
     ? [
@@ -18,24 +21,14 @@ export default async function PostingsPage() {
       ]
     : [];
 
-  const postings = await prisma.runningExercise.findMany({
+  const postings = await prisma.posting.findMany({
     include: {
-      // reactions: {
-      //   select: {
-      //     type: true,
-      //     user: {
-      //       select: {
-      //         image: true,
-      //         name: true,
-      //       },
-      //     },
-      //   },
-      // },
+      runningExercise: true,
       user: {
         select: {
-          id: true,
           image: true,
           name: true,
+          nameId: true,
         },
       },
     },
@@ -57,30 +50,20 @@ export default async function PostingsPage() {
   return (
     <Box padding="normal">
       <Stack alignBlock="stretch" direction="column" gap="double">
-        {session ? <RunningExerciseCreateForm /> : undefined}
-        {postings.map(
-          ({
-            date,
-            distanceInMeters,
-            durationInSeconds,
-            id,
-            image,
-            notes,
-            user,
-          }) => (
-            <RunningExercise
-              date={date.toISOString()}
-              distanceInMeters={distanceInMeters}
-              durationInSeconds={durationInSeconds}
-              id={id}
-              image={image}
-              key={id}
-              notes={notes}
-              userName={user.name}
-              userImage={user.image}
-            />
-          )
-        )}
+        {session ? <PostingCreateForm /> : undefined}
+        {postings.map(({ date, id, image, runningExercise, text, user }) => (
+          <Posting
+            date={date.toISOString()}
+            runningExercise={runningExercise}
+            id={id}
+            image={image}
+            key={id}
+            text={text}
+            userImage={user.image}
+            userName={user.name}
+            userNameId={user.nameId}
+          />
+        ))}
       </Stack>
     </Box>
   );

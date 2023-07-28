@@ -58,6 +58,7 @@ export async function Header() {
                         <UserLabel
                           userImage={user.image}
                           userName={user.name}
+                          userNameId={user.nameId}
                         />
                         <Link href="/user/logout">
                           <Text fontSize="heading3" fontWeight="bold">

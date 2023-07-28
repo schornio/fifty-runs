@@ -1,14 +1,18 @@
 import { Box } from '@/components/atomics/Box';
-import { RunningExercise } from '@/components/RunningExercise';
-import { RunningExerciseCreateForm } from '@/components/view/RunningExerciseCreateForm';
+import { Posting } from '@/components/Posting';
+import { PostingCreateForm } from '@/components/view/PostingCreateForm';
 import { Stack } from '@/components/atomics/Stack';
 import { UserImage } from '@/components/atomics/UserImage';
 import { UserImageChangeForm } from '@/components/UserImageChangeForm';
+import { Visibility } from '@prisma/client';
 import { getCurrentSession } from '@/util/server/getCurrentSession';
 import { notFound } from 'next/navigation';
 import { prisma } from '@/prisma';
 
-function selectVisibility(hasSession: boolean, isOwnProfile: boolean) {
+function selectVisibility(
+  hasSession: boolean,
+  isOwnProfile: boolean
+): Visibility[] {
   if (isOwnProfile) {
     return ['private', 'protected', 'public'];
   }
@@ -21,14 +25,14 @@ function selectVisibility(hasSession: boolean, isOwnProfile: boolean) {
 }
 
 export default async function UserByIdPage({
-  params: { name },
+  params: { nameId },
 }: {
-  params: { name: string };
+  params: { nameId: string };
 }) {
   const session = await getCurrentSession();
   const user = await prisma.user.findUnique({
     where: {
-      name,
+      nameId,
     },
   });
 
@@ -38,7 +42,10 @@ export default async function UserByIdPage({
 
   const isOwnProfile = session?.userId === user?.id;
 
-  const postings = await prisma.runningExercise.findMany({
+  const postings = await prisma.posting.findMany({
+    include: {
+      runningExercise: true,
+    },
     where: {
       userId: user.id,
       visibility: {
@@ -75,29 +82,20 @@ export default async function UserByIdPage({
       ) : undefined}
       <Box padding="normal">
         <Stack alignBlock="stretch" direction="column" gap="double">
-          {isOwnProfile ? <RunningExerciseCreateForm /> : undefined}
-          {postings.map(
-            ({
-              date,
-              distanceInMeters,
-              durationInSeconds,
-              id: postingId,
-              image,
-              notes,
-            }) => (
-              <RunningExercise
-                date={date.toISOString()}
-                distanceInMeters={distanceInMeters}
-                durationInSeconds={durationInSeconds}
-                id={postingId}
-                image={image}
-                key={postingId}
-                notes={notes}
-                userName={user.name}
-                userImage={user.image}
-              />
-            )
-          )}
+          {isOwnProfile ? <PostingCreateForm /> : undefined}
+          {postings.map(({ date, id, image, runningExercise, text }) => (
+            <Posting
+              date={date.toISOString()}
+              id={id}
+              image={image}
+              key={id}
+              runningExercise={runningExercise}
+              text={text}
+              userImage={user.image}
+              userName={user.name}
+              userNameId={user.nameId}
+            />
+          ))}
         </Stack>
       </Box>
     </>

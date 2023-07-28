@@ -10,12 +10,14 @@ function UserLabelComponent({
   color = 'primary',
   userImage,
   userName,
+  userNameId,
 }: {
   color?: Color;
   userImage?: string | null;
   userName: string;
+  userNameId: string;
 }) {
-  const href = `/user/${userName}`;
+  const href = `/user/${userNameId}`;
   const className = mapStyles(styles, ['default']);
   return (
     <Link className={className} href={href}>

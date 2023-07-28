@@ -1,35 +1,31 @@
-import { coerce, object, string, z } from 'zod';
+import { postingSchemaBase } from '@/schema/posting';
+import { z } from 'zod';
 
-const FILE_SIZE_LIMIT = 1024 * 1024 * 2; // 2 MB
-
-export const runningExperciseSchema = object({
-  distanceKilometers: coerce
-    .number()
-    .int('Distanz in Kilometern muss eine ganze Zahl sein')
-    .default(0),
-  distanceMeters: coerce
-    .number()
-    .int('Distanz in Metern muss eine ganze Zahl sein')
-    .default(0),
-  durationHours: coerce
-    .number()
-    .int('Stunden muss eine ganze Zahl sein')
-    .default(0),
-  durationMinutes: coerce
-    .number()
-    .int('Minuten muss eine ganze Zahl sein')
-    .default(0),
-  durationSeconds: coerce
-    .number()
-    .int('Sekunden muss eine ganze Zahl sein')
-    .default(0),
-  image: z
-    .instanceof(Blob, { message: 'Keine gültige Bild-Datei' })
-    .refine((data) => data.size < FILE_SIZE_LIMIT, { message: 'Bild zu groß' })
-    .optional(),
-  notes: string().optional(),
-  visibility: z.enum(['public', 'protected', 'private']),
-})
+export const runningExperciseSchema = postingSchemaBase
+  .extend({
+    distanceKilometers: z.coerce
+      .number()
+      .int('Distanz in Kilometern muss eine ganze Zahl sein')
+      .default(0),
+    distanceMeters: z.coerce
+      .number()
+      .int('Distanz in Metern muss eine ganze Zahl sein')
+      .default(0),
+    durationHours: z.coerce
+      .number()
+      .int('Stunden muss eine ganze Zahl sein')
+      .default(0),
+    durationMinutes: z.coerce
+      .number()
+      .int('Minuten muss eine ganze Zahl sein')
+      .default(0),
+    durationSeconds: z.coerce
+      .number()
+      .int('Sekunden muss eine ganze Zahl sein')
+      .default(0),
+    type: z.literal('runningExercise'),
+    visibility: z.enum(['public', 'protected', 'private']),
+  })
   .transform((data) => ({
     ...data,
     distanceInMeters: data.distanceKilometers * 1000 + data.distanceMeters,

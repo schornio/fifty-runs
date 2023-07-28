@@ -9,17 +9,26 @@ generator client {
     provider = "prisma-client-js"
 }
 
-model User {
-    id        String            @id @default(uuid())
-    name      String            @unique
-    email     String            @unique
-    password  String
-    image     String?
-    exercises RunningExercise[]
-    sessions  Session[]
-    reactions Reaction[]
+enum Visibility {
+    public
+    protected
+    private
+}
 
-    @@unique([name, email])
+model User {
+    id               String            @id @default(uuid())
+    name             String            @unique
+    nameId           String            @unique
+    email            String            @unique
+    password         String
+    image            String?
+    sessions         Session[]
+    reactions        Reaction[]
+    postings         Posting[]
+    comments         Comment[]
+    runningStatistic RunningStatistic?
+
+    @@unique([nameId, email])
 }
 
 model Session {
@@ -31,27 +40,55 @@ model Session {
     expiresAt DateTime
 }
 
-model RunningExercise {
-    id                String     @id @default(uuid())
-    distanceInMeters  Int
-    durationInSeconds Int
+model Posting {
+    id                String           @id @default(uuid())
     date              DateTime
-    notes             String?
+    text              String?
     image             String?
-    user              User       @relation(fields: [userId], references: [id])
+    user              User             @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId            String
-    visibility        String     @default("protected") // public, protected, private
+    visibility        Visibility       @default(protected)
     reactions         Reaction[]
+    comments          Comment[]
+    runningExercise   RunningExercise?
+    runningExerciseId String?
+}
+
+model Comment {
+    id        String   @id @default(uuid())
+    text      String
+    date      DateTime @default(now())
+    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId    String
+    posting   Posting  @relation(fields: [postingId], references: [id])
+    postingId String
 }
 
 model Reaction {
-    id         String          @id @default(uuid())
-    type       String // fifty, like, love, haha, wow, sad
-    date       DateTime        @default(now())
-    user       User            @relation(fields: [userId], references: [id])
-    userId     String
-    exercise   RunningExercise @relation(fields: [exerciseId], references: [id])
-    exerciseId String
+    id        String   @id @default(uuid())
+    type      String
+    date      DateTime @default(now())
+    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId    String
+    Posting   Posting? @relation(fields: [postingId], references: [id])
+    postingId String?
 
-    @@unique([userId, exerciseId])
+    @@unique([userId, postingId])
+}
+
+model RunningExercise {
+    id                String  @id @default(uuid())
+    distanceInMeters  Int
+    durationInSeconds Int
+    posting           Posting @relation(fields: [postingId], references: [id], onDelete: Cascade)
+    postingId         String  @unique
+}
+
+model RunningStatistic {
+    id                String @id @default(uuid())
+    numberOfRuns      Int
+    distanceInMeters  Int
+    durationInSeconds Int
+    user              User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId            String @unique
 }

@@ -4,98 +4,76 @@ import { Stack } from '@/components/atomics/Stack';
 import { TableCell } from '@/components/atomics/TableCell';
 import { Text } from '@/components/atomics/Text';
 import { UserLabel } from '@/components/composed/UserLabel';
+import { cache } from 'react';
 import { prisma } from '@/prisma';
 
-export default async function LeaderboardPage() {
-  const topUsersRuns = await prisma.user.findMany({
+const getTopUsersByRuns = cache(async () => {
+  return await prisma.runningStatistic.findMany({
     orderBy: {
-      exercises: {
-        _count: 'desc',
-      },
+      numberOfRuns: 'desc',
     },
     select: {
-      _count: {
+      numberOfRuns: true,
+      user: {
         select: {
-          exercises: true,
+          image: true,
+          name: true,
+          nameId: true,
         },
       },
-      id: true,
-      image: true,
-      name: true,
     },
     take: 5,
   });
+});
 
-  const topDistance = await prisma.runningExercise.groupBy({
-    _sum: {
+const getTopUsersByDistance = cache(async () => {
+  return await prisma.runningStatistic.findMany({
+    orderBy: {
+      distanceInMeters: 'desc',
+    },
+    select: {
       distanceInMeters: true,
-    },
-    by: ['userId'],
-    orderBy: {
-      _sum: {
-        distanceInMeters: 'desc',
+      user: {
+        select: {
+          image: true,
+          name: true,
+          nameId: true,
+        },
       },
     },
     take: 5,
   });
-  const topUserDistance = await prisma.user.findMany({
-    select: {
-      id: true,
-      image: true,
-      name: true,
-    },
-    where: {
-      id: {
-        in: topDistance.map(({ userId }) => userId),
-      },
-    },
-  });
-  const maxDistance = topDistance.reduce(
-    (max, { _sum }) =>
-      max < (_sum.distanceInMeters ?? 0) ? _sum.distanceInMeters ?? 0 : max,
-    0
-  );
+});
 
-  const topDuration = await prisma.runningExercise.groupBy({
-    _sum: {
+const getTopUsersByDuration = cache(async () => {
+  return await prisma.runningStatistic.findMany({
+    orderBy: {
+      durationInSeconds: 'desc',
+    },
+    select: {
       durationInSeconds: true,
-    },
-    by: ['userId'],
-    orderBy: {
-      _sum: {
-        durationInSeconds: 'desc',
+      user: {
+        select: {
+          image: true,
+          name: true,
+          nameId: true,
+        },
       },
     },
     take: 5,
   });
-  const topUserDuration = await prisma.user.findMany({
-    select: {
-      id: true,
-      image: true,
-      name: true,
-    },
-    where: {
-      id: {
-        in: topDuration.map(({ userId }) => userId),
-      },
-    },
-  });
-  const maxDuration = topDuration.reduce(
-    (max, { _sum }) =>
-      max < (_sum.durationInSeconds ?? 0) ? _sum.durationInSeconds ?? 0 : max,
-    0
-  );
+});
 
-  //   <LeaderboardRow
-  //   key={id}
-  //   userImage={image}
-  //   userName={name}
-  //   value={_count.exercises / 50}
-  // >
-  //   <Text color="background">
-  //     <strong>{_count.exercises} / 50 runs</strong>
-  //   </Text>
-  // </LeaderboardRow>
+export default async function LeaderboardPage() {
+  const [topUsersByRuns, topUsersByDistance, topUsersByDuration] =
+    await Promise.all([
+      getTopUsersByRuns(),
+      getTopUsersByDistance(),
+      getTopUsersByDuration(),
+    ]);
+
+  const maxDistanceInMeters = topUsersByDistance[0]?.distanceInMeters ?? 0;
+  const maxDurationInSeconds = topUsersByDuration[0]?.durationInSeconds ?? 0;
 
   return (
     <Box maxWidth="desktop" padding="normal">
@@ -105,15 +83,19 @@ export default async function LeaderboardPage() {
         </Text>
         <table>
           <tbody>
-            {topUsersRuns.map(({ _count, id, image, name }) => (
-              <tr key={id}>
+            {topUsersByRuns.map(({ numberOfRuns, user }) => (
+              <tr key={user.nameId}>
                 <TableCell>
-                  <UserLabel userName={name} userImage={image} />
+                  <UserLabel
+                    userImage={user.image}
+                    userName={user.name}
+                    userNameId={user.nameId}
+                  />
                 </TableCell>
                 <TableCell grow={true}>
-                  <ProgressBar value={_count.exercises / 50}>
+                  <ProgressBar value={numberOfRuns / 50}>
                     <Text color="background">
-                      <strong>{_count.exercises} / 50 runs</strong>
+                      <strong>{numberOfRuns} / 50 runs</strong>
                     </Text>
                   </ProgressBar>
                 </TableCell>
@@ -126,26 +108,20 @@ export default async function LeaderboardPage() {
         </Text>
         <table>
           <tbody>
-            {topDistance.map(({ _sum, userId }) => (
-              <tr key={userId}>
+            {topUsersByDistance.map(({ distanceInMeters, user }) => (
+              <tr key={user.nameId}>
                 <TableCell>
                   <UserLabel
-                    userName={
-                      topUserDistance.find(({ id }) => id === userId)?.name ??
-                      ''
-                    }
-                    userImage={
-                      topUserDistance.find(({ id }) => id === userId)?.image
-                    }
+                    userImage={user.image}
+                    userName={user.name}
+                    userNameId={user.nameId}
                   />
                 </TableCell>
                 <TableCell grow={true}>
-                  <ProgressBar
-                    value={(_sum.distanceInMeters ?? 0) / maxDistance}
-                  >
+                  <ProgressBar value={distanceInMeters / maxDistanceInMeters}>
                     <Text color="background">
                       <strong>
-                        {Math.round((_sum.distanceInMeters ?? 0) / 100) / 10} km
+                        {Math.round(distanceInMeters / 100) / 10} km
                       </strong>
                     </Text>
                   </ProgressBar>
@@ -159,28 +135,21 @@ export default async function LeaderboardPage() {
         </Text>
         <table>
           <tbody>
-            {topDuration.map(({ _sum, userId }) => (
-              <tr key={userId}>
+            {topUsersByDuration.map(({ durationInSeconds, user }) => (
+              <tr key={user.nameId}>
                 <TableCell>
                   <UserLabel
-                    userName={
-                      topUserDuration.find(({ id }) => id === userId)?.name ??
-                      ''
-                    }
-                    userImage={
-                      topUserDuration.find(({ id }) => id === userId)?.image
-                    }
+                    userImage={user.image}
+                    userName={user.name}
+                    userNameId={user.nameId}
                   />
                 </TableCell>
                 <TableCell grow={true}>
-                  <ProgressBar
-                    value={(_sum.durationInSeconds ?? 0) / maxDuration}
-                  >
+                  <ProgressBar value={durationInSeconds / maxDurationInSeconds}>
                     <Text color="background">
                       <strong>
-                        {Math.floor((_sum.durationInSeconds ?? 0) / 3600)} h{' '}
-                        {Math.floor((_sum.durationInSeconds ?? 0) / 60) % 60}{' '}
-                        min
+                        {Math.floor(durationInSeconds / 3600)} h{' '}
+                        {Math.floor(durationInSeconds / 60) % 60} min
                       </strong>
                     </Text>
                   </ProgressBar>

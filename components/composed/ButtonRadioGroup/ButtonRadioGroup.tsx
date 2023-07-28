@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode, memo, useCallback, useState } from 'react';
+import { ReactNode, memo, useCallback, useEffect, useState } from 'react';
 import { Button } from '@/components/atomics/Button';
 import { Color } from '@/style/Color';
 
@@ -43,19 +43,34 @@ function ButtonRadioGroupComponent({
   defaultItemId,
   items = [],
   name,
+  onChange,
+  value,
 }: {
   color?: Color;
   defaultItemId?: ButtonRadioItem['id'];
   items?: ButtonRadioItem[];
   name: string;
+  onChange?: (itemId: ButtonRadioItem['id']) => void;
+  value?: ButtonRadioItem['id'];
 }) {
   const [selectedItemId, setSelectedItemId] = useState<
     ButtonRadioItem['id'] | undefined
-  >(defaultItemId);
+  >(value ?? defaultItemId);
 
-  const onClick = useCallback((itemId: ButtonRadioItem['id']) => {
-    setSelectedItemId(itemId);
-  }, []);
+  const onClick = useCallback(
+    (itemId: ButtonRadioItem['id']) => {
+      setSelectedItemId(itemId);
+      onChange?.(itemId);
+    },
+    [onChange]
+  );
+
+  useEffect(() => {
+    if (value) {
+      setSelectedItemId(value);
+    }
+  }, [value]);
+
   return (
     <>
       <input type="hidden" name={name} value={selectedItemId} />

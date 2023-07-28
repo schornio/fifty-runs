@@ -6,7 +6,7 @@ import { getCurrentSession } from '@/util/server/getCurrentSession';
 import { prisma } from '@/prisma';
 import styles from './Reactions.module.css';
 
-export async function Reactions({ exerciseId }: { exerciseId: string }) {
+export async function Reactions({ postingId }: { postingId: string }) {
   const session = await getCurrentSession();
   const reactions = await prisma.reaction.findMany({
     include: {
@@ -22,7 +22,7 @@ export async function Reactions({ exerciseId }: { exerciseId: string }) {
       date: 'desc',
     },
     where: {
-      exerciseId,
+      postingId,
     },
   });
 
@@ -46,7 +46,7 @@ export async function Reactions({ exerciseId }: { exerciseId: string }) {
     <Stack alignInline="center" gap="normal">
       {reactionSummaries.map(({ count, icon, reactionsByType, type }) => (
         <ReactionButton
-          exerciseId={exerciseId}
+          exerciseId={postingId}
           key={type}
           selected={userReaction?.type === type}
           tooltip={

@@ -26,6 +26,7 @@
     "noFallthroughCasesInSwitch": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
+    "noUncheckedIndexedAccess": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noImplicitAny": true,
