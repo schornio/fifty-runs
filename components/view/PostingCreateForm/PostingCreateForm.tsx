@@ -188,8 +188,9 @@ export function PostingCreateForm() {
             name="text"
             onChange={validateFormJustInTime}
           />
-          <Stack alignInline="center" gap="normal">
+          <Stack alignInline="center" directionOnMobile="column" gap="normal">
             <ButtonRadioGroup
+              color="secondary"
               defaultItemId="protected"
               items={visibilityItems}
               name="visibility"
