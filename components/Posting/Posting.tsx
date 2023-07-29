@@ -1,5 +1,6 @@
 import { Box } from '@/components/atomics/Box';
 import Image from 'next/image';
+import Link from 'next/link';
 import { Reaction } from '@prisma/client';
 import { Reactions } from '@/components/composed/Reactions';
 import { RunningExercise } from '../composed/RunningExercise';
@@ -49,7 +50,11 @@ export function Posting({
             userName={userName}
             userNameId={userNameId}
           />
-          <Text fontSize="sub">{format(new Date(date))}</Text>
+          <Link href={`/postings/${id}`}>
+            <Text color="text" fontSize="sub">
+              {format(new Date(date))}
+            </Text>
+          </Link>
         </Stack>
       </Box>
       {image ? (
