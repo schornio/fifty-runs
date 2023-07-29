@@ -4,7 +4,7 @@ import { cache } from 'react';
 import { getCurrentSession } from '@/util/server/getCurrentSession';
 import { prisma } from '@/prisma';
 
-const getPostingById = cache(async (id: string, userId?: string) => {
+export const getPostingById = cache(async (id: string, userId?: string) => {
   const visibility: Visibility[] = userId
     ? ['public']
     : ['public', 'protected'];
@@ -63,12 +63,10 @@ export async function generateMetadata({
     return {};
   }
 
-  const images = posting.image ? [{ url: posting.image }] : [];
-
   return {
     openGraph: {
       description: posting.text ?? undefined,
-      images,
+      title: `${posting.user.name} - 50 runner`,
     },
   };
 }
