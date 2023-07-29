@@ -4,7 +4,6 @@ import { Reaction } from '@prisma/client';
 import { Reactions } from '@/components/composed/Reactions';
 import { RunningExercise } from '../composed/RunningExercise';
 import { Stack } from '@/components/atomics/Stack';
-import { Suspense } from 'react';
 import { Text } from '@/components/atomics/Text';
 import { UserLabel } from '@/components/composed/UserLabel';
 import styles from './Posting.module.css';
