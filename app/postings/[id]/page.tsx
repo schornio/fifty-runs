@@ -1,3 +1,5 @@
+import { Box } from '@/components/atomics/Box';
+import { ButtonShare } from '@/components/composed/ButtonShare';
 import { Metadata } from 'next';
 import { Visibility } from '@prisma/client';
 import { cache } from 'react';
@@ -81,6 +83,9 @@ export default async function PostingByIdPage({
 
   return (
     <>
+      <Box padding="double">
+        <ButtonShare>Teilen</ButtonShare>
+      </Box>
       <pre>{JSON.stringify(posting, null, ' ')}</pre>
     </>
   );

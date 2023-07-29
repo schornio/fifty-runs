@@ -3,6 +3,15 @@ import { Color } from '@/style/Color';
 import { mapStyles } from '@/util/mapStyles';
 import styles from './Button.module.css';
 
+export type ButtonProps = {
+  children?: ReactNode;
+  color?: Color;
+  disabled?: boolean;
+  onClick?: () => void;
+  type: HTMLButtonElement['type'];
+  variant?: ButtonVariant;
+};
+
 export type ButtonVariant = 'filled' | 'outlined' | 'text';
 
 function ButtonComponent({
@@ -12,14 +21,7 @@ function ButtonComponent({
   onClick,
   type,
   variant = 'filled',
-}: {
-  children?: ReactNode;
-  color?: Color;
-  disabled?: boolean;
-  onClick?: () => void;
-  type: HTMLButtonElement['type'];
-  variant?: ButtonVariant;
-}) {
+}: ButtonProps) {
   const className = mapStyles(styles, ['default'], {
     color,
     disabled,
