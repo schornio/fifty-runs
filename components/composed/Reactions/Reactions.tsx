@@ -1,6 +1,7 @@
 import { Reaction } from '@prisma/client';
 import { ReactionButton } from '../ReactionButton';
 import { Stack } from '@/components/atomics/Stack';
+import { Text } from '@/components/atomics/Text';
 import { reactions as availableReactions } from '@/model/reaction';
 
 export function Reactions({
@@ -24,17 +25,19 @@ export function Reactions({
   });
 
   return (
-    <Stack alignInline="center" gap="normal">
-      {reactionSummaries.map(({ count, icon, type }) => (
-        <ReactionButton
-          count={count}
-          icon={icon}
-          key={type}
-          postingId={postingId}
-          selected={userReactionType === type}
-          type={type}
-        />
-      ))}
-    </Stack>
+    <Text fontSizeOnMobile="sub">
+      <Stack alignInline="center" gap="normal">
+        {reactionSummaries.map(({ count, icon, type }) => (
+          <ReactionButton
+            count={count}
+            icon={icon}
+            key={type}
+            postingId={postingId}
+            selected={userReactionType === type}
+            type={type}
+          />
+        ))}
+      </Stack>
+    </Text>
   );
 }

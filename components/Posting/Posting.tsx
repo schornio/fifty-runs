@@ -73,19 +73,11 @@ export function Posting({
         </Box>
       ) : undefined}
       <Box padding="double">
-        <Suspense
-          fallback={
-            <Box color="primary" textAlign="center">
-              ...
-            </Box>
-          }
-        >
-          <Reactions
-            postingId={id}
-            reactions={reactions}
-            userReactionType={userReactionType}
-          />
-        </Suspense>
+        <Reactions
+          postingId={id}
+          reactions={reactions}
+          userReactionType={userReactionType}
+        />
       </Box>
     </Box>
   );
