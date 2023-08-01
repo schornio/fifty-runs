@@ -25,7 +25,7 @@ export default async function OGImage({
 
   const image = posting?.image;
 
-  if (!image) {
+  if (posting?.visibility !== 'public' || !image) {
     return new Response(undefined, {
       status: 404,
     });
