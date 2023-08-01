@@ -2,15 +2,18 @@
 
 import { Button, ButtonProps } from '@/components/atomics/Button';
 import { memo, useCallback } from 'react';
+import { usePathname } from 'next/navigation';
 
 function ButtonShareComponent({
   ...buttonProps
 }: Omit<ButtonProps, 'onClick' | 'type'>) {
-  const onButtonShareClick = useCallback(() => {
-    navigator.share();
-  }, []);
+  const url = usePathname();
 
-  if (!navigator.share) {
+  const onButtonShareClick = useCallback(() => {
+    navigator.share({ url });
+  }, [url]);
+
+  if (!navigator?.share) {
     return undefined;
   }
 

@@ -83,9 +83,11 @@ export default async function PostingByIdPage({
 
   return (
     <>
-      <Box padding="double">
-        <ButtonShare>Teilen</ButtonShare>
-      </Box>
+      {posting?.visibility === 'public' ? (
+        <Box padding="double">
+          <ButtonShare>Teilen</ButtonShare>
+        </Box>
+      ) : undefined}
       <pre>{JSON.stringify(posting, null, ' ')}</pre>
     </>
   );
