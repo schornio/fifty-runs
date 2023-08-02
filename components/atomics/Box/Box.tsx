@@ -14,6 +14,7 @@ function BoxComponent({
   variant,
   ...breakpointProps
 }: BreakpointProps<{
+  flexGrow?: boolean;
   textAlign?: 'start' | 'center' | 'end';
   padding?: Size;
 }> & {

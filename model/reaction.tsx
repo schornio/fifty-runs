@@ -28,8 +28,8 @@ export const reactions = [
           y2="242.73"
           fill="currentColor"
           stroke="currentColor"
-          stroke-miterlimit="10"
-          stroke-width="50"
+          strokeMiterlimit="10"
+          strokeWidth="50"
         />
         <line
           x1="17.28"
@@ -38,8 +38,8 @@ export const reactions = [
           y2="324.85"
           fill="currentColor"
           stroke="currentColor"
-          stroke-miterlimit="10"
-          stroke-width="50"
+          strokeMiterlimit="10"
+          strokeWidth="50"
         />
       </svg>
     ),

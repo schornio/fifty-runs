@@ -67,6 +67,10 @@
   background: var(--box-color-background);
 }
 
+.flexGrow {
+  flex-grow: 1;
+}
+
 .textAlign__start {
   text-align: start;
 }
@@ -88,6 +92,10 @@
 }
 
 @media (width < 700px) {
+  .flexGrowOnMobile {
+    flex-grow: 1;
+  }
+
   .paddingOnMobile__normal {
     padding: var(--size-normal);
   }
@@ -110,6 +118,10 @@
 }
 
 @media (width < 1000px) {
+  .flexGrowOnTablet {
+    flex-grow: 1;
+  }
+
   .paddingOnTablet__normal {
     padding: var(--size-normal);
   }
@@ -132,6 +144,10 @@
 }
 
 @media (width < 1200px) {
+  .flexGrowOnDesktop {
+    flex-grow: 1;
+  }
+
   .paddingOnDesktop__normal {
     padding: var(--size-normal);
   }
