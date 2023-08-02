@@ -1,5 +1,5 @@
 import { Reaction } from '@prisma/client';
-import { ReactionButton } from '../ReactionButton';
+import { ReactionButton } from '@/components/composed/ReactionButton';
 import { Stack } from '@/components/atomics/Stack';
 import { Text } from '@/components/atomics/Text';
 import { reactions as availableReactions } from '@/model/reaction';

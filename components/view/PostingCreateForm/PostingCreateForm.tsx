@@ -130,7 +130,7 @@ export function PostingCreateForm() {
               label="Bild hinzufügen"
               name="image"
               onChange={validateFormJustInTime}
-              type="postImage"
+              type="postingImage"
             />
           </Stack>
           <Box textAlign="center">

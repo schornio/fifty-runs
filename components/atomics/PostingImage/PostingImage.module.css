@@ -1,0 +1,10 @@
+.default {
+  object-fit: cover;
+}
+
+.size__standalone {
+  display: block;
+  aspect-ratio: 1000 / 400;
+  width: 100%;
+  height: auto;
+}

@@ -14,20 +14,20 @@ import {
   useState,
 } from 'react';
 import { Color } from '@/style/Color';
-import { PostImageSize } from '@/style/PostImageSize';
+import { PostingImageSize } from '@/style/PostingImageSize';
 import { UserImageSize } from '@/style/UserImageSize';
 import { mapStyles } from '@/util/mapStyles';
 import { resizeImage } from '@/util/resizeImage';
 import styles from './InputImage.module.css';
 
-type ImageType = 'userImage' | 'postImage';
+type ImageType = 'userImage' | 'postingImage';
 
 function selectSize(type: ImageType) {
   switch (type) {
     case 'userImage':
       return UserImageSize.standalone;
-    case 'postImage':
-      return PostImageSize.standalone;
+    case 'postingImage':
+      return PostingImageSize.standalone;
   }
   throw new Error(`Unknown type: ${type}`);
 }

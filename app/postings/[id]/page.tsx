@@ -6,7 +6,7 @@ import { Box } from '@/components/atomics/Box';
 import { Comment } from '@/components/view/Comment';
 import { CommentCreateForm } from '@/components/view/CommentCreateForm';
 import { Metadata } from 'next';
-import { Posting } from '@/components/Posting';
+import { Posting } from '@/components/view/Posting';
 import { PostingDeleteButton } from '@/components/view/PostingDeleteButton';
 import { Stack } from '@/components/atomics/Stack';
 import { Visibility } from '@prisma/client';

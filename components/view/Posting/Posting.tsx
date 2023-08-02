@@ -1,13 +1,12 @@
 import { Box } from '@/components/atomics/Box';
-import Image from 'next/image';
 import Link from 'next/link';
+import { PostingImage } from '@/components/atomics/PostingImage';
 import { Reaction } from '@prisma/client';
 import { Reactions } from '@/components/composed/Reactions';
-import { RunningExercise } from '../composed/RunningExercise';
+import { RunningExercise } from '@/components/composed/RunningExercise';
 import { Stack } from '@/components/atomics/Stack';
 import { Text } from '@/components/atomics/Text';
 import { UserLabel } from '@/components/composed/UserLabel';
-import styles from './Posting.module.css';
 
 const { format } = new Intl.DateTimeFormat('de-de', {
   dateStyle: 'full',
@@ -57,15 +56,7 @@ export function Posting({
           </Link>
         </Stack>
       </Box>
-      {image ? (
-        <Image
-          alt=""
-          className={styles.image}
-          height={300}
-          src={image}
-          width={600}
-        />
-      ) : undefined}
+      {image ? <PostingImage image={image} /> : undefined}
       {text && text.length > 0 ? (
         <Box textAlign="center" padding="double">
           {text}

@@ -1,5 +1,5 @@
 import { Box } from '@/components/atomics/Box';
-import { Posting } from '@/components/Posting';
+import { Posting } from '@/components/view/Posting';
 import { PostingCreateForm } from '@/components/view/PostingCreateForm';
 import { Stack } from '@/components/atomics/Stack';
 import { UserImage } from '@/components/atomics/UserImage';
