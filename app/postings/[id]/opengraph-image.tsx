@@ -1,6 +1,6 @@
 import { ImageResponse } from 'next/server';
 import { getCurrentSession } from '@/util/server/getCurrentSession';
-import { getPostingById } from './page';
+import { getPostingById } from '@/service/getPostingById';
 
 // // Route segment config
 // export const runtime = 'nodejs';

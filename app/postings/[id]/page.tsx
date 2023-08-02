@@ -9,58 +9,9 @@ import { Metadata } from 'next';
 import { Posting } from '@/components/view/Posting';
 import { PostingDeleteButton } from '@/components/view/PostingDeleteButton';
 import { Stack } from '@/components/atomics/Stack';
-import { Visibility } from '@prisma/client';
-import { cache } from 'react';
 import { getCurrentSession } from '@/util/server/getCurrentSession';
+import { getPostingById } from '@/service/getPostingById';
 import { notFound } from 'next/navigation';
-import { prisma } from '@/prisma';
-
-export const getPostingById = cache(async (id: string, userId?: string) => {
-  const visibility: Visibility[] = userId
-    ? ['public']
-    : ['public', 'protected'];
-
-  const ownPostingsQuery = userId ? [{ userId }] : [];
-
-  return await prisma.posting.findUnique({
-    include: {
-      comments: {
-        include: {
-          user: {
-            select: {
-              image: true,
-              name: true,
-              nameId: true,
-            },
-          },
-        },
-      },
-      reactions: {
-        include: {
-          user: {
-            select: {
-              image: true,
-              name: true,
-              nameId: true,
-            },
-          },
-        },
-      },
-      runningExercise: true,
-      user: {
-        select: {
-          image: true,
-          name: true,
-          nameId: true,
-        },
-      },
-    },
-    where: {
-      OR: [{ visibility: { in: visibility } }, ...ownPostingsQuery],
-      id,
-    },
-  });
-});
 
 export async function generateMetadata({
   params: { id },
@@ -110,6 +61,7 @@ export default async function PostingByIdPage({
           </IsSharableWrapper>
         ) : undefined}
         <Posting
+          commentCount={posting.comments.length}
           date={posting.date.toISOString()}
           id={posting.id}
           userName={posting.user.name}

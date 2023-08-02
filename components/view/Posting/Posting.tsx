@@ -14,6 +14,7 @@ const { format } = new Intl.DateTimeFormat('de-de', {
 });
 
 export function Posting({
+  commentCount,
   date,
   id,
   image,
@@ -25,6 +26,7 @@ export function Posting({
   userNameId,
   userReactionType,
 }: {
+  commentCount: number;
   date: string;
   id: string;
   image?: string | null;
@@ -33,7 +35,6 @@ export function Posting({
     distanceInMeters: number;
     durationInSeconds: number;
   } | null;
-
   text?: string | null;
   userImage?: string | null;
   userName: string;
@@ -67,12 +68,19 @@ export function Posting({
           <RunningExercise {...runningExercise} />
         </Box>
       ) : undefined}
-      <Box padding="double">
+      <Box padding="normal">
         <Reactions
           postingId={id}
           reactions={reactions}
           userReactionType={userReactionType}
         />
+      </Box>
+      <Box padding="normal" textAlign="center">
+        <Link href={`/postings/${id}`}>
+          <Text color="primary" fontWeight="bold">
+            Kommentare ({commentCount})
+          </Text>
+        </Link>
       </Box>
     </Box>
   );

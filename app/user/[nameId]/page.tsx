@@ -3,7 +3,7 @@ import { Posting } from '@/components/view/Posting';
 import { PostingCreateForm } from '@/components/view/PostingCreateForm';
 import { Stack } from '@/components/atomics/Stack';
 import { UserImage } from '@/components/atomics/UserImage';
-import { UserImageChangeForm } from '@/components/UserImageChangeForm';
+import { UserImageChangeForm } from '@/components/view/UserImageChangeForm';
 import { Visibility } from '@prisma/client';
 import { getCurrentSession } from '@/util/server/getCurrentSession';
 import { notFound } from 'next/navigation';
@@ -43,8 +43,20 @@ export default async function UserByIdPage({
   const isOwnProfile = session?.userId === user?.id;
 
   const postings = await prisma.posting.findMany({
-    include: {
+    orderBy: {
+      date: 'desc',
+    },
+    select: {
+      _count: {
+        select: {
+          comments: true,
+        },
+      },
+      date: true,
+      id: true,
+      image: true,
       runningExercise: true,
+      text: true,
     },
     where: {
       userId: user.id,
@@ -56,46 +68,50 @@ export default async function UserByIdPage({
 
   return (
     <>
-      <Box padding="double">
-        <Stack
-          alignBlock="center"
-          alignInline="center"
-          direction="column"
-          gap="double"
-        >
-          {user.image ? (
-            <UserImage
-              image={user.image}
-              name={user.name}
-              color="primary"
-              size="standalone"
-            />
-          ) : undefined}
-          <h1>{user.name}</h1>{' '}
-        </Stack>
-      </Box>
+      <Box maxWidth="mobile" padding="normal">
+        <Stack alignBlock="stretch" direction="column" gap="normal">
+          <Stack
+            alignBlock="center"
+            alignInline="center"
+            direction="column"
+            gap="double"
+          >
+            {user.image ? (
+              <UserImage
+                image={user.image}
+                name={user.name}
+                color="primary"
+                size="standalone"
+              />
+            ) : undefined}
+            <h1>{user.name}</h1>{' '}
+          </Stack>
 
-      {isOwnProfile ? (
-        <>
-          <UserImageChangeForm />
-        </>
-      ) : undefined}
-      <Box padding="normal">
-        <Stack alignBlock="stretch" direction="column" gap="double">
-          {isOwnProfile ? <PostingCreateForm /> : undefined}
-          {postings.map(({ date, id, image, runningExercise, text }) => (
-            <Posting
-              date={date.toISOString()}
-              id={id}
-              image={image}
-              key={id}
-              runningExercise={runningExercise}
-              text={text}
-              userImage={user.image}
-              userName={user.name}
-              userNameId={user.nameId}
-            />
-          ))}
+          {isOwnProfile ? (
+            <>
+              <PostingCreateForm />
+              <UserImageChangeForm />
+            </>
+          ) : undefined}
+
+          <Stack alignBlock="stretch" direction="column" gap="double">
+            {postings.map(
+              ({ _count, date, id, image, runningExercise, text }) => (
+                <Posting
+                  commentCount={_count.comments}
+                  date={date.toISOString()}
+                  id={id}
+                  image={image}
+                  key={id}
+                  runningExercise={runningExercise}
+                  text={text}
+                  userImage={user.image}
+                  userName={user.name}
+                  userNameId={user.nameId}
+                />
+              )
+            )}
+          </Stack>
         </Stack>
       </Box>
     </>

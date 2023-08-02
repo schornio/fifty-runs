@@ -22,9 +22,21 @@ export default async function PostingsPage() {
     : [];
 
   const postings = await prisma.posting.findMany({
-    include: {
+    orderBy: {
+      date: 'desc',
+    },
+    select: {
+      _count: {
+        select: {
+          comments: true,
+        },
+      },
+      date: true,
+      id: true,
+      image: true,
       reactions: true,
       runningExercise: true,
+      text: true,
       user: {
         select: {
           image: true,
@@ -32,9 +44,6 @@ export default async function PostingsPage() {
           nameId: true,
         },
       },
-    },
-    orderBy: {
-      date: 'desc',
     },
     where: {
       OR: [
@@ -53,8 +62,18 @@ export default async function PostingsPage() {
       <Stack alignBlock="stretch" direction="column" gap="double">
         {session ? <PostingCreateForm /> : undefined}
         {postings.map(
-          ({ date, id, image, reactions, runningExercise, text, user }) => (
+          ({
+            _count,
+            date,
+            id,
+            image,
+            reactions,
+            runningExercise,
+            text,
+            user,
+          }) => (
             <Posting
+              commentCount={_count.comments}
               date={date.toISOString()}
               runningExercise={runningExercise}
               id={id}

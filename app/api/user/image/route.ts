@@ -1,21 +1,35 @@
 import { del, put } from '@/util/server/vercelBlobShim';
+import { changeUserImageSchema } from '@/schema/changeUserImage';
 import { getCurrentSession } from '@/util/server/getCurrentSession';
 import { prisma } from '@/prisma';
 
-export async function POST(request: Request) {
+export async function PUT(request: Request) {
   try {
+    const formData = await request.formData();
+    const entities = Object.fromEntries(formData.entries());
+    const { image } = changeUserImageSchema.parse(entities);
+
     const session = await getCurrentSession();
     if (!session) {
       throw new Error('Invalid session');
     }
 
-    const formData = await request.formData();
-
-    const imageData = formData.get('image');
-    if (imageData instanceof Blob && imageData.size > 0) {
-      const { url } = await put(imageData.name, imageData, {
-        access: 'public',
+    if (image && image.size > 0) {
+      const current = await prisma.user.findUnique({
+        select: {
+          image: true,
+        },
+        where: {
+          id: session.userId,
+        },
       });
+
+      const [{ url }] = await Promise.all([
+        put(image.name, image, {
+          access: 'public',
+        }),
+        current?.image ? del(current.image) : undefined,
+      ]);
 
       await prisma.user.update({
         data: {
