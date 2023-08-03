@@ -11,6 +11,7 @@ const nextConfig = {
   },
   images: {
     domains: ['fifty-runs-files.s3.fr-par.scw.cloud'],
+    minimumCacheTTL: 60 * 60 * 24 * 30, // 30 days
   },
 };
 
