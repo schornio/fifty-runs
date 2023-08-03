@@ -3,6 +3,7 @@ import {
   HeaderMenuWrapper,
 } from '@/components/composed/HeaderMenu';
 import { Box } from '@/components/atomics/Box';
+import { HorizontalRule } from '@/components/atomics/HorizontalRule';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Stack } from '@/components/atomics/Stack';
@@ -87,7 +88,7 @@ export async function Header() {
           </Box>
         </Stack>
       </HeaderMenuWrapper>
-      <hr />
+      <HorizontalRule color="gray" />
     </header>
   );
 }

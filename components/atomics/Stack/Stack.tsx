@@ -12,6 +12,7 @@ function StackComponent({
   alignInline?: 'start' | 'center' | 'end' | 'spaceBetween' | 'spaceAround';
   direction?: 'row' | 'column';
   gap?: Size;
+  layout?: '1' | '2' | '3' | '1x2' | '2x1';
 }> & {
   children?: ReactNode;
 }) {

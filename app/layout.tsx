@@ -5,8 +5,6 @@ import { Metadata } from 'next';
 import { Montserrat } from 'next/font/google';
 import { ReactNode } from 'react';
 import { Stack } from '@/components/atomics/Stack';
-// import { getCurrentSession } from '@/util/server/getCurrentSession';
-// import { prisma } from '@/prisma';
 
 const montserrat = Montserrat({ subsets: ['latin'] });
 
@@ -29,11 +27,6 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
-  // const session = await getCurrentSession();
-  // const user = await (session
-  //   ? prisma.user.findUnique({ where: { id: session.userId } })
-  //   : undefined);
-
   return (
     <html lang="de">
       <body className={montserrat.className}>

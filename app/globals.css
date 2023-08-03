@@ -59,12 +59,6 @@ ol {
   padding-inline-start: 1em;
 }
 
-hr {
-  border: none;
-  border-block-end: var(--border-thin);
-  border-color: var(--color-gray);
-}
-
 a {
   text-decoration: none;
 }

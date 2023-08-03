@@ -54,6 +54,34 @@
   gap: var(--size-double);
 }
 
+.layout__1 > * {
+  width: 100%;
+}
+
+.layout__2 > * {
+  width: 50%;
+}
+
+.layout__3 > * {
+  width: 33.333%;
+}
+
+.layout__1x2 > *:nth-child(2n + 1) {
+  width: 33.3333%;
+}
+
+.layout__1x2 > *:nth-child(2n) {
+  width: 66.6666%;
+}
+
+.layout__2x1 > *:nth-child(2n + 1) {
+  width: 66.6666%;
+}
+
+.layout__2x1 > *:nth-child(2n) {
+  width: 33.3333%;
+}
+
 @media (width < 700px) {
   .alignBlockOnMobile__start {
     align-items: start;
@@ -105,6 +133,34 @@
 
   .gapOnMobile__double {
     gap: var(--size-double);
+  }
+
+  .layoutOnMobile__1 > * {
+    width: 100%;
+  }
+
+  .layoutOnMobile__2 > * {
+    width: 50%;
+  }
+
+  .layoutOnMobile__3 > * {
+    width: 33.333%;
+  }
+
+  .layoutOnMobile__1x2 > *:nth-child(2n + 1) {
+    width: 33.3333%;
+  }
+
+  .layoutOnMobile__1x2 > *:nth-child(2n) {
+    width: 66.6666%;
+  }
+
+  .layoutOnMobile__2x1 > *:nth-child(2n + 1) {
+    width: 66.6666%;
+  }
+
+  .layoutOnMobile__2x1 > *:nth-child(2n) {
+    width: 33.3333%;
   }
 }
 
@@ -160,6 +216,34 @@
   .gapOnTablet__double {
     gap: var(--size-double);
   }
+
+  .layoutOnTablet__1 > * {
+    width: 100%;
+  }
+
+  .layoutOnTablet__2 > * {
+    width: 50%;
+  }
+
+  .layoutOnTablet__3 > * {
+    width: 33.333%;
+  }
+
+  .layoutOnTablet__1x2 > *:nth-child(2n + 1) {
+    width: 33.3333%;
+  }
+
+  .layoutOnTablet__1x2 > *:nth-child(2n) {
+    width: 66.6666%;
+  }
+
+  .layoutOnTablet__2x1 > *:nth-child(2n + 1) {
+    width: 66.6666%;
+  }
+
+  .layoutOnTablet__2x1 > *:nth-child(2n) {
+    width: 33.3333%;
+  }
 }
 
 @media (width < 1200px) {
@@ -213,5 +297,33 @@
 
   .gapOnDesktop__double {
     gap: var(--size-double);
+  }
+
+  .layoutOnDesktop__1 > * {
+    width: 100%;
+  }
+
+  .layoutOnDesktop__2 > * {
+    width: 50%;
+  }
+
+  .layoutOnDesktop__3 > * {
+    width: 33.333%;
+  }
+
+  .layoutOnDesktop__1x2 > *:nth-child(2n + 1) {
+    width: 33.3333%;
+  }
+
+  .layoutOnDesktop__1x2 > *:nth-child(2n) {
+    width: 66.6666%;
+  }
+
+  .layoutOnDesktop__2x1 > *:nth-child(2n + 1) {
+    width: 66.6666%;
+  }
+
+  .layoutOnDesktop__2x1 > *:nth-child(2n) {
+    width: 33.3333%;
   }
 }

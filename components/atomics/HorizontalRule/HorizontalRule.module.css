@@ -1,0 +1,32 @@
+.default {
+  border: none;
+  width: 100%;
+}
+
+.border__thin {
+  border-block-end: var(--border-thin);
+}
+
+.border__bold {
+  border-block-end: var(--border-bold);
+}
+
+.color__primary {
+  border-color: var(--color-primary);
+}
+
+.color__secondary {
+  border-color: var(--color-secondary);
+}
+
+.color__gray {
+  border-color: var(--color-gray);
+}
+
+.color__success {
+  border-color: var(--color-success);
+}
+
+.color__error {
+  border-color: var(--color-error);
+}
