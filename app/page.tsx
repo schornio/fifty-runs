@@ -109,7 +109,12 @@ export default function Home() {
                   textAlign="start"
                   variant="outlined"
                 >
-                  <Stack gap="normal" layout="2x1">
+                  <Stack
+                    directionOnMobile="column"
+                    gap="normal"
+                    layout="2x1"
+                    layoutOnMobile="1"
+                  >
                     <Text color="primary" fontSize="sub">
                       <strong>
                         Wie funktioniert die Spende an die Herzkinder Ö?
@@ -135,7 +140,12 @@ export default function Home() {
                 <h2>Wer?</h2>
                 Rund 50 begeisterte LäuferInnen und UnterstützerInnen waren bei
                 den letzen #50runs mit dabei. Lass dich von ihnen begeistern!
-                <Stack gap="normal" layout="3">
+                <Stack
+                  gap="normal"
+                  layout="3"
+                  directionOnMobile="column"
+                  layoutOnMobile="1"
+                >
                   <Box
                     color="secondary"
                     padding="normal"
