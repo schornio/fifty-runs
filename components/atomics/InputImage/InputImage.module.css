@@ -37,7 +37,7 @@
   position: relative;
 }
 
-.default.type__postImage {
+.default.type__postingImage {
   width: 100%;
   aspect-ratio: 1000 / 400;
 }
@@ -63,7 +63,7 @@
   text-align: center;
 }
 
-.label.type__postImage {
+.label.type__postingImage {
   border: var(--border-thin);
   border-radius: var(--border-radius);
   border-color: var(--input-color-text);

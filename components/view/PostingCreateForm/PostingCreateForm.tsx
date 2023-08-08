@@ -88,7 +88,7 @@ export function PostingCreateForm() {
         }
       }
     },
-    [validateForm, invokeCreatePosting, router]
+    [validateForm, invokeCreatePosting, router],
   );
 
   if (!formVisible) {
@@ -133,11 +133,12 @@ export function PostingCreateForm() {
               type="postingImage"
             />
           </Stack>
-          <Box textAlign="center">
-            <h3>Distanz</h3>
-          </Box>
+
           {type === 'runningExercise' ? (
             <>
+              <Box textAlign="center">
+                <h3>Distanz</h3>
+              </Box>
               <Stack alignInline="center" direction="row" gap="normal">
                 <InputText
                   error={errors}
