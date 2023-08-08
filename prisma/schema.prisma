@@ -1,8 +1,7 @@
 datasource db {
-    provider          = "postgresql"
-    url               = env("POSTGRES_PRISMA_URL") // uses connection pooling
-    directUrl         = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
-    shadowDatabaseUrl = env("POSTGRES_URL_NON_POOLING") // used for migrations
+    provider  = "postgresql"
+    url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
+    directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
 generator client {
@@ -16,19 +15,22 @@ enum Visibility {
 }
 
 model User {
-    id               String            @id @default(uuid())
-    name             String            @unique
-    nameId           String            @unique
-    email            String            @unique
-    password         String
-    image            String?
-    sessions         Session[]
-    reactions        Reaction[]
-    postings         Posting[]
-    comments         Comment[]
-    runningStatistic RunningStatistic?
+    id                     String            @id @default(uuid())
+    name                   String            @unique
+    nameId                 String            @unique
+    email                  String            @unique
+    emailVerified          Boolean           @default(false)
+    emailVerificationToken String?
+    password               String
+    image                  String?
+    sessions               Session[]
+    reactions              Reaction[]
+    postings               Posting[]
+    comments               Comment[]
+    runningStatistic       RunningStatistic?
 
     @@unique([nameId, email])
+    @@index([emailVerificationToken])
 }
 
 model Session {

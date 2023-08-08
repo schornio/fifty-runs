@@ -31,6 +31,10 @@ export async function POST(request: Request) {
       throw new Error('Passwords do not match');
     }
 
+    if (!user.emailVerified) {
+      throw new Error('Email not verified');
+    }
+
     await createSession(user.id);
 
     return new Response();
