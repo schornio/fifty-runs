@@ -59,7 +59,7 @@ export async function getPostings(args?: {
       date: 'desc',
     },
     select: selectPosting,
-    take: 2,
+    take: 5,
     where: {
       OR: [
         {
