@@ -1,4 +1,5 @@
 import { Box } from '@/components/atomics/Box';
+import { PasswordChangeForm } from '@/components/view/PasswordChangeForm';
 import { Posting } from '@/components/view/Posting';
 import { PostingCreateForm } from '@/components/view/PostingCreateForm';
 import { Stack } from '@/components/atomics/Stack';
@@ -11,7 +12,7 @@ import { prisma } from '@/prisma';
 
 function selectVisibility(
   hasSession: boolean,
-  isOwnProfile: boolean
+  isOwnProfile: boolean,
 ): Visibility[] {
   if (isOwnProfile) {
     return ['private', 'protected', 'public'];
@@ -91,6 +92,7 @@ export default async function UserByIdPage({
             <>
               <PostingCreateForm />
               <UserImageChangeForm />
+              <PasswordChangeForm />
             </>
           ) : undefined}
 
@@ -109,7 +111,7 @@ export default async function UserByIdPage({
                   userName={user.name}
                   userNameId={user.nameId}
                 />
-              )
+              ),
             )}
           </Stack>
         </Stack>

@@ -4,28 +4,28 @@ import { FormEvent, useCallback, useState } from 'react';
 import { Box } from '@/components/atomics/Box';
 import { Button } from '@/components/atomics/Button';
 import { ButtonAction } from '@/components/composed/ButtonAction';
-import { InputImage } from '@/components/atomics/InputImage';
+import { InputText } from '@/components/atomics/InputText';
 import { Stack } from '@/components/atomics/Stack';
-import { changeUserImageSchema } from '@/schema/changeUserImage';
+import { changePasswordSchema } from '@/schema/changePassword';
 import { usePromise } from '@/util/usePromise';
 import { useRouter } from 'next/navigation';
 import { useValidation } from '@/util/form/useValidation';
 
-async function updateImage(formData: FormData) {
-  const result = await fetch('/api/user/image', {
+async function login(formData: FormData) {
+  const result = await fetch('/api/user/changePassword', {
     body: formData,
-    method: 'PUT',
+    method: 'POST',
   });
   if (!result.ok) {
     throw new Error();
   }
 }
 
-export function UserImageChangeForm() {
+export function PasswordChangeForm() {
   const router = useRouter();
   const { errors, formRef, validateForm, validateFormJustInTime } =
-    useValidation(changeUserImageSchema);
-  const { invoke: invokeUpdateImage, status } = usePromise(updateImage);
+    useValidation(changePasswordSchema);
+  const { invoke: invokeChangePassword, status } = usePromise(login);
   const [formVisible, setFormVisible] = useState(false);
 
   const onShowClick = useCallback(() => {
@@ -42,21 +42,20 @@ export function UserImageChangeForm() {
       const formData = validateForm();
 
       if (formData) {
-        const result = await invokeUpdateImage(formData);
+        const result = await invokeChangePassword(formData);
 
         if (result.status === 'resolved') {
           router.refresh();
-          setFormVisible(false);
         }
       }
     },
-    [validateForm, invokeUpdateImage, router],
+    [validateForm, invokeChangePassword, router],
   );
 
   if (!formVisible) {
     return (
       <Button onClick={onShowClick} type="button">
-        Profilbild ändern
+        Passwort ändern
       </Button>
     );
   }
@@ -72,22 +71,34 @@ export function UserImageChangeForm() {
       <form onSubmit={onSubmit} ref={formRef}>
         <Stack alignBlock="stretch" direction="column" gap="normal">
           <Box textAlign="center">
-            <h2>Profilbild ändern</h2>
+            <h2>Passwort ändern</h2>
           </Box>
-          <Stack alignInline="center" direction="row">
-            <InputImage
-              error={errors}
-              label="Bild hinzufügen"
-              name="image"
-              onChange={validateFormJustInTime}
-              type="userImage"
-            />
-          </Stack>
+          <InputText
+            error={errors}
+            label="Altes Passwort"
+            name="oldPassword"
+            onChange={validateFormJustInTime}
+            type="password"
+          />
+          <InputText
+            error={errors}
+            label="Neues Passwort"
+            name="newPassword"
+            onChange={validateFormJustInTime}
+            type="password"
+          />
+          <InputText
+            error={errors}
+            label="Neues Passwort wiederholen"
+            name="repeatNewPassword"
+            onChange={validateFormJustInTime}
+            type="password"
+          />
           <ButtonAction
-            contentPending="Ändern..."
-            contentRejected="Ändern fehlgeschlagen"
-            contentResolved="Hinzugefügt"
-            contentStandby="Ändern"
+            contentPending="Passwort ändern..."
+            contentRejected="Passwort ändern fehlgeschlagen"
+            contentResolved="Passwort ändern erfolgreich"
+            contentStandby="Passwort ändern"
             status={status}
             type="submit"
           />
