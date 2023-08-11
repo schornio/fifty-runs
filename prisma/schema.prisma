@@ -15,19 +15,21 @@ enum Visibility {
 }
 
 model User {
-    id                     String            @id @default(uuid())
-    name                   String            @unique
-    nameId                 String            @unique
-    email                  String            @unique
-    emailVerified          Boolean           @default(false)
-    emailVerificationToken String?
-    password               String
-    image                  String?
-    sessions               Session[]
-    reactions              Reaction[]
-    postings               Posting[]
-    comments               Comment[]
-    runningStatistic       RunningStatistic?
+    id                       String            @id @default(uuid())
+    name                     String            @unique
+    nameId                   String            @unique
+    email                    String            @unique
+    emailVerified            Boolean           @default(false)
+    emailVerificationToken   String?
+    password                 String
+    passwordResetToken       String?
+    passwordResetTokenExpiry DateTime?
+    image                    String?
+    sessions                 Session[]
+    reactions                Reaction[]
+    postings                 Posting[]
+    comments                 Comment[]
+    runningStatistic         RunningStatistic?
 
     @@unique([nameId, email])
     @@index([emailVerificationToken])

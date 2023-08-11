@@ -1,18 +1,17 @@
 'use client';
 
-import { FormEvent, useCallback, useState } from 'react';
+import { FormEvent, useCallback } from 'react';
 import { Box } from '@/components/atomics/Box';
-import { Button } from '@/components/atomics/Button';
 import { ButtonAction } from '@/components/composed/ButtonAction';
 import { InputText } from '@/components/atomics/InputText';
 import { Stack } from '@/components/atomics/Stack';
-import { changePasswordSchema } from '@/schema/changePassword';
+import { resetPasswordSchema } from '@/schema/resetPassword';
 import { usePromise } from '@/util/usePromise';
 import { useRouter } from 'next/navigation';
 import { useValidation } from '@/util/form/useValidation';
 
-async function passwordChange(formData: FormData) {
-  const result = await fetch('/api/user/changePassword', {
+async function passwordReset(formData: FormData) {
+  const result = await fetch(`/api/user/passwordForgotten/reset`, {
     body: formData,
     method: 'POST',
   });
@@ -21,20 +20,15 @@ async function passwordChange(formData: FormData) {
   }
 }
 
-export function PasswordChangeForm() {
+export function PasswordResetForm({
+  passwordResetToken,
+}: {
+  passwordResetToken: string;
+}) {
   const router = useRouter();
   const { errors, formRef, validateForm, validateFormJustInTime } =
-    useValidation(changePasswordSchema);
-  const { invoke: invokeChangePassword, status } = usePromise(passwordChange);
-  const [formVisible, setFormVisible] = useState(false);
-
-  const onShowClick = useCallback(() => {
-    setFormVisible(true);
-  }, []);
-
-  const onHideClick = useCallback(() => {
-    setFormVisible(false);
-  }, []);
+    useValidation(resetPasswordSchema);
+  const { invoke: invokeChangePassword, status } = usePromise(passwordReset);
 
   const onSubmit = useCallback(
     async (eventArgs: FormEvent<HTMLFormElement>) => {
@@ -46,19 +40,12 @@ export function PasswordChangeForm() {
 
         if (result.status === 'resolved') {
           router.refresh();
+          router.push('/user/login');
         }
       }
     },
     [validateForm, invokeChangePassword, router],
   );
-
-  if (!formVisible) {
-    return (
-      <Button onClick={onShowClick} type="button">
-        Passwort ändern
-      </Button>
-    );
-  }
 
   return (
     <Box
@@ -73,12 +60,10 @@ export function PasswordChangeForm() {
           <Box textAlign="center">
             <h2>Passwort ändern</h2>
           </Box>
-          <InputText
-            error={errors}
-            label="Altes Passwort"
-            name="oldPassword"
-            onChange={validateFormJustInTime}
-            type="password"
+          <input
+            type="hidden"
+            name="passwordResetToken"
+            value={passwordResetToken}
           />
           <InputText
             error={errors}
@@ -102,9 +87,6 @@ export function PasswordChangeForm() {
             status={status}
             type="submit"
           />
-          <Button onClick={onHideClick} type="button" variant="text">
-            Abbrechen
-          </Button>
         </Stack>
       </form>
     </Box>

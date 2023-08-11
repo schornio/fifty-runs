@@ -4,7 +4,9 @@ import { FormEvent, useCallback } from 'react';
 import { Box } from '@/components/atomics/Box';
 import { ButtonAction } from '@/components/composed/ButtonAction';
 import { InputText } from '@/components/atomics/InputText';
+import Link from 'next/link';
 import { Stack } from '@/components/atomics/Stack';
+import { Text } from '@/components/atomics/Text';
 import { loginSchema } from '@/schema/login';
 import { usePromise } from '@/util/usePromise';
 import { useRouter } from 'next/navigation';
@@ -40,7 +42,7 @@ export function LoginForm() {
         }
       }
     },
-    [validateForm, invokeLogin, router]
+    [validateForm, invokeLogin, router],
   );
 
   return (
@@ -72,6 +74,11 @@ export function LoginForm() {
             status={status}
             type="submit"
           />
+          <Box textAlign="center">
+            <Link href="/user/passwordForgotten">
+              <Text color="primary">Passwort vergessen?</Text>
+            </Link>
+          </Box>
         </Stack>
       </form>
     </Box>
