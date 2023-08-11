@@ -1,9 +1,21 @@
+import { NextResponse } from 'next/server';
 import { getCurrentSession } from '@/util/server/getCurrentSession';
+import { getPostings } from '@/model/posting/getPostings';
 import { postingSchema } from '@/schema/posting';
 import { prisma } from '@/prisma';
 import { put } from '@/util/server/vercelBlobShim';
 import { runningExperciseSchema } from '@/schema/runningExercise';
 import { z } from 'zod';
+
+export async function GET(request: Request) {
+  const url = new URL(request.url);
+  const from = url.searchParams.get('from') ?? undefined;
+
+  const session = await getCurrentSession();
+  const postings = await getPostings({ from, session });
+
+  return NextResponse.json(postings);
+}
 
 const requestSchema = z.union([postingSchema, runningExperciseSchema]);
 

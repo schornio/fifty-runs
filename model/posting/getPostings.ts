@@ -1,0 +1,79 @@
+import { Prisma, Session, Visibility } from '@prisma/client';
+import { prisma } from '@/prisma';
+
+type JSONParsed<T> = T extends Date
+  ? string
+  : T extends Array<infer U>
+  ? Array<JSONParsed<U>>
+  : T extends object
+  ? { [K in keyof T]: JSONParsed<T[K]> }
+  : T;
+
+const selectPosting = {
+  _count: {
+    select: {
+      comments: true,
+    },
+  },
+  date: true,
+  id: true,
+  image: true,
+  reactions: true,
+  runningExercise: true,
+  text: true,
+  user: {
+    select: {
+      image: true,
+      name: true,
+      nameId: true,
+    },
+  },
+};
+
+export type PostingResponse = Prisma.PostingGetPayload<{
+  select: typeof selectPosting;
+}>[];
+
+export type PostingResponseParsed = JSONParsed<PostingResponse>;
+
+export async function getPostings(args?: {
+  from?: string | Date;
+  session?: Session | null;
+}) {
+  const { from, session } = args ?? {};
+
+  const visibility: Visibility[] = session
+    ? ['public', 'protected']
+    : ['public'];
+
+  const ownPostingsQuery = session
+    ? [
+        {
+          userId: session.userId,
+        },
+      ]
+    : [];
+
+  const postings = await prisma.posting.findMany({
+    orderBy: {
+      date: 'desc',
+    },
+    select: selectPosting,
+    take: 2,
+    where: {
+      OR: [
+        {
+          visibility: {
+            in: visibility,
+          },
+        },
+        ...ownPostingsQuery,
+      ],
+      date: {
+        lt: from ? new Date(from) : new Date(),
+      },
+    },
+  });
+
+  return postings;
+}

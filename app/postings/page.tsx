@@ -1,61 +1,16 @@
 import { Box } from '@/components/atomics/Box';
+import { MorePostings } from '@/components/view/MorePostings';
 import { Posting } from '@/components/view/Posting';
 import { PostingCreateForm } from '@/components/view/PostingCreateForm';
 import { Stack } from '@/components/atomics/Stack';
-import { Visibility } from '@prisma/client';
 import { getCurrentSession } from '@/util/server/getCurrentSession';
-import { prisma } from '@/prisma';
+import { getPostings } from '@/model/posting/getPostings';
 
 export default async function PostingsPage() {
   const session = await getCurrentSession();
 
-  const visibility: Visibility[] = session
-    ? ['public', 'protected']
-    : ['public'];
-
-  const ownPostingsQuery = session
-    ? [
-        {
-          userId: session.userId,
-        },
-      ]
-    : [];
-
-  const postings = await prisma.posting.findMany({
-    orderBy: {
-      date: 'desc',
-    },
-    select: {
-      _count: {
-        select: {
-          comments: true,
-        },
-      },
-      date: true,
-      id: true,
-      image: true,
-      reactions: true,
-      runningExercise: true,
-      text: true,
-      user: {
-        select: {
-          image: true,
-          name: true,
-          nameId: true,
-        },
-      },
-    },
-    where: {
-      OR: [
-        {
-          visibility: {
-            in: visibility,
-          },
-        },
-        ...ownPostingsQuery,
-      ],
-    },
-  });
+  const postings = await getPostings({ session });
+  const latestFrom = postings[postings.length - 1]?.date.toISOString();
 
   return (
     <Box maxWidth="mobile" padding="normal">
@@ -86,12 +41,13 @@ export default async function PostingsPage() {
               userNameId={user.nameId}
               userReactionType={
                 reactions.find(
-                  (reaction) => reaction.userId === session?.userId
+                  (reaction) => reaction.userId === session?.userId,
                 )?.type
               }
             />
-          )
+          ),
         )}
+        <MorePostings from={latestFrom} userId={session?.userId} />
       </Stack>
     </Box>
   );
