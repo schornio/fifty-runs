@@ -9,6 +9,9 @@ import { Metadata } from 'next';
 import { Posting } from '@/components/view/Posting';
 import { PostingDeleteButton } from '@/components/view/PostingDeleteButton';
 import { Stack } from '@/components/atomics/Stack';
+import { Text } from '@/components/atomics/Text';
+import { UserLabel } from '@/components/composed/UserLabel';
+import { reactions as availableReactions } from '@/model/reaction';
 import { getCurrentSession } from '@/util/server/getCurrentSession';
 import { getPostingById } from '@/service/getPostingById';
 import { notFound } from 'next/navigation';
@@ -47,8 +50,13 @@ export default async function PostingByIdPage({
 
   const ownPosting = posting.userId === session?.userId;
   const userReactionType = posting.reactions.find(
-    (reaction) => reaction.userId === session?.userId
+    (reaction) => reaction.userId === session?.userId,
   )?.type;
+
+  const reactions = posting.reactions.map((reaction) => ({
+    ...reaction,
+    icon: availableReactions.find((r) => r.type === reaction.type)?.icon ?? '',
+  }));
 
   return (
     <Box maxWidth="mobile" padding="normal">
@@ -73,6 +81,30 @@ export default async function PostingByIdPage({
           reactions={posting.reactions}
           userReactionType={userReactionType}
         />
+
+        {reactions.length > 0 ? (
+          <Stack gap="normal" wrap={true}>
+            {reactions.map((reaction) => (
+              <Box
+                color="primary"
+                padding="normal"
+                roundedCorners={true}
+                variant="outlined"
+                key={reaction.id}
+              >
+                <Stack alignBlock="center" gap="normal">
+                  <UserLabel
+                    userName={reaction.user.name}
+                    userNameId={reaction.user.nameId}
+                    userImage={reaction.user.image}
+                  />
+                  <Text fontSize="heading2">{reaction.icon}</Text>
+                </Stack>
+              </Box>
+            ))}
+          </Stack>
+        ) : undefined}
+
         {posting.comments.map((comment) => (
           <Comment
             date={comment.date.toISOString()}

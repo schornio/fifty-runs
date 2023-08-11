@@ -82,6 +82,10 @@
   width: 33.3333%;
 }
 
+.wrap {
+  flex-wrap: wrap;
+}
+
 @media (width < 700px) {
   .alignBlockOnMobile__start {
     align-items: start;
@@ -161,6 +165,10 @@
 
   .layoutOnMobile__2x1 > *:nth-child(2n) {
     width: 33.3333%;
+  }
+
+  .wrapOnMobile {
+    flex-wrap: wrap;
   }
 }
 
@@ -244,6 +252,10 @@
   .layoutOnTablet__2x1 > *:nth-child(2n) {
     width: 33.3333%;
   }
+
+  .wrapOnTablet {
+    flex-wrap: wrap;
+  }
 }
 
 @media (width < 1200px) {
@@ -325,5 +337,9 @@
 
   .layoutOnDesktop__2x1 > *:nth-child(2n) {
     width: 33.3333%;
+  }
+
+  .wrapOnDesktop {
+    flex-wrap: wrap;
   }
 }

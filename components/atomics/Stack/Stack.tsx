@@ -13,6 +13,7 @@ function StackComponent({
   direction?: 'row' | 'column';
   gap?: Size;
   layout?: '1' | '2' | '3' | '1x2' | '2x1';
+  wrap?: boolean;
 }> & {
   children?: ReactNode;
 }) {
