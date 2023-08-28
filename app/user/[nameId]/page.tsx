@@ -1,14 +1,22 @@
 import { Box } from '@/components/atomics/Box';
+import { DonationMultiplierSetForm } from '@/components/view/DonationMultiplierSetForm';
 import { PasswordChangeForm } from '@/components/view/PasswordChangeForm';
 import { Posting } from '@/components/view/Posting';
 import { PostingCreateForm } from '@/components/view/PostingCreateForm';
 import { Stack } from '@/components/atomics/Stack';
+import { Text } from '@/components/atomics/Text';
 import { UserImage } from '@/components/atomics/UserImage';
 import { UserImageChangeForm } from '@/components/view/UserImageChangeForm';
 import { Visibility } from '@prisma/client';
+import { donationMultiplierToNumber } from '@/model/donationMultiplierToNumber';
 import { getCurrentSession } from '@/util/server/getCurrentSession';
 import { notFound } from 'next/navigation';
 import { prisma } from '@/prisma';
+
+const { format: formatCurrency } = new Intl.NumberFormat('de-de', {
+  currency: 'EUR',
+  style: 'currency',
+});
 
 function selectVisibility(
   hasSession: boolean,
@@ -68,6 +76,21 @@ export default async function UserByIdPage({
     },
   });
 
+  const donationSum = postings.reduce((sum, { donation, runningExercise }) => {
+    if (donation) {
+      return sum + donation.amountInCent;
+    }
+
+    if (runningExercise) {
+      return (
+        sum +
+        donationMultiplierToNumber(user.runDonationMultiplier ?? 'nothing')
+      );
+    }
+
+    return sum;
+  }, 0);
+
   return (
     <>
       <Box maxWidth="mobile" padding="normal">
@@ -89,9 +112,22 @@ export default async function UserByIdPage({
             <h1>{user.name}</h1>{' '}
           </Stack>
 
+          {donationSum > 0 ? (
+            <Box padding="double" textAlign="center">
+              <Text color="gold" fontWeight="bold" fontSize="heading1">
+                {formatCurrency(donationSum / 100)}
+              </Text>
+              <br />
+              Spenden gesamt
+            </Box>
+          ) : undefined}
+
           {isOwnProfile ? (
             <>
               <PostingCreateForm />
+              <DonationMultiplierSetForm
+                runDonationMultiplier={user.runDonationMultiplier}
+              />
               <UserImageChangeForm />
               <PasswordChangeForm />
             </>

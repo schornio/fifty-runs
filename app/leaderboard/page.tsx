@@ -5,6 +5,7 @@ import { TableCell } from '@/components/atomics/TableCell';
 import { Text } from '@/components/atomics/Text';
 import { UserLabel } from '@/components/composed/UserLabel';
 import { cache } from 'react';
+import { donationMultiplierToNumber } from '@/model/donationMultiplierToNumber';
 import { prisma } from '@/prisma';
 
 const { format: formatCurrency } = new Intl.NumberFormat('de-de', {
@@ -22,7 +23,7 @@ const getDonationSum = cache(async () => {
   return donations._sum.amountInCent ?? 0;
 });
 
-const getTopUsersByRuns = cache(async () => {
+const getAllUsersByRuns = cache(async () => {
   return await prisma.runningStatistic.findMany({
     orderBy: {
       numberOfRuns: 'desc',
@@ -34,10 +35,10 @@ const getTopUsersByRuns = cache(async () => {
           image: true,
           name: true,
           nameId: true,
+          runDonationMultiplier: true,
         },
       },
     },
-    take: 5,
   });
 });
 
@@ -80,13 +81,27 @@ const getTopUsersByDuration = cache(async () => {
 });
 
 export default async function LeaderboardPage() {
-  const [dontations, topUsersByRuns, topUsersByDistance, topUsersByDuration] =
+  const [dontations, allUsersByRuns, topUsersByDistance, topUsersByDuration] =
     await Promise.all([
       getDonationSum(),
-      getTopUsersByRuns(),
+      getAllUsersByRuns(),
       getTopUsersByDistance(),
       getTopUsersByDuration(),
     ]);
+
+  const topUsersByRuns = [...allUsersByRuns].splice(0, 5);
+  const donationsByRuns = allUsersByRuns.reduce(
+    (sum, { numberOfRuns, user }) => {
+      return (
+        sum +
+        donationMultiplierToNumber(user.runDonationMultiplier ?? 'nothing') *
+          numberOfRuns
+      );
+    },
+    0,
+  );
+
+  const allDonations = dontations + donationsByRuns;
 
   const maxDistanceInMeters = topUsersByDistance[0]?.distanceInMeters ?? 0;
   const maxDurationInSeconds = topUsersByDuration[0]?.durationInSeconds ?? 0;
@@ -96,7 +111,7 @@ export default async function LeaderboardPage() {
       <Stack alignBlock="stretch" direction="column" gap="double">
         <Box padding="double" textAlign="center">
           <Text color="gold" fontWeight="bold" fontSize="heading1">
-            {formatCurrency(dontations / 100)}
+            {formatCurrency(allDonations / 100)}
           </Text>
           <br />
           Spenden gesamt
