@@ -21,7 +21,7 @@
 
 .color__gold {
   --button-color-text: var(--color-gold);
-  --button-color-background: var(--color-background);
+  --button-color-background: var(--color-text);
 }
 
 .color__text {
