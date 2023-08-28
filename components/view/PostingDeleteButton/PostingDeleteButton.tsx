@@ -22,6 +22,7 @@ export function PostingDeleteButton({ id }: { id: string }) {
     const result = await invokeDeleteComment(id);
     if (result.status === 'resolved') {
       router.push('/postings');
+      router.refresh();
     }
   }, [invokeDeleteComment, id, router]);
 
