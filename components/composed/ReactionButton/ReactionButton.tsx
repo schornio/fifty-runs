@@ -1,31 +1,9 @@
 'use client';
 
-import { PromiseState, usePromise } from '@/util/usePromise';
-import { ReactNode, memo, useCallback, useState } from 'react';
+import { ReactNode, memo, useCallback } from 'react';
 import { Button } from '@/components/atomics/Button';
+import { PromiseState } from '@/util/usePromise';
 import { ReactionType } from '@/model/reaction';
-
-async function updateReaction({
-  postingId,
-  selected,
-  type,
-}: {
-  postingId: string;
-  selected: boolean;
-  type: ReactionType;
-}) {
-  const body = new FormData();
-  body.append('type', type);
-
-  const response = await fetch(`/api/posting/${postingId}/react`, {
-    body,
-    method: selected ? 'DELETE' : 'PUT',
-  });
-
-  if (!response.ok) {
-    throw new Error('Could not create reaction');
-  }
-}
 
 function selectColor(status: PromiseState['status'], selected: boolean) {
   switch (status) {
@@ -40,47 +18,33 @@ function selectColor(status: PromiseState['status'], selected: boolean) {
 }
 
 function ReactionButtonComponent({
-  count,
+  count = 0,
   icon,
-  postingId,
+  onClick,
   selected,
+  status,
   type,
 }: {
   count?: number;
   icon?: ReactNode;
-  postingId: string;
+  onClick?: (clickedType: ReactionType) => void;
   selected: boolean;
+  status: PromiseState['status'];
   type: ReactionType;
 }) {
-  const { invoke, status } = usePromise(updateReaction);
-
-  const [cachedCount, setCachedCount] = useState(count ?? 0);
-  const [cachedSelected, setCachedSelected] = useState(selected);
-
-  const onClick = useCallback(async () => {
-    setCachedCount((currentCount) => currentCount + (selected ? -1 : 1));
-    setCachedSelected((currentSelected) => !currentSelected);
-    const { status: invokeStatus } = await invoke({
-      postingId,
-      selected,
-      type,
-    });
-    if (invokeStatus === 'rejected') {
-      // Reset the state if the request failed
-      setCachedCount((currentCount) => currentCount + (selected ? 1 : -1));
-      setCachedSelected((currentSelected) => !currentSelected);
-    }
-  }, [invoke, postingId, selected, type]);
+  const onButtonClick = useCallback(() => {
+    onClick?.(type);
+  }, [onClick, type]);
 
   return (
     <Button
-      color={selectColor(status, cachedSelected)}
-      onClick={onClick}
+      color={selectColor(status, selected)}
+      onClick={onButtonClick}
       type="button"
       disabled={status === 'pending'}
-      variant={cachedSelected ? 'filled' : 'outlined'}
+      variant={selected ? 'filled' : 'outlined'}
     >
-      {icon} {cachedCount > 0 ? cachedCount : undefined}
+      {icon} {count > 0 ? count : undefined}
     </Button>
   );
 }
