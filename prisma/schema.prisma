@@ -1,6 +1,6 @@
 datasource db {
-    provider  = "postgresql"
-    url       = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+    provider = "postgresql"
+    url      = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
 generator client {
@@ -63,7 +63,7 @@ model Comment {
     date      DateTime @default(now())
     user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId    String
-    posting   Posting  @relation(fields: [postingId], references: [id])
+    posting   Posting  @relation(fields: [postingId], references: [id], onDelete: Cascade)
     postingId String
 }
 
@@ -73,7 +73,7 @@ model Reaction {
     date      DateTime @default(now())
     user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId    String
-    Posting   Posting? @relation(fields: [postingId], references: [id])
+    Posting   Posting? @relation(fields: [postingId], references: [id], onDelete: Cascade)
     postingId String?
 
     @@unique([userId, postingId])
