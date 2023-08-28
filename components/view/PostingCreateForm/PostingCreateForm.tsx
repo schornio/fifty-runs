@@ -9,6 +9,7 @@ import { InputImage } from '@/components/atomics/InputImage';
 import { InputText } from '@/components/atomics/InputText';
 import { InputTextMultiline } from '@/components/atomics/InputTextMultiline';
 import { Stack } from '@/components/atomics/Stack';
+import { donationSchema } from '@/schema/donation';
 import { postingSchema } from '@/schema/posting';
 import { runningExperciseSchema } from '@/schema/runningExercise';
 import { usePromise } from '@/util/usePromise';
@@ -16,7 +17,11 @@ import { useRouter } from 'next/navigation';
 import { useValidation } from '@/util/form/useValidation';
 import { z } from 'zod';
 
-const requestSchema = z.union([postingSchema, runningExperciseSchema]);
+const requestSchema = z.union([
+  postingSchema,
+  runningExperciseSchema,
+  donationSchema,
+]);
 
 const types = [
   {
@@ -26,6 +31,10 @@ const types = [
   {
     id: 'runningExercise',
     label: 'Training',
+  },
+  {
+    id: 'donation',
+    label: 'Spende',
   },
 ];
 
@@ -120,9 +129,9 @@ export function PostingCreateForm() {
           <Box textAlign="center">
             {type === 'runningExercise' ? (
               <h2>Training hinzufügen</h2>
-            ) : (
-              <h2>Beitrag hinzufügen</h2>
-            )}
+            ) : undefined}
+            {type === 'posting' ? <h2>Beitrag hinzufügen</h2> : undefined}
+            {type === 'donation' ? <h2>Spende hinzufügen</h2> : undefined}
           </Box>
           <Stack alignInline="center" direction="row">
             <InputImage
@@ -177,6 +186,29 @@ export function PostingCreateForm() {
                   error={errors}
                   label="Sekunden"
                   name="durationSeconds"
+                  onChange={validateFormJustInTime}
+                  type="number"
+                />
+              </Stack>
+            </>
+          ) : undefined}
+          {type === 'donation' ? (
+            <>
+              <Box textAlign="center">
+                <h3>Spende</h3>
+              </Box>
+              <Stack alignInline="center" direction="row" gap="normal">
+                <InputText
+                  error={errors}
+                  label="Euro"
+                  name="amountEuro"
+                  onChange={validateFormJustInTime}
+                  type="number"
+                />
+                <InputText
+                  error={errors}
+                  label="Cent"
+                  name="amountCent"
                   onChange={validateFormJustInTime}
                   type="number"
                 />

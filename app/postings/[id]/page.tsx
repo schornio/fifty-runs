@@ -71,6 +71,7 @@ export default async function PostingByIdPage({
         <Posting
           commentCount={posting.comments.length}
           date={posting.date.toISOString()}
+          donation={posting.donation}
           id={posting.id}
           userName={posting.user.name}
           userNameId={posting.user.nameId}

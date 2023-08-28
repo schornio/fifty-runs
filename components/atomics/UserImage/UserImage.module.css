@@ -12,6 +12,10 @@
   border-color: var(--color-secondary);
 }
 
+.color__gold {
+  border-color: var(--color-gold);
+}
+
 .color__text {
   border-color: var(--color-text);
 }

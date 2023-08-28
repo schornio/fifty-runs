@@ -7,6 +7,21 @@ import { UserLabel } from '@/components/composed/UserLabel';
 import { cache } from 'react';
 import { prisma } from '@/prisma';
 
+const { format: formatCurrency } = new Intl.NumberFormat('de-de', {
+  currency: 'EUR',
+  style: 'currency',
+});
+
+const getDonationSum = cache(async () => {
+  const donations = await prisma.donation.aggregate({
+    _sum: {
+      amountInCent: true,
+    },
+  });
+
+  return donations._sum.amountInCent ?? 0;
+});
+
 const getTopUsersByRuns = cache(async () => {
   return await prisma.runningStatistic.findMany({
     orderBy: {
@@ -65,8 +80,9 @@ const getTopUsersByDuration = cache(async () => {
 });
 
 export default async function LeaderboardPage() {
-  const [topUsersByRuns, topUsersByDistance, topUsersByDuration] =
+  const [dontations, topUsersByRuns, topUsersByDistance, topUsersByDuration] =
     await Promise.all([
+      getDonationSum(),
       getTopUsersByRuns(),
       getTopUsersByDistance(),
       getTopUsersByDuration(),
@@ -78,6 +94,13 @@ export default async function LeaderboardPage() {
   return (
     <Box maxWidth="desktop" padding="normal">
       <Stack alignBlock="stretch" direction="column" gap="double">
+        <Box padding="double" textAlign="center">
+          <Text color="gold" fontWeight="bold" fontSize="heading1">
+            {formatCurrency(dontations / 100)}
+          </Text>
+          <br />
+          Spenden gesamt
+        </Box>
         <Box textAlign="center">
           <h2>Leaderboard - runs</h2>
         </Box>

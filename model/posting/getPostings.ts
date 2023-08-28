@@ -16,6 +16,7 @@ const selectPosting = {
     },
   },
   date: true,
+  donation: true,
   id: true,
   image: true,
   reactions: true,

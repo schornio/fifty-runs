@@ -6,6 +6,10 @@
   color: var(--color-secondary);
 }
 
+.color__gold {
+  color: var(--color-gold);
+}
+
 .color__text {
   color: var(--color-text);
 }

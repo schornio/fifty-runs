@@ -13,17 +13,25 @@ enum Visibility {
     private
 }
 
+enum DonationMultiplier {
+    x1
+    x2
+    x5
+    x10
+}
+
 model User {
-    id                       String            @id @default(uuid())
-    name                     String            @unique
-    nameId                   String            @unique
-    email                    String            @unique
-    emailVerified            Boolean           @default(false)
+    id                       String              @id @default(uuid())
+    name                     String              @unique
+    nameId                   String              @unique
+    email                    String              @unique
+    emailVerified            Boolean             @default(false)
     emailVerificationToken   String?
     password                 String
     passwordResetToken       String?
     passwordResetTokenExpiry DateTime?
     image                    String?
+    runDonationMultiplier    DonationMultiplier?
     sessions                 Session[]
     reactions                Reaction[]
     postings                 Posting[]
@@ -55,6 +63,7 @@ model Posting {
     comments          Comment[]
     runningExercise   RunningExercise?
     runningExerciseId String?
+    donation          Donation?
 }
 
 model Comment {
@@ -77,6 +86,14 @@ model Reaction {
     postingId String?
 
     @@unique([userId, postingId])
+}
+
+model Donation {
+    id           String   @id @default(uuid())
+    amountInCent Int
+    date         DateTime @default(now())
+    posting      Posting  @relation(fields: [postingId], references: [id], onDelete: Cascade)
+    postingId    String   @unique
 }
 
 model RunningExercise {

@@ -13,9 +13,15 @@ const { format } = new Intl.DateTimeFormat('de-de', {
   timeStyle: 'medium',
 });
 
+const { format: formatCurrency } = new Intl.NumberFormat('de-de', {
+  currency: 'EUR',
+  style: 'currency',
+});
+
 export function Posting({
   commentCount,
   date,
+  donation,
   id,
   image,
   reactions,
@@ -28,6 +34,9 @@ export function Posting({
 }: {
   commentCount: number;
   date: string;
+  donation?: {
+    amountInCent: number;
+  } | null;
   id: string;
   image?: string | null;
   reactions?: Reaction[];
@@ -42,7 +51,11 @@ export function Posting({
   userReactionType?: string;
 }) {
   return (
-    <Box color="primary" roundedCorners={true} variant="outlined">
+    <Box
+      color={donation ? 'gold' : 'primary'}
+      roundedCorners={true}
+      variant="outlined"
+    >
       <Box padding="double">
         <Stack alignInline="spaceBetween">
           <UserLabel
@@ -66,6 +79,15 @@ export function Posting({
       {runningExercise ? (
         <Box padding="double">
           <RunningExercise {...runningExercise} />
+        </Box>
+      ) : undefined}
+      {donation ? (
+        <Box padding="double" textAlign="center">
+          <Text color="gold" fontWeight="bold" fontSize="heading1">
+            {formatCurrency(donation.amountInCent / 100)}
+          </Text>
+          <br />
+          Spende
         </Box>
       ) : undefined}
       <Box padding="normal">

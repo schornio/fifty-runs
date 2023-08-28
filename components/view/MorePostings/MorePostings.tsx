@@ -46,6 +46,7 @@ function MorePostingsComponent({
         ({
           _count,
           date,
+          donation,
           id,
           image,
           reactions,
@@ -56,6 +57,7 @@ function MorePostingsComponent({
           <Posting
             commentCount={_count.comments}
             date={date}
+            donation={donation}
             runningExercise={runningExercise}
             id={id}
             image={image}

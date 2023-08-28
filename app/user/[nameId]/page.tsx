@@ -54,6 +54,7 @@ export default async function UserByIdPage({
         },
       },
       date: true,
+      donation: true,
       id: true,
       image: true,
       runningExercise: true,
@@ -98,10 +99,19 @@ export default async function UserByIdPage({
 
           <Stack alignBlock="stretch" direction="column" gap="double">
             {postings.map(
-              ({ _count, date, id, image, runningExercise, text }) => (
+              ({
+                _count,
+                date,
+                donation,
+                id,
+                image,
+                runningExercise,
+                text,
+              }) => (
                 <Posting
                   commentCount={_count.comments}
                   date={date.toISOString()}
+                  donation={donation}
                   id={id}
                   image={image}
                   key={id}

@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { donationSchema } from '@/schema/donation';
 import { getCurrentSession } from '@/util/server/getCurrentSession';
 import { getPostings } from '@/model/posting/getPostings';
 import { postingSchema } from '@/schema/posting';
@@ -17,7 +18,11 @@ export async function GET(request: Request) {
   return NextResponse.json(postings);
 }
 
-const requestSchema = z.union([postingSchema, runningExperciseSchema]);
+const requestSchema = z.union([
+  postingSchema,
+  runningExperciseSchema,
+  donationSchema,
+]);
 
 export async function POST(request: Request) {
   try {
@@ -84,6 +89,15 @@ export async function POST(request: Request) {
         },
         where: {
           userId: session.userId,
+        },
+      });
+    }
+
+    if (posting.type === 'donation') {
+      await prisma.donation.create({
+        data: {
+          amountInCent: posting.amountInCent,
+          postingId: id,
         },
       });
     }

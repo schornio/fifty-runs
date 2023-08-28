@@ -22,6 +22,7 @@ export const getPostingById = cache(async (id: string, userId?: string) => {
           },
         },
       },
+      donation: true,
       reactions: {
         include: {
           user: {

@@ -20,6 +20,7 @@ export default async function PostingsPage() {
           ({
             _count,
             date,
+            donation,
             id,
             image,
             reactions,
@@ -30,6 +31,7 @@ export default async function PostingsPage() {
             <Posting
               commentCount={_count.comments}
               date={date.toISOString()}
+              donation={donation}
               runningExercise={runningExercise}
               id={id}
               image={image}

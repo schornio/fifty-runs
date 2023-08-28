@@ -13,6 +13,11 @@
   --box-color-background: var(--color-background);
 }
 
+.color__gold {
+  --box-color-text: var(--color-gold);
+  --box-color-background: var(--color-background);
+}
+
 .color__text {
   --box-color-text: var(--color-text);
   --box-color-background: var(--color-background);
