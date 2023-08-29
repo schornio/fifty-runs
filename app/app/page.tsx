@@ -14,6 +14,7 @@ export default function Home() {
           style={{ objectFit: 'cover' }}
           fill={true}
           src="/image/HighRes_007_2018-04-11_Rene-Voglmayr-Running_WEISS-auslaufend.png"
+          priority={true}
         />
         <div
           style={{
