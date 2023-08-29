@@ -19,12 +19,6 @@ export const metadata: Metadata = {
   },
   manifest: '/manifest.json',
   title: '50runs',
-  viewport: {
-    initialScale: 1,
-    interactiveWidget: 'overlays-content',
-    maximumScale: 1,
-    width: 'device-width',
-  },
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
