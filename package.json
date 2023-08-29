@@ -1,0 +1,10 @@
+{
+  "name": "fiftyruns",
+  "scripts": {
+    "heroku-postbuild": "npm run build --workspace cms"
+  },
+  "workspaces": [
+    "app",
+    "cms"
+  ]
+}
