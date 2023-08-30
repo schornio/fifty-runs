@@ -1,39 +1,33 @@
 import { Box } from '@/components/atomics/Box';
+import { Content } from '@/components/composed/Content';
 import { HorizontalRule } from '@/components/atomics/HorizontalRule';
-import Image from 'next/image';
 import { PostingImage } from '@/components/atomics/PostingImage';
 import { Stack } from '@/components/atomics/Stack';
 import { Text } from '@/components/atomics/Text';
+import { fetchStrapi } from '@/service/fetchStrapi';
+import { notFound } from 'next/navigation';
 
-export default function Home() {
+export default async function Home() {
+  const result = await fetchStrapi('/pages', {
+    query: {
+      'populate[content][populate]': '*',
+      'populate[image]': '*',
+      slug: 'index',
+    },
+  });
+  const [page] = result.data;
+
+  if (!page) {
+    notFound();
+  }
+
+  const { content } = page.attributes;
+
   return (
     <>
-      <div style={{ height: '80dvh', position: 'relative', width: '100%' }}>
-        <Image
-          alt=""
-          style={{ objectFit: 'cover' }}
-          fill={true}
-          src="/image/HighRes_007_2018-04-11_Rene-Voglmayr-Running_WEISS-auslaufend.png"
-          priority={true}
-        />
-        <div
-          style={{
-            left: '50%',
-            position: 'absolute',
-            top: '50%',
-            transform: 'translate(-70%,-70%)',
-            width: '20rem',
-          }}
-        >
-          <Box padding="normal">
-            <Text color="primary" fontSize="heading3">
-              <h1>#50runs</h1>
-              Gemeinsam fit durch den Winter kommen und etwas Gutes tun. Was ist
-              Deine Challenge?
-            </Text>
-          </Box>
-        </div>
-      </div>
+      {content.map((data) => (
+        <Content data={data} key={`${data.__component}.${data.id}`} />
+      ))}
       <Box maxWidth="tablet" padding="normal">
         <Stack direction="column" gap="double">
           <Box textAlign="center">

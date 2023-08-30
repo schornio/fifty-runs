@@ -1,7 +1,7 @@
 import { EmailVerification } from '@/components/mail/EmailVerification';
 import { hash } from 'bcrypt';
 import { prisma } from '@/prisma';
-import { put } from '@/util/server/vercelBlobShim';
+import { put } from '@vercel/blob';
 import { randomBytes } from 'crypto';
 import { registerSchema } from '@/schema/register';
 import { resend } from '@/util/mail';

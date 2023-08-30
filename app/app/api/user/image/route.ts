@@ -1,4 +1,4 @@
-import { del, put } from '@/util/server/vercelBlobShim';
+import { del, put } from '@vercel/blob';
 import { changeUserImageSchema } from '@/schema/changeUserImage';
 import { getCurrentSession } from '@/util/server/getCurrentSession';
 import { prisma } from '@/prisma';

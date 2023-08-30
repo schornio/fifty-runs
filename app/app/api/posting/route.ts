@@ -4,7 +4,7 @@ import { getCurrentSession } from '@/util/server/getCurrentSession';
 import { getPostings } from '@/model/posting/getPostings';
 import { postingSchema } from '@/schema/posting';
 import { prisma } from '@/prisma';
-import { put } from '@/util/server/vercelBlobShim';
+import { put } from '@vercel/blob';
 import { runningExperciseSchema } from '@/schema/runningExercise';
 import { z } from 'zod';
 

@@ -1,10 +1,10 @@
-import { del } from '@/util/server/vercelBlobShim';
+import { del } from '@vercel/blob';
 import { getCurrentSession } from '@/util/server/getCurrentSession';
 import { prisma } from '@/prisma';
 
 export async function DELETE(
   _request: Request,
-  { params: { id } }: { params: { id: string } }
+  { params: { id } }: { params: { id: string } },
 ) {
   try {
     const session = await getCurrentSession();
