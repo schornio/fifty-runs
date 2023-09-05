@@ -1,9 +1,7 @@
 'use client';
 
 import { ReactNode, memo, useCallback, useEffect, useState } from 'react';
-import { Button } from '@/components/atomics/Button';
-import { mapStyles } from '@/util/mapStyles';
-import styles from './HeaderMenu.module.css';
+import { cn } from '@/util/cn';
 import { usePathname } from 'next/navigation';
 
 function HeaderMenuComponent({ children }: { children?: ReactNode }) {
@@ -19,27 +17,27 @@ function HeaderMenuComponent({ children }: { children?: ReactNode }) {
     setMenuVisible(false);
   }, [pathname]);
 
-  const menuClassName = mapStyles(styles, ['menu'], {
-    menuVisible,
-  });
-
   return (
     <>
-      <div className={styles.button}>
-        <Button onClick={onButtonMenuClick} type="button">
-          {menuVisible ? 'Schließen' : 'Menü'}
-        </Button>
+      <button
+        className="rounded-full border-2 border-congress-blue-900 px-4 py-2 font-bold text-congress-blue-900 lg:hidden"
+        onClick={onButtonMenuClick}
+        type="button"
+      >
+        {menuVisible ? 'Schließen' : 'Menü'}
+      </button>
+      <div
+        className={cn(
+          'max-lg:absolute max-lg:inset-0 max-lg:top-full max-lg:hidden',
+          {
+            'max-lg:block': menuVisible,
+          },
+        )}
+      >
+        {children}
       </div>
-      <div className={menuClassName}>{children}</div>
     </>
   );
 }
 
 export const HeaderMenu = memo(HeaderMenuComponent);
-
-function HeaderMenuWrapperComponent({ children }: { children?: ReactNode }) {
-  const className = mapStyles(styles, ['wrapper']);
-  return <div className={className}>{children}</div>;
-}
-
-export const HeaderMenuWrapper = memo(HeaderMenuWrapperComponent);

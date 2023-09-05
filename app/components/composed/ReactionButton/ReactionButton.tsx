@@ -1,21 +1,9 @@
 'use client';
 
 import { ReactNode, memo, useCallback } from 'react';
-import { Button } from '@/components/atomics/Button';
 import { PromiseState } from '@/util/usePromise';
 import { ReactionType } from '@/model/reaction';
-
-function selectColor(status: PromiseState['status'], selected: boolean) {
-  switch (status) {
-    case 'standby':
-    case 'pending':
-    case 'resolved':
-    default:
-      return selected ? 'secondary' : 'primary';
-    case 'rejected':
-      return 'error';
-  }
-}
+import { cn } from '@/util/cn';
 
 function ReactionButtonComponent({
   count = 0,
@@ -37,15 +25,23 @@ function ReactionButtonComponent({
   }, [onClick, type]);
 
   return (
-    <Button
-      color={selectColor(status, selected)}
+    <button
+      className={cn(
+        'flex gap-3 rounded-full border-2 border-congress-blue-900 px-4 py-2 font-bold text-congress-blue-900',
+        {
+          'border-atlantis-500 text-atlantis-500': selected,
+          'border-red-500': status === 'rejected',
+        },
+        {
+          'border-neutral-300 text-neutral-300': status === 'pending',
+        },
+      )}
+      disabled={status === 'pending'}
       onClick={onButtonClick}
       type="button"
-      disabled={status === 'pending'}
-      variant={selected ? 'filled' : 'outlined'}
     >
       {icon} {count > 0 ? count : undefined}
-    </Button>
+    </button>
   );
 }
 

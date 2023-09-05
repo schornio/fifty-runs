@@ -1,8 +1,6 @@
-import { Box } from '@/components/atomics/Box';
 import { MorePostings } from '@/components/view/MorePostings';
-import { Posting } from '@/components/view/Posting';
 import { PostingCreateForm } from '@/components/view/PostingCreateForm';
-import { Stack } from '@/components/atomics/Stack';
+import { Postings } from '@/components/view/Postings';
 import { getCurrentSession } from '@/util/server/getCurrentSession';
 import { getPostings } from '@/model/posting/getPostings';
 
@@ -13,44 +11,15 @@ export default async function PostingsPage() {
   const latestFrom = postings[postings.length - 1]?.date.toISOString();
 
   return (
-    <Box maxWidth="mobile" padding="normal">
-      <Stack alignBlock="stretch" direction="column" gap="double">
-        {session ? <PostingCreateForm /> : undefined}
-        {postings.map(
-          ({
-            _count,
-            date,
-            donation,
-            id,
-            image,
-            reactions,
-            runningExercise,
-            text,
-            user,
-          }) => (
-            <Posting
-              commentCount={_count.comments}
-              date={date.toISOString()}
-              donation={donation}
-              runningExercise={runningExercise}
-              id={id}
-              image={image}
-              key={id}
-              reactions={reactions}
-              text={text}
-              userImage={user.image}
-              userName={user.name}
-              userNameId={user.nameId}
-              userReactionType={
-                reactions.find(
-                  (reaction) => reaction.userId === session?.userId,
-                )?.type
-              }
-            />
-          ),
-        )}
-        <MorePostings from={latestFrom} userId={session?.userId} />
-      </Stack>
-    </Box>
+    <div className="w-full max-w-2xl p-5">
+      <Postings
+        contentAfter={
+          <MorePostings from={latestFrom} userId={session?.userId} />
+        }
+        contentBefore={<PostingCreateForm />}
+        postings={postings}
+        userId={session?.userId}
+      />
+    </div>
   );
 }

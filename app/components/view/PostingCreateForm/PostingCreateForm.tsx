@@ -227,6 +227,7 @@ export function PostingCreateForm() {
               defaultItemId="protected"
               items={visibilityItems}
               name="visibility"
+              variant="secondary"
             />
           </Stack>
 

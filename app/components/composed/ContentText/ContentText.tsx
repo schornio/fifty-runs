@@ -1,16 +1,10 @@
-import { Box } from '@/components/atomics/Box';
-import { Stack } from '@/components/atomics/Stack';
-import { Text } from '@/components/atomics/Text';
-import { Text as TextType } from '@/types/content/Text';
+import { Markdown } from '@/components/atomics/Markdown';
+import { Text } from '@/types/content/Text';
 
-export function ContentText({ data }: { data: TextType }) {
+export function ContentText({ data }: { data: Text }) {
   return (
-    <Box textAlign="center">
-      <Text color="primary" fontSize="heading2">
-        <Stack direction="column" gap="normal">
-          {data.text}
-        </Stack>
-      </Text>
-    </Box>
+    <div className="prose prose-lg prose-primary max-w-screen-lg p-5 text-center">
+      <Markdown>{data.text ?? ''}</Markdown>
+    </div>
   );
 }

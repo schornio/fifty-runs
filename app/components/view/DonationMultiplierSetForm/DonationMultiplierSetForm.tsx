@@ -5,10 +5,8 @@ import {
   ButtonRadioItem,
 } from '@/components/composed/ButtonRadioGroup';
 import { FormEvent, useCallback, useState } from 'react';
-import { Box } from '@/components/atomics/Box';
 import { Button } from '@/components/atomics/Button';
 import { ButtonAction } from '@/components/composed/ButtonAction';
-import { Stack } from '@/components/atomics/Stack';
 import { donationMultiplierSchema } from '@/schema/donationMultiplier';
 import { usePromise } from '@/util/usePromise';
 import { useRouter } from 'next/navigation';
@@ -85,30 +83,27 @@ export function DonationMultiplierSetForm({
 
   if (!formVisible) {
     return (
-      <Button color="gold" onClick={onShowClick} type="button">
+      <Button
+        className="bg-gold-500 text-black"
+        onClick={onShowClick}
+        type="button"
+      >
         Spenden pro Lauf ändern
       </Button>
     );
   }
 
   return (
-    <Box
-      color="secondary"
-      maxWidth="mobile"
-      padding="normal"
-      roundedCorners={true}
-      variant="outlined"
-    >
+    <div className="rounded-xl border border-gold-500 p-4">
       <form onSubmit={onSubmit} ref={formRef}>
-        <Stack alignBlock="stretch" direction="column" gap="normal">
-          <Box textAlign="center">
-            <h2>Geldspende pro Lauf</h2>
-          </Box>
+        <div className="flex flex-col gap-5">
+          <h2 className="text-center text-xl">Geldspende pro Lauf</h2>
+
           <ButtonRadioGroup
-            color="gold"
             defaultItemId={runDonationMultiplier ?? 'nothing'}
             items={multiplierItems}
             name="donationMultiplier"
+            variant="gold"
           />
           <ButtonAction
             contentPending="Spende ändern..."
@@ -121,8 +116,8 @@ export function DonationMultiplierSetForm({
           <Button onClick={onHideClick} type="button" variant="text">
             Abbrechen
           </Button>
-        </Stack>
+        </div>
       </form>
-    </Box>
+    </div>
   );
 }

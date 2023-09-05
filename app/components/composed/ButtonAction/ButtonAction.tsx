@@ -1,7 +1,8 @@
-import { Button, ButtonVariant } from '@/components/atomics/Button';
 import { ReactNode, memo } from 'react';
+import { Button } from '@/components/atomics/Button';
 import { Color } from '@/style/Color';
 import { PromiseState } from '@/util/usePromise';
+import { cn } from '@/util/cn';
 
 type ActionStatusProps = {
   status?: PromiseState<unknown>['status'];
@@ -9,7 +10,7 @@ type ActionStatusProps = {
   [key in `content${Capitalize<PromiseState<unknown>['status']>}`]?: ReactNode;
 };
 
-function selectActionStatus({
+function selectActionContent({
   contentPending,
   contentRejected,
   contentResolved,
@@ -18,14 +19,14 @@ function selectActionStatus({
 }: ActionStatusProps) {
   switch (status) {
     case 'pending':
-      return { children: contentPending };
+      return contentPending;
     case 'rejected':
-      return { children: contentRejected, color: 'error' } as const;
+      return contentRejected;
     case 'resolved':
-      return { children: contentResolved, color: 'success' } as const;
+      return contentResolved;
     case 'standby':
     default:
-      return { children: contentStandby };
+      return contentStandby;
   }
 }
 
@@ -33,29 +34,31 @@ function ButtonActionComponent({
   color,
   onClick,
   type,
-  variant,
   ...statusProps
 }: {
   color?: Color;
   onClick?: () => void;
   type: HTMLButtonElement['type'];
-  variant?: ButtonVariant;
 } & ActionStatusProps) {
-  const { children, color: statusColor } = selectActionStatus(statusProps);
+  const content = selectActionContent(statusProps);
 
-  const buttonColor = statusColor ?? color;
   const disabled = statusProps.status === 'pending';
 
   return (
-    <Button
-      color={buttonColor}
-      disabled={disabled}
-      onClick={onClick}
-      type={type}
-      variant={variant}
-    >
-      {children}
-    </Button>
+    <>
+      <Button
+        className={cn({
+          'bg-green-500': statusProps.status === 'resolved',
+          'bg-neutral-300': statusProps.status === 'pending',
+          'bg-red-500': statusProps.status === 'rejected',
+        })}
+        disabled={disabled}
+        onClick={onClick}
+        type={type}
+      >
+        {content}
+      </Button>
+    </>
   );
 }
 

@@ -2,14 +2,11 @@ import {
   ButtonShare,
   IsSharableWrapper,
 } from '@/components/composed/ButtonShare';
-import { Box } from '@/components/atomics/Box';
 import { Comment } from '@/components/view/Comment';
 import { CommentCreateForm } from '@/components/view/CommentCreateForm';
 import { Metadata } from 'next';
 import { Posting } from '@/components/view/Posting';
 import { PostingDeleteButton } from '@/components/view/PostingDeleteButton';
-import { Stack } from '@/components/atomics/Stack';
-import { Text } from '@/components/atomics/Text';
 import { UserLabel } from '@/components/composed/UserLabel';
 import { reactions as availableReactions } from '@/model/reaction';
 import { getCurrentSession } from '@/util/server/getCurrentSession';
@@ -59,13 +56,13 @@ export default async function PostingByIdPage({
   }));
 
   return (
-    <Box maxWidth="mobile" padding="normal">
-      <Stack alignBlock="stretch" direction="column" gap="normal">
+    <div className="w-full max-w-2xl p-5">
+      <div className="flex flex-col gap-5">
         {posting.visibility === 'public' ? (
           <IsSharableWrapper>
-            <Box padding="double">
+            <div className="p-10">
               <ButtonShare>Teilen</ButtonShare>
-            </Box>
+            </div>
           </IsSharableWrapper>
         ) : undefined}
         <Posting
@@ -84,26 +81,21 @@ export default async function PostingByIdPage({
         />
 
         {reactions.length > 0 ? (
-          <Stack gap="normal" wrap={true}>
+          <div className="flex flex-wrap gap-5">
             {reactions.map((reaction) => (
-              <Box
-                color="primary"
-                padding="normal"
-                roundedCorners={true}
-                variant="outlined"
+              <div
+                className="flex gap-2 rounded-2xl border border-congress-blue-900 px-3 py-2"
                 key={reaction.id}
               >
-                <Stack alignBlock="center" gap="normal">
-                  <UserLabel
-                    userName={reaction.user.name}
-                    userNameId={reaction.user.nameId}
-                    userImage={reaction.user.image}
-                  />
-                  <Text fontSize="heading2">{reaction.icon}</Text>
-                </Stack>
-              </Box>
+                <UserLabel
+                  userName={reaction.user.name}
+                  userNameId={reaction.user.nameId}
+                  userImage={reaction.user.image}
+                />
+                <span className="text-xl">{reaction.icon}</span>
+              </div>
             ))}
-          </Stack>
+          </div>
         ) : undefined}
 
         {posting.comments.map((comment) => (
@@ -120,7 +112,7 @@ export default async function PostingByIdPage({
         ))}
         <CommentCreateForm postingId={posting.id} />
         {ownPosting ? <PostingDeleteButton id={posting.id} /> : undefined}
-      </Stack>
-    </Box>
+      </div>
+    </div>
   );
 }

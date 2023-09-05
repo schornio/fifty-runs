@@ -5,7 +5,7 @@ import { Header } from '@/components/view/Header';
 import { Metadata } from 'next';
 import { Montserrat } from 'next/font/google';
 import { ReactNode } from 'react';
-import { Stack } from '@/components/atomics/Stack';
+import { cn } from '@/util/cn';
 
 const montserrat = Montserrat({ subsets: ['latin'] });
 
@@ -24,11 +24,14 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="de">
-      <body className={montserrat.className}>
+      <body
+        className={cn(
+          montserrat.className,
+          'grid min-h-screen grid-rows-[auto_1fr_auto]',
+        )}
+      >
         <Header />
-        <Stack alignBlock="center" direction="column">
-          {children}
-        </Stack>
+        <div className="flex flex-col items-center">{children}</div>
         <Footer />
         <Analytics />
       </body>
