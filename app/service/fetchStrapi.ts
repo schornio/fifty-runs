@@ -23,8 +23,9 @@ export async function fetchStrapi<T extends string>(
           .map(([key, value]) => `${key}=${value}`)
           .join('&')}`
       : '';
+  console.log(`${STRAPI_ENDPOINT}/api${path}${queryString}`);
   const response = await fetch(`${STRAPI_ENDPOINT}/api${path}${queryString}`, {
-    next: { revalidate: 60 * 60 }, // 1 hour
+    next: { revalidate: 60 * 60 * 0 }, // 1 hour
   });
   return await response.json();
 }

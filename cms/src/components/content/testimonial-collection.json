@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_content_testimonial_collections",
+  "info": {
+    "displayName": "testimonialCollection",
+    "icon": "emotionHappy"
+  },
+  "options": {},
+  "attributes": {
+    "testimonial": {
+      "type": "component",
+      "repeatable": true,
+      "component": "content.testimonial"
+    }
+  }
+}
