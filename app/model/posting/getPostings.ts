@@ -38,8 +38,10 @@ export type PostingResponse = Prisma.PostingGetPayload<{
 export type PostingResponseParsed = JSONParsed<PostingResponse>;
 
 export async function getPostings(args?: {
+  byUserId?: string;
   from?: string | Date;
   session?: Session | null;
+  take?: number;
 }) {
   const { from, session } = args ?? {};
 
@@ -60,7 +62,7 @@ export async function getPostings(args?: {
       date: 'desc',
     },
     select: selectPosting,
-    take: 5,
+    take: args?.take ?? 5,
     where: {
       OR: [
         {
@@ -73,6 +75,7 @@ export async function getPostings(args?: {
       date: {
         lt: from ? new Date(from) : new Date(),
       },
+      userId: args?.byUserId,
     },
   });
 

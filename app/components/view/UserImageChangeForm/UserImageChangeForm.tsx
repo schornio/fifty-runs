@@ -1,11 +1,9 @@
 'use client';
 
 import { FormEvent, useCallback, useState } from 'react';
-import { Box } from '@/components/atomics/Box';
 import { Button } from '@/components/atomics/Button';
 import { ButtonAction } from '@/components/composed/ButtonAction';
 import { InputImage } from '@/components/atomics/InputImage';
-import { Stack } from '@/components/atomics/Stack';
 import { changeUserImageSchema } from '@/schema/changeUserImage';
 import { usePromise } from '@/util/usePromise';
 import { useRouter } from 'next/navigation';
@@ -62,19 +60,11 @@ export function UserImageChangeForm() {
   }
 
   return (
-    <Box
-      color="secondary"
-      maxWidth="mobile"
-      padding="normal"
-      roundedCorners={true}
-      variant="outlined"
-    >
+    <div className="rounded-xl border border-congress-blue-900 bg-white p-4">
       <form onSubmit={onSubmit} ref={formRef}>
-        <Stack alignBlock="stretch" direction="column" gap="normal">
-          <Box textAlign="center">
-            <h2>Profilbild ändern</h2>
-          </Box>
-          <Stack alignInline="center" direction="row">
+        <div className="flex flex-col gap-5">
+          <h2 className="text-center text-xl">Profilbild ändern</h2>
+          <div className="self-center">
             <InputImage
               error={errors}
               label="Bild hinzufügen"
@@ -82,7 +72,7 @@ export function UserImageChangeForm() {
               onChange={validateFormJustInTime}
               type="userImage"
             />
-          </Stack>
+          </div>
           <ButtonAction
             contentPending="Ändern..."
             contentRejected="Ändern fehlgeschlagen"
@@ -94,8 +84,8 @@ export function UserImageChangeForm() {
           <Button onClick={onHideClick} type="button" variant="text">
             Abbrechen
           </Button>
-        </Stack>
+        </div>
       </form>
-    </Box>
+    </div>
   );
 }

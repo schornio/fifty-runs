@@ -7,8 +7,6 @@ import {
 import { useCallback, useState } from 'react';
 import { Reaction } from '@prisma/client';
 import { ReactionButton } from '@/components/composed/ReactionButton';
-import { Stack } from '@/components/atomics/Stack';
-import { Text } from '@/components/atomics/Text';
 import { usePromise } from '@/util/usePromise';
 
 async function updateReaction({
@@ -86,22 +84,20 @@ export function Reactions({
   );
 
   return (
-    <Text fontSizeOnMobile="sub">
-      <Stack alignInline="center" gap="normal">
-        {reactionSummaries.map(
-          ({ count, icon, selected, status: thisStatus, type }) => (
-            <ReactionButton
-              count={count}
-              icon={icon}
-              key={type}
-              onClick={onClick}
-              selected={selected}
-              status={thisStatus}
-              type={type}
-            />
-          ),
-        )}
-      </Stack>
-    </Text>
+    <div className="flex justify-center gap-5">
+      {reactionSummaries.map(
+        ({ count, icon, selected, status: thisStatus, type }) => (
+          <ReactionButton
+            count={count}
+            icon={icon}
+            key={type}
+            onClick={onClick}
+            selected={selected}
+            status={thisStatus}
+            type={type}
+          />
+        ),
+      )}
+    </div>
   );
 }

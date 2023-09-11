@@ -1,7 +1,7 @@
 import { Content } from '@/types/content';
-import { StrapiComponent } from '@schornio/strapi-util/StrapiComponent';
-import { StrapiFindOneResult } from '@schornio/strapi-util/StrapiFindOneResult';
-import { StrapiImage } from '@schornio/strapi-util/StrapiImage';
+import { StrapiComponent } from '@schornio/strapi-util/types/StrapiComponent';
+import { StrapiFindOneResult } from '@schornio/strapi-util/types/StrapiFindOneResult';
+import { StrapiImage } from '@schornio/strapi-util/types/StrapiImage';
 
 export type Page = {
   title: string;

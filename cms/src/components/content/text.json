@@ -9,6 +9,15 @@
   "attributes": {
     "text": {
       "type": "richtext"
+    },
+    "variant": {
+      "type": "enumeration",
+      "enum": [
+        "normal",
+        "box"
+      ],
+      "default": "normal",
+      "required": true
     }
   }
 }

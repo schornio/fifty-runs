@@ -1,8 +1,4 @@
-import { Box } from '@/components/atomics/Box';
 import { ProgressBar } from '@/components/atomics/ProgressBar';
-import { Stack } from '@/components/atomics/Stack';
-import { TableCell } from '@/components/atomics/TableCell';
-import { Text } from '@/components/atomics/Text';
 import { UserLabel } from '@/components/composed/UserLabel';
 import { cache } from 'react';
 import { donationMultiplierToNumber } from '@/model/donationMultiplierToNumber';
@@ -107,96 +103,102 @@ export default async function LeaderboardPage() {
   const maxDurationInSeconds = topUsersByDuration[0]?.durationInSeconds ?? 0;
 
   return (
-    <Box maxWidth="desktop" padding="normal">
-      <Stack alignBlock="stretch" direction="column" gap="double">
-        <Box padding="double" textAlign="center">
-          <Text color="gold" fontWeight="bold" fontSize="heading1">
+    <div className="w-full max-w-screen-lg py-5">
+      <div className="flex flex-col items-stretch gap-10">
+        <h2 className="p-10 text-center">
+          <span className="text-3xl font-bold text-gold-500">
             {formatCurrency(allDonations / 100)}
-          </Text>
+          </span>
           <br />
           Spenden gesamt
-        </Box>
-        <Box textAlign="center">
-          <h2>Leaderboard - runs</h2>
-        </Box>
-        <table>
+        </h2>
+        <div className="text-center">
+          <h2 className="text-xl font-bold text-congress-blue-900">
+            Leaderboard - runs
+          </h2>
+        </div>
+        <table className="border-separate border-spacing-x-5">
           <tbody>
             {topUsersByRuns.map(({ numberOfRuns, user }) => (
               <tr key={user.nameId}>
-                <TableCell>
+                <td>
                   <UserLabel
                     userImage={user.image}
                     userName={user.name}
                     userNameId={user.nameId}
                   />
-                </TableCell>
-                <TableCell grow={true}>
+                </td>
+                <td className="w-full">
                   <ProgressBar value={numberOfRuns / 50}>
-                    <Text color="background">
+                    <span className="text-white">
                       <strong>{numberOfRuns} / 50 runs</strong>
-                    </Text>
+                    </span>
                   </ProgressBar>
-                </TableCell>
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
-        <Box textAlign="center">
-          <h2>Leaderboard - Distanz</h2>
-        </Box>
-        <table>
+        <div className="text-center">
+          <h2 className="text-xl font-bold text-congress-blue-900">
+            Leaderboard - Distanz
+          </h2>
+        </div>
+        <table className="border-separate border-spacing-x-5">
           <tbody>
             {topUsersByDistance.map(({ distanceInMeters, user }) => (
               <tr key={user.nameId}>
-                <TableCell>
+                <td>
                   <UserLabel
                     userImage={user.image}
                     userName={user.name}
                     userNameId={user.nameId}
                   />
-                </TableCell>
-                <TableCell grow={true}>
+                </td>
+                <td className="w-full">
                   <ProgressBar value={distanceInMeters / maxDistanceInMeters}>
-                    <Text color="background">
+                    <span className="text-white">
                       <strong>
                         {Math.round(distanceInMeters / 100) / 10} km
                       </strong>
-                    </Text>
+                    </span>
                   </ProgressBar>
-                </TableCell>
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
-        <Box textAlign="center">
-          <h2>Leaderboard - Dauer</h2>
-        </Box>
-        <table>
+        <div className="text-center">
+          <h2 className="text-xl font-bold text-congress-blue-900">
+            Leaderboard - Dauer
+          </h2>
+        </div>
+        <table className="border-separate border-spacing-x-5">
           <tbody>
             {topUsersByDuration.map(({ durationInSeconds, user }) => (
               <tr key={user.nameId}>
-                <TableCell>
+                <td>
                   <UserLabel
                     userImage={user.image}
                     userName={user.name}
                     userNameId={user.nameId}
                   />
-                </TableCell>
-                <TableCell grow={true}>
+                </td>
+                <td className="w-full">
                   <ProgressBar value={durationInSeconds / maxDurationInSeconds}>
-                    <Text color="background">
+                    <span className="text-white">
                       <strong>
                         {Math.floor(durationInSeconds / 3600)} h{' '}
                         {Math.floor(durationInSeconds / 60) % 60} min
                       </strong>
-                    </Text>
+                    </span>
                   </ProgressBar>
-                </TableCell>
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
-      </Stack>
-    </Box>
+      </div>
+    </div>
   );
 }

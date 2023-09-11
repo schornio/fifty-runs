@@ -3,33 +3,43 @@
 import { ReactNode, memo, useCallback, useEffect, useState } from 'react';
 import { Button } from '@/components/atomics/Button';
 import { Color } from '@/style/Color';
+import { cn } from '@/util/cn';
 
 export type ButtonRadioItem = {
   id: string;
   label: ReactNode;
 };
 
+export type ButtonRadioVariant = 'primary' | 'secondary' | 'gold';
+
 function RadioButtonComponent({
-  color,
   id,
   label,
   onClick,
   selectedItemId,
+  variant = 'primary',
 }: {
-  color?: Color;
   onClick: (itemId: ButtonRadioItem['id']) => void;
   selectedItemId?: ButtonRadioItem['id'];
+  variant?: ButtonRadioVariant;
 } & ButtonRadioItem) {
   const onButtonClick = useCallback(() => {
     onClick(id);
   }, [onClick, id]);
-  const variant = id === selectedItemId ? 'filled' : 'outlined';
+  const selected = id === selectedItemId;
   return (
     <Button
-      color={color}
+      className={cn({
+        'bg-atlantis-500 text-white': selected && variant === 'secondary',
+        'bg-congress-blue-900 text-white': selected && variant === 'primary',
+        'bg-gold-500': selected && variant === 'gold',
+        'border-gold-500 text-black': variant === 'gold',
+      })}
       onClick={onButtonClick}
       type="button"
-      variant={variant}
+      variant={
+        variant === 'primary' ? 'outlined-primary' : 'outlined-secondary'
+      }
     >
       {label}
     </Button>
@@ -39,12 +49,12 @@ function RadioButtonComponent({
 const RadioButton = memo(RadioButtonComponent);
 
 function ButtonRadioGroupComponent({
-  color,
   defaultItemId,
   items = [],
   name,
   onChange,
   value,
+  variant = 'primary',
 }: {
   color?: Color;
   defaultItemId?: ButtonRadioItem['id'];
@@ -52,6 +62,7 @@ function ButtonRadioGroupComponent({
   name: string;
   onChange?: (itemId: ButtonRadioItem['id']) => void;
   value?: ButtonRadioItem['id'];
+  variant?: ButtonRadioVariant;
 }) {
   const [selectedItemId, setSelectedItemId] = useState<
     ButtonRadioItem['id'] | undefined
@@ -62,7 +73,7 @@ function ButtonRadioGroupComponent({
       setSelectedItemId(itemId);
       onChange?.(itemId);
     },
-    [onChange]
+    [onChange],
   );
 
   useEffect(() => {
@@ -76,12 +87,12 @@ function ButtonRadioGroupComponent({
       <input type="hidden" name={name} value={selectedItemId} />
       {items?.map(({ id, label }) => (
         <RadioButton
-          color={color}
           id={id}
           key={id}
           label={label}
           onClick={onClick}
           selectedItemId={selectedItemId}
+          variant={variant}
         />
       ))}
     </>

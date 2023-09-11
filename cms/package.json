@@ -1,5 +1,5 @@
 {
-  "name": "fiftyruns-cms",
+  "name": "@strapi/provider-upload-vercel-blob",
   "private": true,
   "version": "0.1.0",
   "description": "A Strapi application",
@@ -10,16 +10,14 @@
     "strapi": "strapi"
   },
   "dependencies": {
+    "@schornio/strapi-provider-upload-vercel-blob": "^0.1.0",
     "@strapi/plugin-i18n": "4.12.7",
     "@strapi/plugin-users-permissions": "4.12.7",
-    "@strapi/provider-upload-vercel-blob": "file:./dist/providers/strapi-provider-upload-vercel-blob",
     "@strapi/strapi": "4.12.7",
     "@vercel/blob": "^0.10.0",
     "pg": "8.8.0"
   },
-  "author": {
-    "name": "A Strapi developer"
-  },
+  "author": "A Strapi developer",
   "strapi": {
     "uuid": "5e8fe1a8-d641-44f6-b8bc-2d62699b39fe"
   },
@@ -27,5 +25,6 @@
     "node": ">=16.0.0 <=20.x.x",
     "npm": ">=6.0.0"
   },
-  "license": "MIT"
+  "license": "UNLICENCED",
+  "main": "index.js"
 }

@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
   --border-bold: 2px solid;
   --border-thin: 1px solid;
@@ -20,46 +24,6 @@
   --size-double: 2rem;
   --border-radius: 1rem;
 
-  font-size: 14px;
-  font-weight: var(--font-weight-normal);
-}
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-  min-height: 100dvh;
-}
-
-h1 {
-  font-size: var(--font-size-heading1);
-  font-weight: var(--font-weight-bold);
-}
-
-h2 {
-  font-size: var(--font-size-heading2);
-  font-weight: var(--font-weight-bold);
-}
-
-h3 {
-  font-size: var(--font-size-heading3);
-  font-weight: var(--font-weight-bold);
-}
-
-strong {
-  font-weight: var(--font-weight-bold);
-}
-
-ul,
-ol {
-  padding-inline-start: 1em;
-}
-
-a {
-  text-decoration: none;
+  /* font-size: 14px;
+  font-weight: var(--font-weight-normal); */
 }
