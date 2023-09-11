@@ -16,7 +16,7 @@ export default async function PostingsPage() {
         contentAfter={
           <MorePostings from={latestFrom} userId={session?.userId} />
         }
-        contentBefore={<PostingCreateForm />}
+        contentBefore={session ? <PostingCreateForm /> : undefined}
         postings={postings}
         userId={session?.userId}
       />
