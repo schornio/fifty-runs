@@ -28,14 +28,14 @@ const types = [
     id: 'posting',
     label: 'Beitrag',
   },
-  {
-    id: 'runningExercise',
-    label: 'Training',
-  },
-  {
-    id: 'donation',
-    label: 'Spende',
-  },
+  // {
+  //   id: 'runningExercise',
+  //   label: 'Training',
+  // },
+  // {
+  //   id: 'donation',
+  //   label: 'Spende',
+  // },
 ];
 
 const visibilityItems = [
@@ -69,7 +69,7 @@ export function PostingCreateForm() {
     useValidation(requestSchema);
   const { invoke: invokeCreatePosting, status } = usePromise(createPosting);
   const [formVisible, setFormVisible] = useState(false);
-  const [type, setType] = useState('runningExercise');
+  const [type, setType] = useState('posting');
 
   const onShowClick = useCallback(() => {
     setFormVisible(true);

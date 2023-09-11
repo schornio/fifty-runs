@@ -44,7 +44,7 @@ export async function POST(request: Request) {
     });
 
     await resend.sendEmail({
-      from: 'noreply@mailtest.schorn.io',
+      from: 'noreply@app.50runs.com',
       react: EmailPasswordForgotten({ passwordResetToken }),
       subject: '50runs: Passwort vergessen',
       to: user.email,
