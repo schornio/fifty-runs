@@ -14,8 +14,7 @@
     "@strapi/plugin-i18n": "v4.13.3",
     "@strapi/plugin-users-permissions": "v4.13.3",
     "@strapi/strapi": "v4.13.3",
-    "@vercel/blob": "^0.10.0",
-    "pg": "8.8.0"
+    "pg": "^8.11.3"
   },
   "author": "A Strapi developer",
   "strapi": {
