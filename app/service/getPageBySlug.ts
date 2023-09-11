@@ -36,6 +36,6 @@ export async function getPageBySlug(slug: string) {
       },
     },
   });
-  const [page] = result.data;
+  const [page] = result?.data ?? [];
   return page;
 }

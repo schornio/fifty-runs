@@ -1,3 +1,5 @@
+const { BASE_URL } = process.env;
+
 export function EmailPasswordForgotten({
   passwordResetToken,
 }: {
@@ -14,9 +16,7 @@ export function EmailPasswordForgotten({
         klickst.
       </p>
       <p>
-        <a
-          href={`https://fifty-runs.vercel.app/user/passwordForgotten/${passwordResetToken}`}
-        >
+        <a href={`${BASE_URL}/user/passwordForgotten/${passwordResetToken}`}>
           Passwort ändern
         </a>
       </p>
