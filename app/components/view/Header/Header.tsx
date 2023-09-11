@@ -22,6 +22,7 @@ export async function Header() {
                 height={50}
                 src="/image/Logo_50runs_neu.png"
                 width={155}
+                priority={true}
               />
             </Link>
             <HeaderMenu>

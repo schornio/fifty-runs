@@ -16,7 +16,7 @@ export function heading(config?: 'main') {
 const COMPONENTS_DEFAULT: ComponentConfig = {
   heading: heading(),
   image: ({ content }) => (
-    <Image alt={content.alt ?? ''} fill={true} src={content.url} />
+    <Image alt={content.alt ?? ''} height={300} width={600} src={content.url} />
   ),
   link: ({ children, content }) => <Link href={content.url}>{children}</Link>,
 };

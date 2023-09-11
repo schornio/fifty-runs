@@ -15,7 +15,7 @@ export function ContentHero({ data }: { data: Hero }) {
         />
       ) : null}
       {data.text ? (
-        <div className="absolute left-1/3 top-1/3 flex flex-col gap-5 text-xl text-congress-blue-900">
+        <div className="absolute left-1/3 top-1/3 flex flex-col gap-5 text-xl text-congress-blue-900 prose-h1:text-4xl prose-h1:font-bold">
           <Markdown
             components={{
               heading: heading('main'),

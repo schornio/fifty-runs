@@ -1,8 +1,7 @@
-import { StrapiFindOneResult } from '@schornio/strapi-util/StrapiFindOneResult';
-import { StrapiImage } from '@schornio/strapi-util/StrapiImage';
+import { StrapiImage } from '@schornio/strapi-util/types/StrapiImage';
 
 export type Hero = {
   __component: 'content.hero';
   text?: string;
-  image?: StrapiFindOneResult<StrapiImage>;
+  image?: StrapiImage;
 };
