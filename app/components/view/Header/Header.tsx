@@ -3,9 +3,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { UserLabel } from '@/components/composed/UserLabel';
 import { getCurrentSession } from '@/util/server/getCurrentSession';
-import { prisma } from '@/prisma';
 import { getMainHeader } from '@/service/getMainHeader';
-import { log } from 'console';
+import { prisma } from '@/prisma';
 
 export async function Header() {
   const session = await getCurrentSession();
@@ -15,7 +14,7 @@ export async function Header() {
       : undefined,
     getMainHeader(),
   ]);
-  console.log(mainHeader?.attributes.links, 'mainHeader');
+
   const loggedIn = Boolean(user);
   const linkVisible = loggedIn ? 'loggedIn' : 'loggedOut';
 
@@ -46,6 +45,7 @@ export async function Header() {
                   {mainLinks?.map((link) =>
                     link.label === '<UserLabel>' && user ? (
                       <UserLabel
+                        key={link.id}
                         userImage={user.image}
                         userName={user.name}
                         userNameId={user.nameId}

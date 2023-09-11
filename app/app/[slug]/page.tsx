@@ -7,7 +7,6 @@ export default async function BySlug({
 }: {
   params: { slug: string };
 }) {
-  console.log(slug, 'slug');
   const page = await getPageBySlug(slug);
 
   if (!page) {
