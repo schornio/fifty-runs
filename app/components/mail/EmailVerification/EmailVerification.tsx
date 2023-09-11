@@ -1,3 +1,5 @@
+const { BASE_URL } = process.env;
+
 export function EmailVerification({
   userName,
   emailVerificationToken,
@@ -15,9 +17,7 @@ export function EmailVerification({
         Link klickst.
       </p>
       <p>
-        <a
-          href={`https://fifty-runs.vercel.app/api/user/verify/${emailVerificationToken}`}
-        >
+        <a href={`${BASE_URL}/api/user/verify/${emailVerificationToken}`}>
           Email bestätigen
         </a>
       </p>
