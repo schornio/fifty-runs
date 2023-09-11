@@ -34,11 +34,11 @@ export function ContentTestimonialCollection({
             </Markdown>
           </div>
           <div className="relative mt-4 flex justify-end">
-            {image ? (
+            {image?.data?.attributes.url ? (
               <Image
                 alt={name}
                 className="absolute left-8 rounded-full border-2 border-atlantis-500"
-                src={image.data?.attributes.url}
+                src={image.data.attributes.url}
                 height={120}
                 width={120}
               />
