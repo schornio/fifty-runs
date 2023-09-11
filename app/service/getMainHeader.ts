@@ -7,7 +7,7 @@ export async function getMainHeader() {
     '/main-header',
     {
       next: {
-        revalidate: 0, //60 * 60 * 24, // 24 hours
+        revalidate: 60 * 60 * 24, // 24 hours
       },
       query: {
         populate: ['links', 'logo'],
