@@ -4,8 +4,8 @@ import { prisma } from '@/prisma';
 
 export const getPostingById = cache(async (id: string, userId?: string) => {
   const visibility: Visibility[] = userId
-    ? ['public']
-    : ['public', 'protected'];
+    ? ['public', 'protected']
+    : ['public'];
 
   const ownPostingsQuery = userId ? [{ userId }] : [];
 
