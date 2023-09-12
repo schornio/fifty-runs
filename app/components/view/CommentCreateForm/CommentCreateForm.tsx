@@ -1,15 +1,15 @@
 'use client';
 
-import { FormEvent, useCallback } from 'react';
-import { Box } from '@/components/atomics/Box';
-import { Button } from '@/components/atomics/Button';
+import { ChangeEvent, FormEvent, useCallback, useState } from 'react';
 import { ButtonAction } from '@/components/composed/ButtonAction';
-import { InputTextMultiline } from '@/components/atomics/InputTextMultiline';
-import { Stack } from '@/components/atomics/Stack';
 import { commentSchema } from '@/schema/comment';
+import { getPostingById } from '@/service/getPostingById';
+import { useChat } from 'ai/react';
 import { usePromise } from '@/util/usePromise';
 import { useRouter } from 'next/navigation';
 import { useValidation } from '@/util/form/useValidation';
+
+type Posting = NonNullable<Awaited<ReturnType<typeof getPostingById>>>;
 
 async function createComment({
   formData,
@@ -27,11 +27,63 @@ async function createComment({
   }
 }
 
-export function CommentCreateForm({ postingId }: { postingId: string }) {
+export function CommentCreateForm({ posting }: { posting: Posting }) {
   const router = useRouter();
-  const { errors, formRef, validateForm, validateFormJustInTime } =
-    useValidation(commentSchema);
+  const [text, setText] = useState('');
+  const { setMessages, reload, messages } = useChat();
+  const { errors, formRef, validateForm } = useValidation(commentSchema);
   const { invoke: invokeCreatePosting, status } = usePromise(createComment);
+
+  const postingId = posting.id;
+  const messageStart = `Das ist das Posting: ${JSON.stringify(posting)}`;
+
+  const onTextChange = useCallback(
+    (eventArgs: ChangeEvent<HTMLTextAreaElement>) => {
+      setText(eventArgs.target.value);
+    },
+    [],
+  );
+
+  const onSelectGenerate = useCallback(
+    (eventArgs: ChangeEvent<HTMLSelectElement>) => {
+      switch (eventArgs.target.value) {
+        case 'motivate':
+          setMessages([
+            {
+              content: `${messageStart} - schreibe einen kurzen motivierenden Kommentar.`,
+              id: '1',
+              role: 'user',
+            },
+          ]);
+          break;
+        case 'challenge':
+          setMessages([
+            {
+              content: `${messageStart} - schreibe einen kurzen herausfordernden Kommentar.`,
+              id: '1',
+              role: 'user',
+            },
+          ]);
+          break;
+        case 'support':
+          setMessages([
+            {
+              content: `${messageStart} - schreibe einen kurzen unterstützenden Kommentar.`,
+              id: '1',
+              role: 'user',
+            },
+          ]);
+          break;
+      }
+
+      reload();
+    },
+    [messageStart, setMessages, reload],
+  );
+
+  const lastMessage = messages.findLast(
+    (message) => message.role === 'assistant',
+  )?.content;
 
   const onSubmit = useCallback(
     async (eventArgs: FormEvent<HTMLFormElement>) => {
@@ -47,25 +99,33 @@ export function CommentCreateForm({ postingId }: { postingId: string }) {
         }
       }
     },
-    [validateForm, invokeCreatePosting, postingId, formRef, router]
+    [validateForm, invokeCreatePosting, postingId, formRef, router],
   );
 
   return (
-    <Box
-      color="secondary"
-      maxWidth="mobile"
-      padding="normal"
-      roundedCorners={true}
-      variant="outlined"
-    >
-      <form onSubmit={onSubmit} ref={formRef}>
-        <Stack alignBlock="stretch" direction="column" gap="normal">
-          <InputTextMultiline
-            error={errors}
-            label="Kommentar"
-            name="text"
-            onChange={validateFormJustInTime}
-          />
+    <form onSubmit={onSubmit} ref={formRef}>
+      <div className="overflow-hidden rounded-xl border border-atlantis-500">
+        <textarea
+          className="min-h-[10rem] w-full p-4"
+          name="text"
+          onChange={onTextChange}
+          placeholder="Schreibe ein Kommentar"
+          value={lastMessage ?? text}
+        />
+        <div className="flex justify-end gap-2 bg-neutral-100 p-4">
+          <select
+            className="rounded-full border-2 border-congress-blue-900 p-2 text-xs md:text-base"
+            onChange={onSelectGenerate}
+            value=""
+          >
+            <option value="" disabled selected>
+              Generieren 🤖
+            </option>
+            <option value="motivate">🤖 Motivierend</option>
+            <option value="challenge">🤖 Herausfordernd</option>
+            <option value="support">🤖 Unterstützend</option>
+          </select>
+
           <ButtonAction
             contentPending="Kommentieren ..."
             contentRejected="Kommentieren fehlgeschlagen"
@@ -74,11 +134,8 @@ export function CommentCreateForm({ postingId }: { postingId: string }) {
             status={status}
             type="submit"
           />
-          <Button type="reset" variant="text">
-            Abbrechen
-          </Button>
-        </Stack>
-      </form>
-    </Box>
+        </div>
+      </div>
+    </form>
   );
 }
