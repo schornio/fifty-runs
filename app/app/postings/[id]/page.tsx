@@ -110,7 +110,7 @@ export default async function PostingByIdPage({
             userNameId={comment.user.nameId}
           />
         ))}
-        <CommentCreateForm postingId={posting.id} />
+        <CommentCreateForm posting={posting} />
         {ownPosting ? <PostingDeleteButton id={posting.id} /> : undefined}
       </div>
     </div>
