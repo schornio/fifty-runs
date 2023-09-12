@@ -5,7 +5,7 @@ import { fetchStrapi } from '@schornio/strapi-util/fetchStrapi';
 export async function getPageBySlug(slug: string) {
   const result = await fetchStrapi<StrapiFindResult<Page>>('/pages', {
     next: {
-      revalidate: 60 * 60 * 24, // 24 hours
+      revalidate: 60 * 60, // 1 hour
     },
     query: {
       filters: {
