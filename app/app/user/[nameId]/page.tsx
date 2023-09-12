@@ -54,12 +54,14 @@ export default async function UserByIdPage({
     <div className="w-full max-w-xl p-5">
       <div className="flex flex-col gap-5">
         {user.image ? (
-          <UserImage
-            image={user.image}
-            name={user.name}
-            color="primary"
-            size="standalone"
-          />
+          <div className="flex justify-center">
+            <UserImage
+              image={user.image}
+              name={user.name}
+              color="primary"
+              size="standalone"
+            />
+          </div>
         ) : undefined}
         <h1 className="text-center text-3xl font-bold text-congress-blue-900">
           {user.name}

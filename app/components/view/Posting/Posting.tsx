@@ -4,13 +4,12 @@ import { PostingImage } from '@/components/atomics/PostingImage';
 import { Reaction } from '@prisma/client';
 import { Reactions } from '@/components/composed/Reactions';
 import { RunningExercise } from '@/components/composed/RunningExercise';
-import { Stack } from '@/components/atomics/Stack';
 import { Text } from '@/components/atomics/Text';
 import { UserLabel } from '@/components/composed/UserLabel';
 
 const { format } = new Intl.DateTimeFormat('de-de', {
-  dateStyle: 'full',
-  timeStyle: 'medium',
+  dateStyle: 'medium',
+  timeStyle: 'short',
 });
 
 const { format: formatCurrency } = new Intl.NumberFormat('de-de', {
@@ -51,38 +50,26 @@ export function Posting({
   userReactionType?: string;
 }) {
   return (
-    <Box
-      color={donation ? 'gold' : 'primary'}
-      roundedCorners={true}
-      variant="outlined"
-    >
-      <Box padding="double">
-        <Stack alignInline="spaceBetween">
-          <UserLabel
-            userImage={userImage}
-            userName={userName}
-            userNameId={userNameId}
-          />
-          <Link href={`/postings/${id}`}>
-            <Text color="text" fontSize="sub">
-              {format(new Date(date))}
-            </Text>
-          </Link>
-        </Stack>
-      </Box>
+    <div className="overflow-hidden rounded-xl border border-congress-blue-900">
+      <div className="flex items-center justify-between border-b border-congress-blue-900 p-4">
+        <UserLabel
+          userImage={userImage}
+          userName={userName}
+          userNameId={userNameId}
+        />
+        <Link href={`/postings/${id}`}>
+          <Text color="text" fontSize="sub">
+            {format(new Date(date))}
+          </Text>
+        </Link>
+      </div>
       {image ? <PostingImage image={image} /> : undefined}
       {text && text.length > 0 ? (
-        <Box textAlign="center" padding="double">
-          {text}
-        </Box>
+        <div className="px-8 py-16 text-center text-xl">{text}</div>
       ) : undefined}
-      {runningExercise ? (
-        <Box padding="double">
-          <RunningExercise {...runningExercise} />
-        </Box>
-      ) : undefined}
+      {runningExercise ? <RunningExercise {...runningExercise} /> : undefined}
       {donation ? (
-        <Box padding="double" textAlign="center">
+        <Box textAlign="center">
           <Text color="gold" fontWeight="bold" fontSize="heading1">
             {formatCurrency(donation.amountInCent / 100)}
           </Text>
@@ -90,20 +77,26 @@ export function Posting({
           Spende
         </Box>
       ) : undefined}
-      <Box padding="normal">
+      <div className="flex flex-col gap-4 bg-neutral-100 p-4">
         <Reactions
           postingId={id}
           reactions={reactions}
           userReactionType={userReactionType}
         />
-      </Box>
-      <Box padding="normal" textAlign="center">
-        <Link href={`/postings/${id}`}>
-          <Text color="primary" fontWeight="bold">
-            Kommentare ({commentCount})
-          </Text>
-        </Link>
-      </Box>
-    </Box>
+        <Box textAlign="center">
+          <Link href={`/postings/${id}`}>
+            <Text color="primary" fontWeight="bold">
+              Kommentare ({commentCount})
+            </Text>
+          </Link>
+        </Box>
+      </div>
+    </div>
   );
 }
+
+/* <Box
+color={donation ? 'gold' : 'primary'}
+roundedCorners={true}
+variant="outlined"
+> */
