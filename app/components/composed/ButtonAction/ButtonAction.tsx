@@ -47,11 +47,16 @@ function ButtonActionComponent({
   return (
     <>
       <Button
-        className={cn({
-          'bg-green-500': statusProps.status === 'resolved',
-          'bg-neutral-300': statusProps.status === 'pending',
-          'bg-red-500': statusProps.status === 'rejected',
-        })}
+        className={cn(
+          {
+            'bg-red-500': color === 'error',
+          },
+          {
+            'bg-green-500': statusProps.status === 'resolved',
+            'bg-neutral-300': statusProps.status === 'pending',
+            'bg-red-500': statusProps.status === 'rejected',
+          },
+        )}
         disabled={disabled}
         onClick={onClick}
         type={type}
