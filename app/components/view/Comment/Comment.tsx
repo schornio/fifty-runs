@@ -1,17 +1,14 @@
 'use client';
 
-import { Box } from '@/components/atomics/Box';
 import { ButtonAction } from '@/components/composed/ButtonAction';
-import { Stack } from '@/components/atomics/Stack';
-import { Text } from '@/components/atomics/Text';
 import { UserLabel } from '@/components/composed/UserLabel';
 import { useCallback } from 'react';
 import { usePromise } from '@/util/usePromise';
 import { useRouter } from 'next/navigation';
 
 const { format } = new Intl.DateTimeFormat('de-de', {
-  dateStyle: 'full',
-  timeStyle: 'medium',
+  dateStyle: 'medium',
+  timeStyle: 'short',
 });
 
 async function deleteComment(commentId: string) {
@@ -51,35 +48,33 @@ export function Comment({
   }, [invokeDeleteComment, id, router]);
 
   return (
-    <Box color="primary" roundedCorners={true} variant="outlined">
-      <Box padding="normal">
-        <Stack alignBlock="center">
-          <UserLabel
-            userImage={userImage}
-            userName={userName}
-            userNameId={userNameId}
+    <div className="overflow-hidden rounded-xl border border-congress-blue-900">
+      <div className="flex items-center justify-between border-b border-congress-blue-900 p-2">
+        <UserLabel
+          userImage={userImage}
+          userName={userName}
+          userNameId={userNameId}
+        />
+        <div className="text-xs">{format(new Date(date))}</div>
+      </div>
+      <div className="p-4">
+        {text}
+        <br />
+      </div>
+      {ownComment ? (
+        <div className="flex justify-end bg-neutral-100 p-4 text-xs">
+          <ButtonAction
+            color="error"
+            contentPending="Löschen..."
+            contentRejected="Löschen fehlgeschlagen"
+            contentResolved="Gelöscht"
+            contentStandby="Löschen"
+            onClick={onClick}
+            status={status}
+            type="button"
           />
-          <Box flexGrow={true} padding="normal">
-            {text}
-            <br />
-            <Text fontSize="sub">{format(new Date(date))}</Text>
-          </Box>
-          {ownComment ? (
-            <Text fontSize="sub">
-              <ButtonAction
-                color="error"
-                contentPending="Löschen..."
-                contentRejected="Löschen fehlgeschlagen"
-                contentResolved="Gelöscht"
-                contentStandby="Löschen"
-                onClick={onClick}
-                status={status}
-                type="button"
-              />
-            </Text>
-          ) : undefined}
-        </Stack>
-      </Box>
-    </Box>
+        </div>
+      ) : undefined}
+    </div>
   );
 }
