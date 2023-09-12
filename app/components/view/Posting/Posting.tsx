@@ -94,9 +94,3 @@ export function Posting({
     </div>
   );
 }
-
-/* <Box
-color={donation ? 'gold' : 'primary'}
-roundedCorners={true}
-variant="outlined"
-> */
