@@ -27,7 +27,7 @@ function ReactionButtonComponent({
   return (
     <button
       className={cn(
-        'flex gap-3 rounded-full border-2 border-congress-blue-900 px-4 py-2 font-bold text-congress-blue-900',
+        'flex gap-3 rounded-full border-2 border-congress-blue-900 bg-white px-4 py-2 text-sm font-bold text-congress-blue-900',
         {
           'border-atlantis-500 text-atlantis-500': selected,
           'border-red-500': status === 'rejected',

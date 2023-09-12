@@ -84,7 +84,7 @@ export function Reactions({
   );
 
   return (
-    <div className="flex justify-center gap-5">
+    <div className="flex justify-center gap-2">
       {reactionSummaries.map(
         ({ count, icon, selected, status: thisStatus, type }) => (
           <ReactionButton
