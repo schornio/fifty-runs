@@ -55,6 +55,7 @@ export async function Header() {
                         className="text-lg font-bold"
                         href={link.url}
                         key={link.id}
+                        prefetch={!link.url.includes('logout')}
                       >
                         {link.label}
                       </Link>
