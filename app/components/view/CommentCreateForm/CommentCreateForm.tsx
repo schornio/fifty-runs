@@ -31,7 +31,7 @@ export function CommentCreateForm({ posting }: { posting: Posting }) {
   const router = useRouter();
   const [text, setText] = useState('');
   const { setMessages, reload, messages } = useChat();
-  const { errors, formRef, validateForm } = useValidation(commentSchema);
+  const { formRef, validateForm } = useValidation(commentSchema);
   const { invoke: invokeCreatePosting, status } = usePromise(createComment);
 
   const postingId = posting.id;
