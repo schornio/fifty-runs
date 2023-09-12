@@ -8,7 +8,7 @@ export const reactions = [
   {
     icon: (
       <svg
-        style={{ color: 'red', height: '1.2em', width: '1.2em' }}
+        style={{ color: 'red', height: '1em', width: '1em' }}
         viewBox="0 0 442.29 464.91"
       >
         <g>

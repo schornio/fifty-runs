@@ -84,7 +84,7 @@ export default async function PostingByIdPage({
           <div className="flex flex-wrap gap-5">
             {reactions.map((reaction) => (
               <div
-                className="flex gap-2 rounded-2xl border border-congress-blue-900 px-3 py-2"
+                className="flex items-center gap-2 rounded-2xl border border-congress-blue-900 px-3 py-2"
                 key={reaction.id}
               >
                 <UserLabel
@@ -92,7 +92,7 @@ export default async function PostingByIdPage({
                   userNameId={reaction.user.nameId}
                   userImage={reaction.user.image}
                 />
-                <span className="text-xl">{reaction.icon}</span>
+                <span className="text-2xl">{reaction.icon}</span>
               </div>
             ))}
           </div>
