@@ -1,44 +1,33 @@
-import { Box } from '@/components/atomics/Box';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Stack } from '@/components/atomics/Stack';
-import { Text } from '@/components/atomics/Text';
 
 export function Footer() {
   return (
-    <footer>
-      <Box color="secondary" variant="filled">
-        <Stack alignInline="center">
-          <Box padding="normal" maxWidth="tablet">
-            <Stack
-              alignBlock="center"
-              alignInline="spaceBetween"
-              directionOnMobile="column"
-            >
-              <Link href="https://www.schorn.io">
-                <Image
-                  alt="50runs"
-                  height={77}
-                  src="/image/schornio.png"
-                  width={200}
-                />
-              </Link>
-              <Stack alignBlock="center" direction="row" gap="normal">
-                <Link href="/impressum">
-                  <Text fontSize="heading3" fontWeight="bold">
-                    Impressum
-                  </Text>
-                </Link>
-                <Link href="/datenschutz">
-                  <Text fontSize="heading3" fontWeight="bold">
-                    Datenschutz
-                  </Text>
-                </Link>
-              </Stack>
-            </Stack>
-          </Box>
-        </Stack>
-      </Box>
+    <footer className="flex justify-center bg-atlantis-500">
+      <div className="flex w-full max-w-screen-xl items-center justify-between p-5">
+        <Link href="https://www.schorn.io">
+          <Image
+            alt="50runs"
+            height={77}
+            src="/image/schornio.png"
+            width={200}
+          />
+        </Link>
+        <div className="flex gap-5">
+          <Link
+            className="font-semibold text-congress-blue-900"
+            href="/impressum"
+          >
+            Impressum
+          </Link>
+          <Link
+            className="font-semibold text-congress-blue-900"
+            href="/datenschutz"
+          >
+            Datenschutz
+          </Link>
+        </div>
+      </div>
     </footer>
   );
 }

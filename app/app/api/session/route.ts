@@ -1,5 +1,7 @@
 import { compare } from 'bcrypt';
+import { cookies } from 'next/headers';
 import { createSession } from '@/util/server/createSession';
+import { getCurrentSession } from '@/util/server/getCurrentSession';
 import { loginSchema } from '@/schema/login';
 import { prisma } from '@/prisma';
 
@@ -41,4 +43,15 @@ export async function POST(request: Request) {
   } catch {
     return new Response(undefined, { status: 400 });
   }
+}
+
+export async function DELETE() {
+  const session = await getCurrentSession();
+
+  if (session) {
+    prisma.session.delete({ where: { id: session.id } });
+  }
+
+  cookies().delete('sessionToken');
+  return new Response();
 }
