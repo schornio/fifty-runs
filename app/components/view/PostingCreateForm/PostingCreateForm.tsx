@@ -233,7 +233,7 @@ export function PostingCreateForm() {
 
           {type === 'runningExercise' ? (
             <div className="p-3 text-center text-lg">
-              Trainings können ab dem 1. Oktober eingegeben werden.
+              Trainings können ab dem 1. Oktober hinzugefügt werden.
             </div>
           ) : undefined}
 
