@@ -32,17 +32,19 @@ function selectActionContent({
 
 function ButtonActionComponent({
   color,
+  disabled = false,
   onClick,
   type,
   ...statusProps
 }: {
   color?: Color;
+  disabled?: boolean;
   onClick?: () => void;
   type: HTMLButtonElement['type'];
 } & ActionStatusProps) {
   const content = selectActionContent(statusProps);
 
-  const disabled = statusProps.status === 'pending';
+  const computedDisabled = disabled || statusProps.status === 'pending';
 
   return (
     <>
@@ -53,11 +55,11 @@ function ButtonActionComponent({
           },
           {
             'bg-green-500': statusProps.status === 'resolved',
-            'bg-neutral-300': statusProps.status === 'pending',
+            'bg-neutral-300': computedDisabled,
             'bg-red-500': statusProps.status === 'rejected',
           },
         )}
-        disabled={disabled}
+        disabled={computedDisabled}
         onClick={onClick}
         type={type}
       >
