@@ -1,6 +1,6 @@
-import { Markdown, heading } from '@/components/atomics/Markdown';
 import { Hero } from '@/types/content/Hero';
 import Image from 'next/image';
+import { Markdown } from '@schornio/markdown-util/dist/next';
 
 export function ContentHero({ data }: { data: Hero }) {
   return (
@@ -16,13 +16,7 @@ export function ContentHero({ data }: { data: Hero }) {
       ) : null}
       {data.text ? (
         <div className="absolute left-5 top-5 flex flex-col gap-5 text-xl text-congress-blue-900 prose-h1:text-4xl prose-h1:font-bold prose-a:rounded-full prose-a:border-2 prose-a:border-congress-blue-900 prose-a:px-4 prose-a:py-2 prose-a:font-semibold md:left-16 md:top-16 lg:left-1/4 lg:top-1/4">
-          <Markdown
-            components={{
-              heading: heading('main'),
-            }}
-          >
-            {data.text}
-          </Markdown>
+          <Markdown headingTopLevel={1}>{data.text}</Markdown>
         </div>
       ) : null}
     </div>

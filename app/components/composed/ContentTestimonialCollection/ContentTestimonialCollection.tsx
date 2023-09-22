@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { Markdown } from '@/components/atomics/Markdown';
+import { Markdown } from '@schornio/markdown-util/dist/next';
 import { TestimonialCollection } from '@/types/content/TestimonialCollection';
 
 export function ContentTestimonialCollection({
@@ -16,7 +16,7 @@ export function ContentTestimonialCollection({
         >
           <div className="prose prose-lg prose-primary">
             <Markdown
-              components={{
+              componentsOverride={{
                 paragraph: ({ children }) => (
                   <p>
                     <svg className="mr-2 inline h-8" viewBox="0 0 26 28">
