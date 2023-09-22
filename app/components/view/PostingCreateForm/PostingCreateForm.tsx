@@ -28,10 +28,10 @@ const types = [
     id: 'posting',
     label: 'Beitrag',
   },
-  // {
-  //   id: 'runningExercise',
-  //   label: 'Training',
-  // },
+  {
+    id: 'runningExercise',
+    label: 'Training',
+  },
   // {
   //   id: 'donation',
   //   label: 'Spende',
@@ -231,11 +231,18 @@ export function PostingCreateForm() {
             />
           </Stack>
 
+          {type === 'runningExercise' ? (
+            <div className="p-3 text-center text-lg">
+              Trainings können ab dem 1. Oktober hinzugefügt werden.
+            </div>
+          ) : undefined}
+
           <ButtonAction
             contentPending="Hinzufügen..."
             contentRejected="Hinzufügen fehlgeschlagen"
             contentResolved="Hinzugefügt"
             contentStandby="Hinzufügen"
+            disabled={type === 'runningExercise'}
             status={status}
             type="submit"
           />
