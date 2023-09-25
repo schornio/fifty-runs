@@ -15,6 +15,8 @@ export async function POST(request: Request) {
 
     const {
       email,
+      groupName,
+      groupNameId,
       image,
       name,
       nameId,
@@ -55,6 +57,28 @@ export async function POST(request: Request) {
       subject: '50runs: Email bestätigen',
       to: email,
     });
+
+    if (groupName && groupNameId) {
+      const group = await prisma.group.upsert({
+        create: {
+          name: groupName,
+          nameId: groupNameId,
+        },
+        update: {},
+        where: {
+          nameId: groupNameId,
+        },
+      });
+
+      await prisma.user.update({
+        data: {
+          groupId: group.id,
+        },
+        where: {
+          id: user.id,
+        },
+      });
+    }
 
     return new Response();
   } catch {

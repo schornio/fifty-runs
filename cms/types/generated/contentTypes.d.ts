@@ -777,7 +777,8 @@ export interface ApiPagePage extends Schema.CollectionType {
         'content.hero',
         'content.text',
         'content.horizontal-ruler',
-        'content.testimonial-collection'
+        'content.testimonial-collection',
+        'content.leaderboard'
       ]
     > &
       Attribute.SetPluginOptions<{

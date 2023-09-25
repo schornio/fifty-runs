@@ -9,6 +9,7 @@ import { Stack } from '@/components/atomics/Stack';
 import { Text } from '@/components/atomics/Text';
 import { registerSchema } from '@/schema/register';
 import { usePromise } from '@/util/usePromise';
+import { useSearchParams } from 'next/navigation';
 import { useValidation } from '@/util/form/useValidation';
 
 async function register(formData: FormData) {
@@ -22,6 +23,7 @@ async function register(formData: FormData) {
 }
 
 export function RegisterForm() {
+  const searchParams = useSearchParams();
   const [formState, setFormState] = useState<'standby' | 'success'>('standby');
   const { errors, formRef, validateForm, validateFormJustInTime } =
     useValidation(registerSchema);
@@ -97,6 +99,14 @@ export function RegisterForm() {
               name="repeatPassword"
               onChange={validateFormJustInTime}
               type="password"
+            />
+            <InputText
+              defaultValue={searchParams.get('group') ?? undefined}
+              error={errors}
+              label="Optional: Teilnahme an einer Gruppe"
+              name="groupName"
+              onChange={validateFormJustInTime}
+              type="text"
             />
 
             <ButtonAction

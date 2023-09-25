@@ -22,6 +22,9 @@ export default async function UserByIdPage({
 }) {
   const session = await getCurrentSession();
   const user = await prisma.user.findUnique({
+    include: {
+      group: true,
+    },
     where: {
       nameId,
     },
@@ -66,6 +69,13 @@ export default async function UserByIdPage({
         <h1 className="text-center text-3xl font-bold text-congress-blue-900">
           {user.name}
         </h1>
+        {user.group ? (
+          <div className="text-center">
+            <span className="text-xl font-bold text-congress-blue-900">
+              {user.group.name}
+            </span>
+          </div>
+        ) : undefined}
         {donationSum > 0 ? (
           <div className="flex flex-col py-10 text-center">
             <span className="text-4xl font-bold text-gold-500">

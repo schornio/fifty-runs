@@ -1,5 +1,6 @@
 import { ContentHero } from '@/components/composed/ContentHero';
 import { ContentHorizontalRuler } from '@/components/composed/ContentHorizontalRuler';
+import { ContentLeaderboard } from '@/components/composed/ContentLeaderboard';
 import { ContentTestimonialCollection } from '../ContentTestimonialCollection';
 import { ContentText } from '@/components/composed/ContentText';
 import { Content as ContentType } from '@/types/content';
@@ -10,6 +11,8 @@ export function Content({ data }: { data: ContentType }) {
       return <ContentHero data={data} />;
     case 'content.horizontal-ruler':
       return <ContentHorizontalRuler />;
+    case 'content.leaderboard':
+      return <ContentLeaderboard data={data} />;
     case 'content.testimonial-collection':
       return <ContentTestimonialCollection data={data} />;
     case 'content.text':
