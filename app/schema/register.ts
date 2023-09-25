@@ -6,12 +6,17 @@ export const registerSchema = object({
   email: string().email({
     message: 'Email muss eine gültige Email-Adresse sein',
   }),
+  groupName: string()
+    .min(3, {
+      message: 'Gruppenname muss mindestens 3 Zeichen lang sein',
+    })
+    .optional(),
   image: instanceOf(Blob, { message: 'Keine gültige Bild-Datei' })
     .refine(
       (data) => {
         return data.size < FILE_SIZE_LIMIT;
       },
-      { message: 'Bild zu groß' }
+      { message: 'Bild zu groß' },
     )
     .optional(),
   name: string()
@@ -43,5 +48,9 @@ export const registerSchema = object({
   })
   .transform((data) => ({
     ...data,
-    nameId: data.name.toLowerCase(),
+    nameId: data.name.toLowerCase().trim().replaceAll(/\s+/gu, '-'),
+  }))
+  .transform((data) => ({
+    ...data,
+    groupNameId: data.groupName?.toLowerCase().trim().replaceAll(/\s+/gu, '-'),
   }));

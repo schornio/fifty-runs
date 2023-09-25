@@ -37,6 +37,27 @@ export interface ContentHorizontalRuler extends Schema.Component {
   attributes: {};
 }
 
+export interface ContentLeaderboard extends Schema.Component {
+  collectionName: 'components_content_leaderboards';
+  info: {
+    displayName: 'Leaderboard';
+    icon: 'bulletList';
+  };
+  attributes: {
+    type: Attribute.Enumeration<
+      [
+        'donationSum',
+        'allUsersByRuns',
+        'groupUsersByRuns',
+        'allUsersByDistance',
+        'allUsersByDuration'
+      ]
+    > &
+      Attribute.Required &
+      Attribute.DefaultTo<'allUsersByRuns'>;
+  };
+}
+
 export interface ContentTestimonialCollection extends Schema.Component {
   collectionName: 'components_content_testimonial_collections';
   info: {
@@ -84,6 +105,7 @@ declare module '@strapi/strapi' {
       'common.link': CommonLink;
       'content.hero': ContentHero;
       'content.horizontal-ruler': ContentHorizontalRuler;
+      'content.leaderboard': ContentLeaderboard;
       'content.testimonial-collection': ContentTestimonialCollection;
       'content.testimonial': ContentTestimonial;
       'content.text': ContentText;

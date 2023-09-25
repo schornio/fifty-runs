@@ -20,6 +20,9 @@ export async function getPageBySlug(slug: string) {
             'content.horizontal-ruler': {
               populate: '*',
             },
+            'content.leaderboard': {
+              populate: '*',
+            },
             'content.testimonial-collection': {
               populate: {
                 testimonial: {

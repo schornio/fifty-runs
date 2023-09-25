@@ -5,6 +5,7 @@ import styles from './InputText.module.css';
 
 function InputTextComponent({
   color = 'primary',
+  defaultValue,
   error,
   label,
   name,
@@ -13,6 +14,7 @@ function InputTextComponent({
   value,
 }: {
   color?: Color;
+  defaultValue?: string;
   error?: Map<string, string[]>;
   label: ReactNode;
   name: string;
@@ -43,6 +45,7 @@ function InputTextComponent({
       <input
         aria-errormessage={hasError ? errorId : undefined}
         className={classNameInput}
+        defaultValue={defaultValue}
         id={inputId}
         name={name}
         onChange={onChange}

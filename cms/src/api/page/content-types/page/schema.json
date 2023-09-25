@@ -67,7 +67,8 @@
         "content.hero",
         "content.text",
         "content.horizontal-ruler",
-        "content.testimonial-collection"
+        "content.testimonial-collection",
+        "content.leaderboard"
       ]
     }
   }

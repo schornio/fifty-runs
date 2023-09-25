@@ -20,6 +20,13 @@ enum DonationMultiplier {
     x10
 }
 
+model Group {
+    id     String @id @default(uuid())
+    name   String @unique
+    nameId String @unique
+    users  User[]
+}
+
 model User {
     id                       String              @id @default(uuid())
     name                     String              @unique
@@ -37,6 +44,8 @@ model User {
     postings                 Posting[]
     comments                 Comment[]
     runningStatistic         RunningStatistic?
+    group                    Group?              @relation(fields: [groupId], references: [id])
+    groupId                  String?
 
     @@unique([nameId, email])
     @@index([emailVerificationToken])

@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_content_leaderboards",
+  "info": {
+    "displayName": "Leaderboard",
+    "icon": "bulletList"
+  },
+  "options": {},
+  "attributes": {
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "donationSum",
+        "allUsersByRuns",
+        "groupUsersByRuns",
+        "allUsersByDistance",
+        "allUsersByDuration"
+      ],
+      "required": true,
+      "default": "allUsersByRuns"
+    }
+  }
+}
