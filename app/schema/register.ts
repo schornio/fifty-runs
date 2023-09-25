@@ -1,4 +1,4 @@
-import { instanceof as instanceOf, object, string } from 'zod';
+import { instanceof as instanceOf, object, string, union } from 'zod';
 
 const FILE_SIZE_LIMIT = 1024 * 1024 * 2; // 2 MB
 
@@ -6,11 +6,18 @@ export const registerSchema = object({
   email: string().email({
     message: 'Email muss eine gültige Email-Adresse sein',
   }),
-  groupName: string()
-    .min(3, {
-      message: 'Gruppenname muss mindestens 3 Zeichen lang sein',
-    })
-    .optional(),
+  groupName: union([
+    string().length(0, {
+      message:
+        'Gruppenname muss entweder leer sein oder mindestens 3 Zeichen lang sein',
+    }),
+    string().min(3, {
+      message:
+        'Gruppenname muss entweder leer sein oder mindestens 3 Zeichen lang sein',
+    }),
+  ])
+    .optional()
+    .transform((data) => (data?.length === 0 ? undefined : data)),
   image: instanceOf(Blob, { message: 'Keine gültige Bild-Datei' })
     .refine(
       (data) => {
