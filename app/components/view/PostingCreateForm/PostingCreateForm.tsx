@@ -32,10 +32,10 @@ const types = [
     id: 'runningExercise',
     label: 'Training',
   },
-  // {
-  //   id: 'donation',
-  //   label: 'Spende',
-  // },
+  {
+    id: 'donation',
+    label: 'Spende',
+  },
 ];
 
 const visibilityItems = [
@@ -69,7 +69,7 @@ export function PostingCreateForm() {
     useValidation(requestSchema);
   const { invoke: invokeCreatePosting, status } = usePromise(createPosting);
   const [formVisible, setFormVisible] = useState(false);
-  const [type, setType] = useState('posting');
+  const [type, setType] = useState('runningExercise');
 
   const onShowClick = useCallback(() => {
     setFormVisible(true);
@@ -231,18 +231,11 @@ export function PostingCreateForm() {
             />
           </Stack>
 
-          {type === 'runningExercise' ? (
-            <div className="p-3 text-center text-lg">
-              Trainings können ab dem 1. Oktober hinzugefügt werden.
-            </div>
-          ) : undefined}
-
           <ButtonAction
             contentPending="Hinzufügen..."
             contentRejected="Hinzufügen fehlgeschlagen"
             contentResolved="Hinzugefügt"
             contentStandby="Hinzufügen"
-            disabled={type === 'runningExercise'}
             status={status}
             type="submit"
           />
