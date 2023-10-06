@@ -7,7 +7,8 @@ export async function getMainHeader() {
     '/main-header',
     {
       next: {
-        revalidate: 1, // always revalidate
+        revalidate: 60 * 60 * 24 * 7, // 1 week
+        tags: ['strapi'],
       },
       query: {
         populate: ['links', 'logo'],
