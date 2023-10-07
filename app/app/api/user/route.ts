@@ -33,6 +33,7 @@ export async function POST(request: Request) {
         name,
         nameId,
         password,
+        runDonationMultiplier: 'x1',
       },
     });
 
