@@ -7,6 +7,7 @@ import { CommentCreateForm } from '@/components/view/CommentCreateForm';
 import { Metadata } from 'next';
 import { Posting } from '@/components/view/Posting';
 import { PostingDeleteButton } from '@/components/view/PostingDeleteButton';
+import { PostingForm } from '@/components/view/PostingForm';
 import { UserLabel } from '@/components/composed/UserLabel';
 import { reactions as availableReactions } from '@/model/reaction';
 import { getCurrentSession } from '@/util/server/getCurrentSession';
@@ -111,6 +112,22 @@ export default async function PostingByIdPage({
           />
         ))}
         <CommentCreateForm posting={posting} />
+        {ownPosting ? (
+          <PostingForm
+            donationAmountCent={posting.donation?.amountInCent}
+            editPostingId={posting.id}
+            exerciseDurationSeconds={posting.runningExercise?.durationInSeconds}
+            exerciseDistanceMeters={posting.runningExercise?.distanceInMeters}
+            postingType={
+              posting.runningExercise
+                ? 'runningExercise'
+                : posting.donation
+                ? 'donation'
+                : undefined
+            }
+            text={posting.text ?? undefined}
+          />
+        ) : undefined}
         {ownPosting ? <PostingDeleteButton id={posting.id} /> : undefined}
       </div>
     </div>

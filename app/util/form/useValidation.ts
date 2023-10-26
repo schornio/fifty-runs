@@ -5,7 +5,7 @@ export function useValidation(schema: { safeParse: ZodType['safeParse'] }) {
   const formRef = useRef<HTMLFormElement>(null);
   const [justInTimeValidation, setJustInTimeValidation] = useState(false);
   const [errorState, setErrorState] = useState<ZodIssue[] | undefined>(
-    undefined
+    undefined,
   );
 
   const validateForm = useCallback(() => {

@@ -5,6 +5,7 @@ import styles from './InputTextMultiline.module.css';
 
 function InputTextMultilineComponent({
   color = 'primary',
+  defaultValue,
   error,
   label,
   name,
@@ -12,6 +13,7 @@ function InputTextMultilineComponent({
   value,
 }: {
   color?: Color;
+  defaultValue?: string;
   error?: Map<string, string[]>;
   label: ReactNode;
   name: string;
@@ -37,6 +39,7 @@ function InputTextMultilineComponent({
       <textarea
         aria-errormessage={hasError ? errorId : undefined}
         className={className}
+        defaultValue={defaultValue}
         id={inputId}
         name={name}
         onChange={onChange}
