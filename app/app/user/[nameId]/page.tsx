@@ -1,6 +1,6 @@
 import { DonationMultiplierSetForm } from '@/components/view/DonationMultiplierSetForm';
 import { PasswordChangeForm } from '@/components/view/PasswordChangeForm';
-import { PostingCreateForm } from '@/components/view/PostingCreateForm';
+import { PostingForm } from '@/components/view/PostingForm';
 import { Postings } from '@/components/view/Postings';
 import { UserImage } from '@/components/atomics/UserImage';
 import { UserImageChangeForm } from '@/components/view/UserImageChangeForm';
@@ -86,7 +86,7 @@ export default async function UserByIdPage({
         ) : undefined}
         {isOwnProfile ? (
           <>
-            <PostingCreateForm />
+            <PostingForm />
             <DonationMultiplierSetForm
               runDonationMultiplier={user.runDonationMultiplier}
             />

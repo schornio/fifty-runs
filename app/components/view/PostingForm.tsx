@@ -53,23 +53,74 @@ const visibilityItems = [
   },
 ];
 
-async function createPosting(formData: FormData) {
-  const result = await fetch('/api/posting', {
-    body: formData,
-    method: 'POST',
-  });
-  if (!result.ok) {
-    throw new Error();
+async function upsertPosting({
+  formData,
+  postingId,
+}: {
+  formData: FormData;
+  postingId?: string;
+}) {
+  if (postingId) {
+    const result = await fetch(`/api/posting/${postingId}`, {
+      body: formData,
+      method: 'PUT',
+    });
+    if (!result.ok) {
+      throw new Error();
+    }
+  } else {
+    const result = await fetch('/api/posting', {
+      body: formData,
+      method: 'POST',
+    });
+    if (!result.ok) {
+      throw new Error();
+    }
   }
 }
 
-export function PostingCreateForm() {
+export function PostingForm({
+  editPostingId,
+  postingType,
+  ...posting
+}: {
+  donationAmountCent?: number;
+  editPostingId?: string;
+  exerciseDistanceMeters?: number;
+  exerciseDurationSeconds?: number;
+  postingType?: string;
+  text?: string;
+}) {
+  const mode = editPostingId ? 'edit' : 'create';
+
+  const defaultDonationAmountCent = posting.donationAmountCent
+    ? posting.donationAmountCent % 1000
+    : undefined;
+  const defaultDonationAmountEuro = posting.donationAmountCent
+    ? Math.floor(posting.donationAmountCent / 1000)
+    : undefined;
+  const defaultExerciseDistanceMeters = posting.exerciseDistanceMeters
+    ? posting.exerciseDistanceMeters % 1000
+    : undefined;
+  const defaultExerciseDistanceKilometers = posting.exerciseDistanceMeters
+    ? Math.floor(posting.exerciseDistanceMeters / 1000)
+    : undefined;
+  const defaultExerciseDurationSeconds = posting.exerciseDurationSeconds
+    ? posting.exerciseDurationSeconds % 60
+    : undefined;
+  const defaultExerciseDurationMinutes = posting.exerciseDurationSeconds
+    ? Math.floor(posting.exerciseDurationSeconds / 60) % 60
+    : undefined;
+  const defaultExerciseDurationHours = posting.exerciseDurationSeconds
+    ? Math.floor(posting.exerciseDurationSeconds / 3600)
+    : undefined;
+
   const router = useRouter();
   const { errors, formRef, validateForm, validateFormJustInTime } =
     useValidation(requestSchema);
-  const { invoke: invokeCreatePosting, status } = usePromise(createPosting);
+  const { invoke: invokeUpsertPosting, status } = usePromise(upsertPosting);
   const [formVisible, setFormVisible] = useState(false);
-  const [type, setType] = useState('runningExercise');
+  const [type, setType] = useState(postingType ?? 'runningExercise');
 
   const onShowClick = useCallback(() => {
     setFormVisible(true);
@@ -89,7 +140,10 @@ export function PostingCreateForm() {
       const formData = validateForm();
 
       if (formData) {
-        const result = await invokeCreatePosting(formData);
+        const result = await invokeUpsertPosting({
+          formData,
+          postingId: editPostingId,
+        });
 
         if (result.status === 'resolved') {
           router.refresh();
@@ -97,13 +151,14 @@ export function PostingCreateForm() {
         }
       }
     },
-    [validateForm, invokeCreatePosting, router],
+    [validateForm, invokeUpsertPosting, editPostingId, router],
   );
 
   if (!formVisible) {
     return (
       <Button onClick={onShowClick} type="button">
-        Neuen Beitrag hinzufügen
+        {mode === 'create' ? 'Neuen Beitrag hinzufügen' : undefined}
+        {mode === 'edit' ? 'Beitrag bearbeiten' : undefined}
       </Button>
     );
   }
@@ -118,30 +173,57 @@ export function PostingCreateForm() {
     >
       <form onSubmit={onSubmit} ref={formRef}>
         <Stack alignBlock="stretch" direction="column" gap="normal">
-          <Stack alignInline="center" gap="normal">
-            <ButtonRadioGroup
-              items={types}
-              name="type"
-              onChange={onTypeChange}
-              value={type}
-            />
-          </Stack>
+          {mode === 'create' ? (
+            <Stack alignInline="center" gap="normal">
+              <ButtonRadioGroup
+                items={types}
+                name="type"
+                onChange={onTypeChange}
+                value={type}
+              />
+            </Stack>
+          ) : undefined}
+          {mode === 'edit' ? (
+            <input name="type" type="hidden" value={postingType} />
+          ) : undefined}
+
           <Box textAlign="center">
             {type === 'runningExercise' ? (
-              <h2>Training hinzufügen</h2>
+              <h2>
+                {mode === 'create' ? 'Training hinzufügen' : undefined}
+                {mode === 'edit' ? 'Training bearbeiten' : undefined}
+              </h2>
             ) : undefined}
-            {type === 'posting' ? <h2>Beitrag hinzufügen</h2> : undefined}
-            {type === 'donation' ? <h2>Spende hinzufügen</h2> : undefined}
+            {type === 'posting' ? (
+              <h2>
+                {mode === 'create' ? 'Beitrag hinzufügen' : undefined}
+                {mode === 'edit' ? 'Beitrag bearbeiten' : undefined}
+              </h2>
+            ) : undefined}
+            {type === 'donation' ? (
+              <h2>
+                {mode === 'create' ? 'Spende hinzufügen' : undefined}
+                {mode === 'edit' ? 'Spende bearbeiten' : undefined}
+              </h2>
+            ) : undefined}
           </Box>
-          <Stack alignInline="center" direction="row">
-            <InputImage
-              error={errors}
-              label="Bild hinzufügen"
-              name="image"
-              onChange={validateFormJustInTime}
-              type="postingImage"
-            />
-          </Stack>
+          {mode === 'create' ? (
+            <Stack alignInline="center" direction="row">
+              <InputImage
+                error={errors}
+                label={
+                  mode === 'create'
+                    ? 'Bild hinzufügen'
+                    : mode === 'edit'
+                    ? 'Bild ändern'
+                    : undefined
+                }
+                name="image"
+                onChange={validateFormJustInTime}
+                type="postingImage"
+              />
+            </Stack>
+          ) : undefined}
 
           {type === 'runningExercise' ? (
             <>
@@ -150,6 +232,7 @@ export function PostingCreateForm() {
               </Box>
               <Stack alignInline="center" direction="row" gap="normal">
                 <InputText
+                  defaultValue={defaultExerciseDistanceKilometers?.toString()}
                   error={errors}
                   label="Kilometer"
                   name="distanceKilometers"
@@ -157,6 +240,7 @@ export function PostingCreateForm() {
                   type="number"
                 />
                 <InputText
+                  defaultValue={defaultExerciseDistanceMeters?.toString()}
                   error={errors}
                   label="Meter"
                   name="distanceMeters"
@@ -169,6 +253,7 @@ export function PostingCreateForm() {
               </Box>
               <Stack alignInline="center" direction="row" gap="normal">
                 <InputText
+                  defaultValue={defaultExerciseDurationHours?.toString()}
                   error={errors}
                   label="Stunden"
                   name="durationHours"
@@ -176,6 +261,7 @@ export function PostingCreateForm() {
                   type="number"
                 />
                 <InputText
+                  defaultValue={defaultExerciseDurationMinutes?.toString()}
                   error={errors}
                   label="Minuten"
                   name="durationMinutes"
@@ -183,6 +269,7 @@ export function PostingCreateForm() {
                   type="number"
                 />
                 <InputText
+                  defaultValue={defaultExerciseDurationSeconds?.toString()}
                   error={errors}
                   label="Sekunden"
                   name="durationSeconds"
@@ -199,6 +286,7 @@ export function PostingCreateForm() {
               </Box>
               <Stack alignInline="center" direction="row" gap="normal">
                 <InputText
+                  defaultValue={defaultDonationAmountEuro?.toString()}
                   error={errors}
                   label="Euro"
                   name="amountEuro"
@@ -206,6 +294,7 @@ export function PostingCreateForm() {
                   type="number"
                 />
                 <InputText
+                  defaultValue={defaultDonationAmountCent?.toString()}
                   error={errors}
                   label="Cent"
                   name="amountCent"
@@ -216,6 +305,7 @@ export function PostingCreateForm() {
             </>
           ) : undefined}
           <InputTextMultiline
+            defaultValue={posting?.text}
             error={errors}
             label="Text"
             name="text"
@@ -231,14 +321,28 @@ export function PostingCreateForm() {
             />
           </Stack>
 
-          <ButtonAction
-            contentPending="Hinzufügen..."
-            contentRejected="Hinzufügen fehlgeschlagen"
-            contentResolved="Hinzugefügt"
-            contentStandby="Hinzufügen"
-            status={status}
-            type="submit"
-          />
+          {mode === 'create' ? (
+            <ButtonAction
+              contentPending="Hinzufügen..."
+              contentRejected="Hinzufügen fehlgeschlagen"
+              contentResolved="Hinzugefügt"
+              contentStandby="Hinzufügen"
+              status={status}
+              type="submit"
+            />
+          ) : undefined}
+
+          {mode === 'edit' ? (
+            <ButtonAction
+              contentPending="Ändern..."
+              contentRejected="Ändern fehlgeschlagen"
+              contentResolved="Geändert"
+              contentStandby="Ändern"
+              status={status}
+              type="submit"
+            />
+          ) : undefined}
+
           <Button onClick={onHideClick} type="button" variant="text">
             Abbrechen
           </Button>

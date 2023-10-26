@@ -16,7 +16,6 @@
     "no-implicit-coercion": ["error"],
     "no-multi-assign": ["error"],
     "no-negated-condition": ["error"],
-    "no-nested-ternary": ["error"],
     "no-param-reassign": ["error"],
     "no-plusplus": ["error"],
     "no-shadow": ["warn"],
