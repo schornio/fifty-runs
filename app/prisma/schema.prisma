@@ -76,6 +76,7 @@ model Posting {
     runningExercise   RunningExercise?
     runningExerciseId String?
     donation          Donation?
+    season            String
 }
 
 model Comment {
