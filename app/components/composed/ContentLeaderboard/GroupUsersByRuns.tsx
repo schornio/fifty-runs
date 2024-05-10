@@ -4,6 +4,8 @@ import { cache } from 'react';
 import { getCurrentSession } from '@/util/server/getCurrentSession';
 import { prisma } from '@/prisma';
 
+const season = process.env.SEASON;
+
 const getGroupUsersByRuns = cache(async (groupId: string) => {
   return await prisma.runningStatistic.findMany({
     orderBy: {
@@ -21,6 +23,7 @@ const getGroupUsersByRuns = cache(async (groupId: string) => {
       },
     },
     where: {
+      season,
       user: {
         groupId,
       },

@@ -1,10 +1,13 @@
 import { del } from '@vercel/blob';
 import { donationSchema } from '@/schema/donation';
 import { getCurrentSession } from '@/util/server/getCurrentSession';
+import { getEnvSafe } from '@/util/getEnvSave';
 import { postingSchema } from '@/schema/posting';
 import { prisma } from '@/prisma';
 import { runningExperciseSchema } from '@/schema/runningExercise';
 import { z } from 'zod';
+
+const season = getEnvSafe('SEASON');
 
 const requestSchema = z.union([
   postingSchema,
@@ -74,6 +77,7 @@ export async function PUT(
           distanceInMeters: postingUpdates.distanceInMeters,
           durationInSeconds: postingUpdates.durationInSeconds,
           numberOfRuns: 1,
+          season,
           userId: session.userId,
         },
         update: {

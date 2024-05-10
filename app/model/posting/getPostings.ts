@@ -9,6 +9,8 @@ type JSONParsed<T> = T extends Date
   ? { [K in keyof T]: JSONParsed<T[K]> }
   : T;
 
+const season = process.env.SEASON;
+
 const selectPosting = {
   _count: {
     select: {
@@ -75,6 +77,7 @@ export async function getPostings(args?: {
       date: {
         lt: from ? new Date(from) : new Date(),
       },
+      season,
       userId: args?.byUserId,
     },
   });

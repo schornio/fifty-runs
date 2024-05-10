@@ -3,6 +3,8 @@ import { UserLabel } from '@/components/composed/UserLabel';
 import { cache } from 'react';
 import { prisma } from '@/prisma';
 
+const season = process.env.SEASON;
+
 const getAllUsersByRuns = cache(async () => {
   return await prisma.runningStatistic.findMany({
     orderBy: {
@@ -20,6 +22,9 @@ const getAllUsersByRuns = cache(async () => {
       },
     },
     take: 5,
+    where: {
+      season,
+    },
   });
 });
 
