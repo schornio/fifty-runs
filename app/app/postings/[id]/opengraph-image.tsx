@@ -1,4 +1,4 @@
-import { ImageResponse } from 'next/server';
+import { ImageResponse } from 'next/og';
 import { getCurrentSession } from '@/util/server/getCurrentSession';
 import { getPostingById } from '@/service/getPostingById';
 
@@ -44,6 +44,7 @@ export default async function OGImage({
           width: '100%',
         }}
       >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img alt={alt} height={size.height} src={image} width={size.width} />
       </div>
     ),
@@ -52,6 +53,6 @@ export default async function OGImage({
       // For convenience, we can re-use the exported opengraph-image
       // size config to also set the ImageResponse's width and height.
       ...size,
-    }
+    },
   );
 }

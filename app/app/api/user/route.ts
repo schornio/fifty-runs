@@ -52,7 +52,7 @@ export async function POST(request: Request) {
       });
     }
 
-    await resend.sendEmail({
+    await resend.emails.send({
       from: 'noreply@app.50runs.com',
       react: EmailVerification({ emailVerificationToken, userName: name }),
       subject: '50runs: Email bestätigen',
