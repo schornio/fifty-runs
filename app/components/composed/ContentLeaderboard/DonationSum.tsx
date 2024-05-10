@@ -2,6 +2,8 @@ import { cache } from 'react';
 import { donationMultiplierToNumber } from '@/model/donationMultiplierToNumber';
 import { prisma } from '@/prisma';
 
+const season = process.env.SEASON;
+
 const { format: formatCurrency } = new Intl.NumberFormat('de-de', {
   currency: 'EUR',
   style: 'currency',
@@ -11,6 +13,11 @@ const getDonationSum = cache(async () => {
   const donations = await prisma.donation.aggregate({
     _sum: {
       amountInCent: true,
+    },
+    where: {
+      posting: {
+        season,
+      },
     },
   });
 
@@ -29,6 +36,9 @@ const getAllUsers = cache(async () => {
           runDonationMultiplier: true,
         },
       },
+    },
+    where: {
+      season,
     },
   });
 });

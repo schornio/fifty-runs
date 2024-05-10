@@ -1,12 +1,15 @@
 import { NextResponse } from 'next/server';
 import { donationSchema } from '@/schema/donation';
 import { getCurrentSession } from '@/util/server/getCurrentSession';
+import { getEnvSafe } from '@/util/getEnvSave';
 import { getPostings } from '@/model/posting/getPostings';
 import { postingSchema } from '@/schema/posting';
 import { prisma } from '@/prisma';
 import { put } from '@vercel/blob';
 import { runningExperciseSchema } from '@/schema/runningExercise';
 import { z } from 'zod';
+
+const season = getEnvSafe('SEASON');
 
 export async function GET(request: Request) {
   const url = new URL(request.url);
@@ -39,6 +42,7 @@ export async function POST(request: Request) {
     const { id } = await prisma.posting.create({
       data: {
         date: new Date(),
+        season,
         text: posting.text,
         userId: session.userId,
         visibility: posting.visibility,
@@ -74,6 +78,7 @@ export async function POST(request: Request) {
           distanceInMeters: posting.distanceInMeters,
           durationInSeconds: posting.durationInSeconds,
           numberOfRuns: 1,
+          season,
           userId: session.userId,
         },
         update: {

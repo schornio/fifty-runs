@@ -76,6 +76,7 @@ model Posting {
     runningExercise   RunningExercise?
     runningExerciseId String?
     donation          Donation?
+    season            String
 }
 
 model Comment {
@@ -123,4 +124,5 @@ model RunningStatistic {
     durationInSeconds Int
     user              User   @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId            String @unique
+    season            String
 }
