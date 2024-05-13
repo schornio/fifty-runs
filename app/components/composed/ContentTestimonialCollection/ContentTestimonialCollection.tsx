@@ -11,7 +11,7 @@ export function ContentTestimonialCollection({
     <div className="flex flex-wrap justify-center gap-5">
       {data.testimonial.map(({ id, image, name, text }) => (
         <div
-          className="mb-16 flex max-w-xs flex-col justify-between rounded-xl border border-atlantis-500 p-4"
+          className="border-summer-500 mb-16 flex max-w-xs flex-col justify-between rounded-xl border p-4"
           key={id}
         >
           <div className="prose prose-lg prose-primary">
@@ -37,14 +37,14 @@ export function ContentTestimonialCollection({
             {image?.data?.attributes.url ? (
               <Image
                 alt={name}
-                className="absolute left-8 rounded-full border-2 border-atlantis-500"
+                className="border-summer-500 absolute left-8 rounded-full border-2"
                 src={image.data.attributes.url}
                 height={120}
                 width={120}
               />
             ) : undefined}
             <div className="mr-10">
-              <p className="text-lg font-bold text-atlantis-500">{name}</p>
+              <p className="text-summer-500 text-lg font-bold">{name}</p>
               <p>50runner</p>
             </div>
           </div>

@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 export function Footer() {
   return (
-    <footer className="flex justify-center bg-atlantis-500">
+    <footer className="bg-summer-500 flex justify-center">
       <div className="flex w-full max-w-screen-xl items-center justify-between p-5">
         <Link href="https://www.schorn.io">
           <Image

@@ -30,10 +30,10 @@ function ButtonComponent({
         'rounded-full p-2 font-semibold',
         {
           'bg-congress-blue-900 text-white': variant === 'filled-primary',
-          'border-2 border-atlantis-500 text-atlantis-500':
-            variant === 'outlined-secondary',
           'border-2 border-congress-blue-900 text-congress-blue-900':
             variant === 'outlined-primary',
+          'border-summer-500 text-summer-500 border-2':
+            variant === 'outlined-secondary',
         },
         className,
       )}
