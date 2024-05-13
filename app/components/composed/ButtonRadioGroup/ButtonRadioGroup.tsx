@@ -30,9 +30,9 @@ function RadioButtonComponent({
   return (
     <Button
       className={cn({
-        'bg-atlantis-500 text-white': selected && variant === 'secondary',
         'bg-congress-blue-900 text-white': selected && variant === 'primary',
         'bg-gold-500': selected && variant === 'gold',
+        'bg-summer-500 text-white': selected && variant === 'secondary',
         'border-gold-500 text-black': variant === 'gold',
       })}
       onClick={onButtonClick}

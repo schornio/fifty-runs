@@ -46,13 +46,26 @@ module.exports = {
           900: '#74480f',
           950: '#442604',
         },
+        summer: {
+          100: '#fdffc1',
+          200: '#fffe86',
+          300: '#fff641',
+          400: '#ffe80d',
+          50: '#ffffe7',
+          500: '#f0cc00', // default
+          600: '#d1a000',
+          700: '#a67202',
+          800: '#89590a',
+          900: '#74480f',
+          950: '#442604',
+        },
       },
       typography: ({ theme }) => ({
         primary: {
           css: {
             '--tw-prose-body': theme('colors.congress-blue[900]'),
             '--tw-prose-headings': theme('colors.congress-blue[900]'),
-            '--tw-prose-links': theme('colors.atlantis[500]'),
+            '--tw-prose-links': theme('colors.summer[500]'),
           },
         },
       }),
