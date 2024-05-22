@@ -93,6 +93,7 @@ export async function PUT(
           },
         },
         where: {
+          season,
           userId: session.userId,
         },
       });
