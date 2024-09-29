@@ -2,6 +2,7 @@ import { DonationMultiplierSetForm } from '@/components/view/DonationMultiplierS
 import { PasswordChangeForm } from '@/components/view/PasswordChangeForm';
 import { PostingForm } from '@/components/view/PostingForm';
 import { Postings } from '@/components/view/Postings';
+import { QuickPostingForm } from '@/components/view/QuickPostingForm';
 import { UserImage } from '@/components/atomics/UserImage';
 import { UserImageChangeForm } from '@/components/view/UserImageChangeForm';
 import { donationMultiplierToNumber } from '@/model/donationMultiplierToNumber';
@@ -86,6 +87,9 @@ export default async function UserByIdPage({
         ) : undefined}
         {isOwnProfile ? (
           <>
+            <div className="flex justify-center">
+              <QuickPostingForm />
+            </div>
             <PostingForm />
             <DonationMultiplierSetForm
               runDonationMultiplier={user.runDonationMultiplier}

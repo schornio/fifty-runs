@@ -14,7 +14,8 @@ export type ButtonVariant =
   | 'filled-primary'
   | 'outlined-primary'
   | 'outlined-secondary'
-  | 'text';
+  | 'text'
+  | 'special-quick-posting';
 
 function ButtonComponent({
   children,
@@ -32,8 +33,10 @@ function ButtonComponent({
           'bg-congress-blue-900 text-white': variant === 'filled-primary',
           'border-2 border-congress-blue-900 text-congress-blue-900':
             variant === 'outlined-primary',
-          'border-summer-500 text-summer-500 border-2':
+          'border-2 border-summer-500  text-summer-500':
             variant === 'outlined-secondary',
+          'h-20 w-20 bg-summer-500 text-white':
+            variant === 'special-quick-posting',
         },
         className,
       )}
