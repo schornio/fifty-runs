@@ -12,7 +12,7 @@ export function ContentText({ data }: { data: Text }) {
           'text-right': data.align === 'right',
         },
         {
-          'prose-md border-summer-500 mx-5 rounded-lg border':
+          'prose-md mx-5 rounded-lg border border-atlantis-500':
             data.variant === 'box',
         },
       )}

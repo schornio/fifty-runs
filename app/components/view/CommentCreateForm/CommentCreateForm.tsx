@@ -104,7 +104,7 @@ export function CommentCreateForm({ posting }: { posting: Posting }) {
 
   return (
     <form onSubmit={onSubmit} ref={formRef}>
-      <div className="border-summer-500 overflow-hidden rounded-xl border">
+      <div className="overflow-hidden rounded-xl border border-atlantis-500">
         <textarea
           className="min-h-[10rem] w-full p-4"
           name="text"

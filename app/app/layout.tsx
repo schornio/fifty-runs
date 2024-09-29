@@ -13,9 +13,9 @@ export const metadata: Metadata = {
   appleWebApp: true,
   description: '50runs',
   icons: {
-    apple: '/image/Logo_50runs_square_summer.png',
-    icon: '/image/Logo_50runs_square_summer.png',
-    shortcut: '/image/Logo_50runs_square_summer.png',
+    apple: '/image/Logo_50runs_square_winter.png',
+    icon: '/image/Logo_50runs_square_winter.png',
+    shortcut: '/image/Logo_50runs_square_winter.png',
   },
   manifest: '/manifest.json',
   title: '50runs',
