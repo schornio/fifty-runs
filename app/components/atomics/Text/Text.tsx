@@ -21,13 +21,13 @@ function TextComponent({
     <span
       className={cn(
         {
+          'text-atlantis-500': color === 'secondary',
           'text-black': color === 'text',
           'text-congress-blue-900': color === 'primary',
           'text-gold-500': color === 'gold',
           'text-green-500': color === 'success',
           'text-neutral-300': color === 'gray',
           'text-red-500': color === 'error',
-          'text-summer-500': color === 'secondary',
           'text-white': color === 'background',
         },
         {

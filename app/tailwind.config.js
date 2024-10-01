@@ -65,7 +65,7 @@ module.exports = {
           css: {
             '--tw-prose-body': theme('colors.congress-blue[900]'),
             '--tw-prose-headings': theme('colors.congress-blue[900]'),
-            '--tw-prose-links': theme('colors.summer[500]'),
+            '--tw-prose-links': theme('colors.atlantis[500]'),
           },
         },
       }),
