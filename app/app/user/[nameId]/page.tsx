@@ -54,20 +54,40 @@ export default async function UserByIdPage({
     return sum;
   }, 0);
 
-  // Berechnung der Laufstatistik
   const totalRunStats = postings.reduce(
-    (stats: { totalDuration: number; totalDistance: number }, { runningExercise }: { runningExercise: { durationInSeconds: number; distanceInMeters: number } | null }) => {
+    (
+      stats: { totalDuration: number; totalDistance: number },
+      {
+        runningExercise,
+      }: {
+        runningExercise: {
+          durationInSeconds: number;
+          distanceInMeters: number;
+        } | null;
+      },
+    ) => {
       if (runningExercise) {
         stats.totalDuration += runningExercise.durationInSeconds;
         stats.totalDistance += runningExercise.distanceInMeters;
       }
       return stats;
     },
-    { totalDuration: 0, totalDistance: 0 }
+    { totalDuration: 0, totalDistance: 0 },
   );
 
   const totalDurationInMinutes = Math.floor(totalRunStats.totalDuration / 60);
-  const totalDistanceInKilometers = (totalRunStats.totalDistance / 1000).toFixed(2);
+  const totalDurationHours = Math.floor(totalDurationInMinutes / 60);
+  const remainingMinutes = totalDurationInMinutes % 60;
+
+  const totalDistanceInKilometers = (
+    totalRunStats.totalDistance / 1000
+  ).toFixed(2);
+  const averageMinutesPerKilometer =
+    totalRunStats.totalDistance > 0
+      ? (totalDurationInMinutes / (totalRunStats.totalDistance / 1000)).toFixed(
+          2,
+        )
+      : null;
 
   return (
     <div className="w-full max-w-xl p-5">
@@ -92,20 +112,31 @@ export default async function UserByIdPage({
             </span>
           </div>
         ) : undefined}
-        
+
         {/* Statistikbereich*/}
         <div className="flex flex-col gap-3 py-5 text-center">
           <div>
-            <span className="text-2xl font-bold text-congress-blue-700">
-              {totalDurationInMinutes} Minuten
+            <span className="text-xl font-bold text-congress-blue-900">
+              {totalDurationHours > 0
+                ? `${totalDurationHours} Stunden ${remainingMinutes} Minuten 🏃`
+                : `${remainingMinutes} Minuten 🏃`}
             </span>
             <div>Gesamte Laufdauer</div>
           </div>
           <div>
-            <span className="text-2xl font-bold text-congress-blue-700">
-              {totalDistanceInKilometers} km
+            <span className="text-xl font-bold text-congress-blue-900">
+              {totalDistanceInKilometers} km 🚀
             </span>
             <div>Gesamte Kilometer</div>
+          </div>
+          <div>
+            <span className="text-xl font-bold text-congress-blue-900">
+              {averageMinutesPerKilometer
+                ? `${averageMinutesPerKilometer} min/km`
+                : 'Keine Daten'}{' '}
+              ⌚️
+            </span>
+            <div>Durchschnittliche Minuten pro Kilometer</div>
           </div>
         </div>
 
