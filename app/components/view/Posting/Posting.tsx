@@ -6,7 +6,7 @@ import { Reactions } from '@/components/composed/Reactions';
 import { RunningExercise } from '@/components/composed/RunningExercise';
 import { Text } from '@/components/atomics/Text';
 import { UserLabel } from '@/components/composed/UserLabel';
-import { FaEdit } from 'react-icons/fa'; // React-Icons für den Stift
+import { FiEdit } from "react-icons/fi";
 
 const { format } = new Intl.DateTimeFormat('de-de', {
   dateStyle: 'medium',
@@ -63,7 +63,7 @@ export function Posting({
               {format(new Date(date))}
             </Text>
           <Link href={`/postings/${id}`}>
-            <FaEdit className="text-congress-blue-900 cursor-pointer" title="Post bearbeiten" />
+            <FiEdit className="text-congress-blue-900 cursor-pointer" title="Post bearbeiten" />
           </Link>
         </div>
       </div>

@@ -118,8 +118,8 @@ export default async function UserByIdPage({
           <div>
             <span className="text-xl font-bold text-congress-blue-900">
               {totalDurationHours > 0
-                ? `${totalDurationHours} Stunden ${remainingMinutes} Minuten 🏃`
-                : `${remainingMinutes} Minuten 🏃`}
+                ? `${totalDurationHours}h ${remainingMinutes}min 🏃`
+                : `${remainingMinutes}min 🏃`}
             </span>
             <div>Gesamte Laufdauer</div>
           </div>
