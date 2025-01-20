@@ -54,6 +54,21 @@ export default async function UserByIdPage({
     return sum;
   }, 0);
 
+  // Berechnung der Laufstatistik
+  const totalRunStats = postings.reduce(
+    (stats: { totalDuration: number; totalDistance: number }, { runningExercise }: { runningExercise: { durationInSeconds: number; distanceInMeters: number } | null }) => {
+      if (runningExercise) {
+        stats.totalDuration += runningExercise.durationInSeconds;
+        stats.totalDistance += runningExercise.distanceInMeters;
+      }
+      return stats;
+    },
+    { totalDuration: 0, totalDistance: 0 }
+  );
+
+  const totalDurationInMinutes = Math.floor(totalRunStats.totalDuration / 60);
+  const totalDistanceInKilometers = (totalRunStats.totalDistance / 1000).toFixed(2);
+
   return (
     <div className="w-full max-w-xl p-5">
       <div className="flex flex-col gap-5">
@@ -77,6 +92,23 @@ export default async function UserByIdPage({
             </span>
           </div>
         ) : undefined}
+        
+        {/* Statistikbereich*/}
+        <div className="flex flex-col gap-3 py-5 text-center">
+          <div>
+            <span className="text-2xl font-bold text-congress-blue-700">
+              {totalDurationInMinutes} Minuten
+            </span>
+            <div>Gesamte Laufdauer</div>
+          </div>
+          <div>
+            <span className="text-2xl font-bold text-congress-blue-700">
+              {totalDistanceInKilometers} km
+            </span>
+            <div>Gesamte Kilometer</div>
+          </div>
+        </div>
+
         {donationSum > 0 ? (
           <div className="flex flex-col py-10 text-center">
             <span className="text-4xl font-bold text-gold-500">
