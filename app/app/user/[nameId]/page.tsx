@@ -36,7 +36,6 @@ export default async function UserByIdPage({
   }
 
   const isOwnProfile = session?.userId === user?.id;
-
   const postings = await getPostings({ byUserId: user.id, session, take: 100 });
 
   const donationSum = postings.reduce((sum, { donation, runningExercise }) => {
@@ -54,57 +53,33 @@ export default async function UserByIdPage({
     return sum;
   }, 0);
 
-  const totalRunStats = postings.reduce(
-    (
-      stats: { totalDuration: number; totalDistance: number },
-      {
-        runningExercise,
-      }: {
-        runningExercise: {
-          durationInSeconds: number;
-          distanceInMeters: number;
-        } | null;
-      },
-    ) => {
-      if (runningExercise) {
-        stats.totalDuration += runningExercise.durationInSeconds;
-        stats.totalDistance += runningExercise.distanceInMeters;
-      }
-      return stats;
-    },
-    { totalDuration: 0, totalDistance: 0 },
-  );
+  const runStats = await prisma.runningStatistic.findUnique({
+    where: { userId: user.id },
+  });
 
-  const totalDurationInMinutes = Math.floor(totalRunStats.totalDuration / 60);
+  const totalDurationInMinutes = runStats
+    ? Math.floor(runStats.durationInSeconds / 60)
+    : 0;
   const totalDurationHours = Math.floor(totalDurationInMinutes / 60);
   const remainingMinutes = totalDurationInMinutes % 60;
 
-  const totalDistanceInKilometers = (
-    totalRunStats.totalDistance / 1000
-  ).toFixed(2);
+  const totalDistanceInKilometers = runStats
+    ? (runStats.distanceInMeters / 1000).toFixed(2)
+    : '0.00';
   const averageMinutesPerKilometer =
-    totalRunStats.totalDistance > 0
-      ? (totalDurationInMinutes / (totalRunStats.totalDistance / 1000)).toFixed(
-          2,
-        )
+    runStats && runStats.distanceInMeters > 0
+      ? (totalDurationInMinutes / (runStats.distanceInMeters / 1000)).toFixed(2)
       : null;
 
   return (
     <div className="w-full max-w-xl p-5">
       <div className="flex flex-col gap-5">
-        {user.image ? (
+        {user.image && (
           <div className="flex justify-center">
-            <UserImage
-              image={user.image}
-              name={user.name}
-              color="primary"
-              size="standalone"
-            />
+            <UserImage image={user.image} name={user.name} color="primary" size="standalone" />
           </div>
-        ) : undefined}
-        <h1 className="text-center text-3xl font-bold text-congress-blue-900">
-          {user.name}
-        </h1>
+        )}
+        <h1 className="text-center text-3xl font-bold text-congress-blue-900">{user.name}</h1>
         {user.group ? (
           <div className="text-center">
             <span className="text-xl font-bold text-congress-blue-900">
@@ -112,8 +87,7 @@ export default async function UserByIdPage({
             </span>
           </div>
         ) : undefined}
-
-        {/* Statistikbereich*/}
+        
         <div className="flex flex-col gap-3 py-5 text-center">
           <div>
             <span className="text-xl font-bold text-congress-blue-900">
@@ -124,17 +98,12 @@ export default async function UserByIdPage({
             <div>Gesamte Laufdauer</div>
           </div>
           <div>
-            <span className="text-xl font-bold text-congress-blue-900">
-              {totalDistanceInKilometers} km 🚀
-            </span>
+            <span className="text-xl font-bold text-congress-blue-900">{totalDistanceInKilometers} km 🚀</span>
             <div>Gesamte Kilometer</div>
           </div>
           <div>
             <span className="text-xl font-bold text-congress-blue-900">
-              {averageMinutesPerKilometer
-                ? `${averageMinutesPerKilometer} min/km`
-                : 'Keine Daten'}{' '}
-              ⌚️
+              {averageMinutesPerKilometer ? `${averageMinutesPerKilometer} min/km` : 'Keine Daten'} ⌚️
             </span>
             <div>Durchschnittliche Minuten pro Kilometer</div>
           </div>
@@ -154,9 +123,7 @@ export default async function UserByIdPage({
               <QuickPostingForm />
             </div>
             <PostingForm />
-            <DonationMultiplierSetForm
-              runDonationMultiplier={user.runDonationMultiplier}
-            />
+            <DonationMultiplierSetForm runDonationMultiplier={user.runDonationMultiplier} />
             <UserImageChangeForm />
             <PasswordChangeForm />
           </>
@@ -166,3 +133,4 @@ export default async function UserByIdPage({
     </div>
   );
 }
+

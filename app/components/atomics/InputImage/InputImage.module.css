@@ -109,19 +109,3 @@
   padding-inline: 1em;
   color: var(--color-accent-3);
 }
-
-.rotateButton {
-  position: absolute;
-  top: 0.5rem;
-  left: 0.5rem;
-  border: none;
-  border-radius: 50%;
-  background: var(--color-primary);
-  cursor: pointer;
-  width: 1.5rem;
-  height: 1.5rem;
-  color: white;
-  font: inherit;
-  font-size: 0.8rem;
-}
-

@@ -10,7 +10,7 @@ export function LogoutLink({ label }: { label: string }) {
     await fetch('/api/session', {
       method: 'DELETE',
     });
-    router.replace('/user/login');
+    router.push('/user/login');
     router.refresh();
   }, [router]);
 

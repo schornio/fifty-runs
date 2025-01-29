@@ -172,7 +172,7 @@ function InputImageComponent({
         <>
           <button
             aria-label="Drehen"
-            className={styles.rotateButton}
+            className="absolute top-2 left-2 w-6 h-6 rounded-full bg-congress-blue-900 text-white text-l cursor-pointer"
             onClick={onRotateClick}
             type="button"
           >
