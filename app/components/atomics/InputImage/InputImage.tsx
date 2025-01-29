@@ -54,6 +54,7 @@ function InputImageComponent({
 
   const [image, setImage] = useState<File | undefined>(undefined);
   const [isDragging, setIsDragging] = useState(false);
+  const [rotation, setRotation] = useState(0);
 
   const resizeAndSetImage = useCallback(
     async (file?: File) => {
@@ -72,7 +73,6 @@ function InputImageComponent({
   const onImageChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
       const file = event.target.files?.[0];
-
       resizeAndSetImage(file);
     },
     [resizeAndSetImage]
@@ -108,8 +108,13 @@ function InputImageComponent({
       inputForUserRef.current.value = '';
     }
     setImage(undefined);
+    setRotation(0);
     onChange?.();
   }, [onChange]);
+
+  const onRotateClick = useCallback(() => {
+    setRotation((prevRotation) => (prevRotation + 90) % 360);
+  }, []);
 
   useEffect(() => {
     const inputForSubmit = inputForSubmitRef.current;
@@ -153,20 +158,35 @@ function InputImageComponent({
         onDrop={onDrop}
       >
         {imageURL ? (
-          <img className={styles.image} src={imageURL} alt="" />
+          <img
+            className={styles.image}
+            src={imageURL}
+            alt=""
+            style={{ transform: `rotate(${rotation}deg)` }}
+          />
         ) : (
           label
         )}
       </label>
       {image ? (
-        <button
-          aria-label="Löschen"
-          className={styles.deleteButton}
-          onClick={onDeleteClick}
-          type="button"
-        >
-          X
-        </button>
+        <>
+          <button
+            aria-label="Drehen"
+            className={styles.rotateButton}
+            onClick={onRotateClick}
+            type="button"
+          >
+            ↻ 
+          </button>
+          <button
+            aria-label="Löschen"
+            className={styles.deleteButton}
+            onClick={onDeleteClick}
+            type="button"
+          >
+            X
+          </button>
+        </>
       ) : undefined}
       <input
         accept="image/*"

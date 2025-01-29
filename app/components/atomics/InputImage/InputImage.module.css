@@ -109,3 +109,10 @@
   padding-inline: 1em;
   color: var(--color-accent-3);
 }
+
+.rotateButton {
+  width: 1.5rem;
+  height: 1.5rem;
+  font-size: 1.5rem;
+}
+
