@@ -75,7 +75,7 @@
   border-color: var(--input-color-text);
 }
 
-.deleteButton {
+.deleteButton{
   position: absolute;
   top: 0.5rem;
   right: 0.5rem;
@@ -85,7 +85,7 @@
   cursor: pointer;
   width: 1.5rem;
   height: 1.5rem;
-  color: var(--color-text);
+  color: white;
   font: inherit;
   font-size: 0.8rem;
   font-weight: 600;

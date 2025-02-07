@@ -37,8 +37,8 @@ export function LoginForm() {
         const result = await invokeLogin(formData);
 
         if (result.status === 'resolved') {
-          router.refresh();
           router.push('/postings');
+          router.refresh();
         }
       }
     },

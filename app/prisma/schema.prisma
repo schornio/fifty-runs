@@ -1,128 +1,128 @@
-datasource db {
-    provider = "postgresql"
-    url      = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
-}
-
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
-enum Visibility {
-    public
-    protected
-    private
-}
-
-enum DonationMultiplier {
-    x1
-    x2
-    x5
-    x10
+datasource db {
+  provider = "postgresql"
+  url      = env("POSTGRES_URL_NON_POOLING")
 }
 
 model Group {
-    id     String @id @default(uuid())
-    name   String @unique
-    nameId String @unique
-    users  User[]
+  id     String @id @default(uuid())
+  name   String @unique
+  nameId String @unique
+  users  User[]
 }
 
 model User {
-    id                            String              @id @default(uuid())
-    name                          String              @unique
-    nameId                        String              @unique
-    email                         String              @unique
-    emailVerified                 Boolean             @default(false)
-    emailVerificationToken        String?
-    password                      String
-    passwordResetToken            String?
-    passwordResetTokenExpiry      DateTime?
-    image                         String?
-    runDonationMultiplier         DonationMultiplier?
-    runDonationMultiplierAskAgain DateTime?
-    sessions                      Session[]
-    reactions                     Reaction[]
-    postings                      Posting[]
-    comments                      Comment[]
-    runningStatistic              RunningStatistic?
-    group                         Group?              @relation(fields: [groupId], references: [id])
-    groupId                       String?
-    createdAt                     DateTime?           @default(now())
+  id                            String              @id @default(uuid())
+  name                          String              @unique
+  nameId                        String              @unique
+  email                         String              @unique
+  emailVerified                 Boolean             @default(false)
+  emailVerificationToken        String?
+  password                      String
+  passwordResetToken            String?
+  passwordResetTokenExpiry      DateTime?
+  image                         String?
+  runDonationMultiplier         DonationMultiplier?
+  runDonationMultiplierAskAgain DateTime?
+  groupId                       String?
+  createdAt                     DateTime?           @default(now())
+  comments                      Comment[]
+  postings                      Posting[]
+  reactions                     Reaction[]
+  runningStatistic              RunningStatistic?
+  sessions                      Session[]
+  group                         Group?              @relation(fields: [groupId], references: [id])
 
-    @@unique([nameId, email])
-    @@index([emailVerificationToken])
-    @@index([runDonationMultiplierAskAgain, runDonationMultiplier])
+  @@unique([nameId, email])
+  @@index([emailVerificationToken])
+  @@index([runDonationMultiplierAskAgain, runDonationMultiplier])
 }
 
 model Session {
-    id        String   @id @default(uuid())
-    token     String   @unique
-    user      User     @relation(fields: [userId], references: [id])
-    userId    String
-    createdAt DateTime @default(now())
-    expiresAt DateTime
+  id        String   @id @default(uuid())
+  token     String   @unique
+  userId    String
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+  user      User     @relation(fields: [userId], references: [id])
 }
 
 model Posting {
-    id                String           @id @default(uuid())
-    date              DateTime
-    text              String?
-    image             String?
-    user              User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-    userId            String
-    visibility        Visibility       @default(protected)
-    reactions         Reaction[]
-    comments          Comment[]
-    runningExercise   RunningExercise?
-    runningExerciseId String?
-    donation          Donation?
-    season            String
+  id                String           @id @default(uuid())
+  date              DateTime
+  text              String?
+  image             String?
+  userId            String
+  visibility        Visibility       @default(protected)
+  runningExerciseId String?
+  season            String
+  comments          Comment[]
+  donation          Donation?
+  user              User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  reactions         Reaction[]
+  runningExercise   RunningExercise?
 }
 
 model Comment {
-    id        String   @id @default(uuid())
-    text      String
-    date      DateTime @default(now())
-    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-    userId    String
-    posting   Posting  @relation(fields: [postingId], references: [id], onDelete: Cascade)
-    postingId String
+  id        String   @id @default(uuid())
+  text      String
+  date      DateTime @default(now())
+  userId    String
+  postingId String
+  posting   Posting  @relation(fields: [postingId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Reaction {
-    id        String   @id @default(uuid())
-    type      String
-    date      DateTime @default(now())
-    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-    userId    String
-    Posting   Posting? @relation(fields: [postingId], references: [id], onDelete: Cascade)
-    postingId String?
+  id        String   @id @default(uuid())
+  type      String
+  date      DateTime @default(now())
+  userId    String
+  postingId String?
+  Posting   Posting? @relation(fields: [postingId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-    @@unique([userId, postingId])
+  @@unique([userId, postingId])
 }
 
 model Donation {
-    id           String   @id @default(uuid())
-    amountInCent Int
-    date         DateTime @default(now())
-    posting      Posting  @relation(fields: [postingId], references: [id], onDelete: Cascade)
-    postingId    String   @unique
+  id           String   @id @default(uuid())
+  amountInCent Int
+  date         DateTime @default(now())
+  postingId    String   @unique
+  posting      Posting  @relation(fields: [postingId], references: [id], onDelete: Cascade)
 }
 
 model RunningExercise {
-    id                String  @id @default(uuid())
-    distanceInMeters  Int
-    durationInSeconds Int
-    posting           Posting @relation(fields: [postingId], references: [id], onDelete: Cascade)
-    postingId         String  @unique
+  id                String  @id @default(uuid())
+  distanceInMeters  Int
+  durationInSeconds Int
+  postingId         String  @unique
+  posting           Posting @relation(fields: [postingId], references: [id], onDelete: Cascade)
 }
 
 model RunningStatistic {
-    id                String @id @default(uuid())
-    numberOfRuns      Int
-    distanceInMeters  Int
-    durationInSeconds Int
-    user              User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-    userId            String @unique
-    season            String
+  id                String @id @default(uuid())
+  numberOfRuns      Int
+  distanceInMeters  Int
+  durationInSeconds Int
+  userId            String @unique
+  season            String
+  user              User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum Visibility {
+  public
+  protected
+  private
+}
+
+enum DonationMultiplier {
+  x1
+  x2
+  x5
+  x10
 }
