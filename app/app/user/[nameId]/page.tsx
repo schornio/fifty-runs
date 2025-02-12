@@ -10,6 +10,7 @@ import { getCurrentSession } from '@/util/server/getCurrentSession';
 import { getPostings } from '@/model/posting/getPostings';
 import { notFound } from 'next/navigation';
 import { prisma } from '@/prisma';
+import GarminImportButton from '@/components/composed/GarminButton/GarminImportButton';
 
 const { format: formatCurrency } = new Intl.NumberFormat('de-de', {
   currency: 'EUR',
@@ -109,6 +110,10 @@ export default async function UserByIdPage({
           </div>
         </div>
 
+        <div className="flex justify-center">
+            <GarminImportButton userId={user.id} />
+        </div>
+
         {donationSum > 0 ? (
           <div className="flex flex-col py-10 text-center">
             <span className="text-4xl font-bold text-gold-500">
@@ -117,6 +122,7 @@ export default async function UserByIdPage({
             Spenden gesamt
           </div>
         ) : undefined}
+        
         {isOwnProfile ? (
           <>
             <div className="flex justify-center">
@@ -133,4 +139,3 @@ export default async function UserByIdPage({
     </div>
   );
 }
-
