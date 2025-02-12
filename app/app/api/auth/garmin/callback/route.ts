@@ -17,7 +17,6 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: "Fehlende OAuth-Parameter" }, { status: 400 });
     }
 
-    // ✅ Nutzer anhand des `oauth_token` aus `garminAuth`-Tabelle ermitteln
     const authEntry = await prisma.garminAuth.findUnique({
       where: { oauthToken },
     });
@@ -26,9 +25,8 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: "Kein passender Nutzer gefunden" }, { status: 403 });
     }
 
-    const userId = authEntry.userId; // ✅ Nutzer-ID gefunden
+    const userId = authEntry.userId;
 
-    // ✅ OAuth 1.0a korrekt signieren
     const oauth = new OAuth({
       consumer: { key: GARMIN_CONSUMER_KEY, secret: GARMIN_CONSUMER_SECRET },
       signature_method: "HMAC-SHA1",
@@ -39,7 +37,7 @@ export async function GET(req: NextRequest) {
 
     const token = {
       key: oauthToken,
-      secret: authEntry.oauthTokenSecret, // ✅ Geheimes Token muss genutzt werden
+      secret: authEntry.oauthTokenSecret,
     };
 
     const requestData = {
@@ -50,7 +48,7 @@ export async function GET(req: NextRequest) {
 
     const authHeader = oauth.toHeader(oauth.authorize(requestData, token));
 
-    // ✅ Access Token von Garmin abrufen
+    //access token from garmin response
     const response = await fetch(GARMIN_ACCESS_TOKEN_URL, {
       method: "POST",
       headers: { 
@@ -65,7 +63,6 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: "Fehler beim Abrufen des Access Tokens" }, { status: 500 });
     }
 
-    // ✅ Access Token aus Antwort extrahieren
     const responseText = await response.text();
     const params = new URLSearchParams(responseText);
     const accessToken = params.get("oauth_token");
@@ -75,7 +72,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: "Ungültige Antwort von Garmin" }, { status: 500 });
     }
 
-    // ✅ Access Token in `User`-Tabelle speichern
+    //store access token in user table
     await prisma.user.update({
       where: { id: userId },
       data: {
@@ -84,11 +81,10 @@ export async function GET(req: NextRequest) {
       },
     });
 
-    // ✅ `garminAuth`-Eintrag löschen, da nicht mehr benötigt
     await prisma.garminAuth.delete({
       where: { userId },
     });
-    
+
     return NextResponse.redirect(`http://localhost:3000/user`);
 
   } catch (error) {

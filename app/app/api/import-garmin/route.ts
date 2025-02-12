@@ -27,7 +27,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Kein Garmin-Token vorhanden" }, { status: 403 });
     }
 
-    // ✅ OAuth 1.0a korrekt signieren
     const oauth = new OAuth({
       consumer: { key: GARMIN_CONSUMER_KEY, secret: GARMIN_CONSUMER_SECRET },
       signature_method: "HMAC-SHA1",
@@ -48,7 +47,6 @@ export async function POST(req: NextRequest) {
 
     const authHeader = oauth.toHeader(oauth.authorize(requestData, token));
 
-    // ✅ Anfrage an Garmin API stellen
     const response = await fetch(GARMIN_MANUAL_ACTIVITY_URL, {
       method: "GET",
       headers: {

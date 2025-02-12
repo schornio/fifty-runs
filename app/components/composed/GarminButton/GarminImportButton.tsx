@@ -9,7 +9,7 @@ export default function GarminImportButton({ userId }: { userId: string }) {
   const [isGarminConnected, setIsGarminConnected] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
 
-  //status prüfen, ob der Nutzer bereits mit Garmin verbunden ist
+  //check if user is already connected to garmin
   useEffect(() => {
     const checkGarminStatus = async () => {
       try {
@@ -24,7 +24,7 @@ export default function GarminImportButton({ userId }: { userId: string }) {
     checkGarminStatus();
   }, [userId]);
 
-  //user ist nicht angemeldet → Weiterleitung zur Garmin-Anmeldung
+  //user not connected to garmin → start login process
   const handleGarminLogin = async () => {
     try {
       const response = await fetch("/api/auth/garmin", {
@@ -44,7 +44,7 @@ export default function GarminImportButton({ userId }: { userId: string }) {
     }
   };
 
-  //User schon verbunden → Aktivitäten importieren
+  //user already connected to garmin → import activities
   const handleGarminImport = async () => {
     setLoading(true);
     try {
@@ -74,7 +74,7 @@ export default function GarminImportButton({ userId }: { userId: string }) {
         className="flex items-center gap-2 bg-congress-blue-900 text-white rounded-lg px-4 py-2 font-semibold"
         disabled={loading}
       >
-        <SiGarmin className="w-7 h-7" /> {/* Garmin-Icon */}
+        <SiGarmin className="w-7 h-7" />
         {loading
           ? "Import läuft..."
           : isGarminConnected
@@ -82,7 +82,6 @@ export default function GarminImportButton({ userId }: { userId: string }) {
           : "Mit Garmin verbinden"}
       </button>
 
-      {/* Info-Icon mit Tooltip */}
       <div
         className="relative"
         onMouseEnter={() => setShowTooltip(true)}

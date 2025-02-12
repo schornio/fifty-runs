@@ -10,7 +10,7 @@ const GARMIN_REDIRECT_URI = "http://localhost:3000/api/auth/garmin/callback";
 
 export async function POST(req: NextRequest) {
   try {
-    const { userId } = await req.json(); // ✅ Nutzer-ID aus Anfrage erhalten
+    const { userId } = await req.json();
 
     if (!userId) {
       return NextResponse.json({ error: "Benutzer-ID fehlt" }, { status: 400 });
@@ -50,7 +50,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Ungültige Antwort von Garmin" }, { status: 500 });
     }
 
-    // ✅ Falls bereits ein Eintrag existiert, wird er aktualisiert (kein Unique-Error mehr!)
     await prisma.garminAuth.upsert({
       where: { userId },
       update: { oauthToken, oauthTokenSecret },
