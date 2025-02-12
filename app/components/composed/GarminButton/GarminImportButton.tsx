@@ -7,9 +7,10 @@ import { CiCircleInfo } from "react-icons/ci";
 export default function GarminImportButton({ userId }: { userId: string }) {
   const [loading, setLoading] = useState(false);
   const [isGarminConnected, setIsGarminConnected] = useState(false);
+  const [importSuccess, setImportSuccess] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
 
-  //check if user is already connected to garmin
+  //check if garmin is connected
   useEffect(() => {
     const checkGarminStatus = async () => {
       try {
@@ -24,7 +25,7 @@ export default function GarminImportButton({ userId }: { userId: string }) {
     checkGarminStatus();
   }, [userId]);
 
-  //user not connected to garmin → start login process
+  //start garmin login
   const handleGarminLogin = async () => {
     try {
       const response = await fetch("/api/auth/garmin", {
@@ -44,9 +45,11 @@ export default function GarminImportButton({ userId }: { userId: string }) {
     }
   };
 
-  //user already connected to garmin → import activities
+  //import garmin activities
   const handleGarminImport = async () => {
     setLoading(true);
+    setImportSuccess(false);
+
     try {
       const response = await fetch("/api/import-garmin", {
         method: "POST",
@@ -58,7 +61,7 @@ export default function GarminImportButton({ userId }: { userId: string }) {
         throw new Error("Fehler beim Import der Garmin-Daten.");
       }
 
-      alert("Garmin-Daten erfolgreich importiert.");
+      setImportSuccess(true);
       console.log(await response.json());
     } catch (error) {
       alert("Es gab ein Problem beim Import der Garmin-Daten.");
@@ -76,7 +79,9 @@ export default function GarminImportButton({ userId }: { userId: string }) {
       >
         <SiGarmin className="w-7 h-7" />
         {loading
-          ? "Import läuft..."
+          ? "Import läuft 📥"
+          : importSuccess
+          ? "Import erfolgreich ✅"
           : isGarminConnected
           ? "Meine Garmin-Aktivitäten importieren"
           : "Mit Garmin verbinden"}
