@@ -10,7 +10,7 @@ export default function GarminImportButton({ userId }: { userId: string }) {
   const [importSuccess, setImportSuccess] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
 
-  // Überprüfen, ob Garmin verbunden ist
+  //check  if garmin is connected
   useEffect(() => {
     const checkGarminStatus = async () => {
       try {
@@ -25,7 +25,7 @@ export default function GarminImportButton({ userId }: { userId: string }) {
     checkGarminStatus();
   }, [userId]);
 
-  // Garmin-Login starten
+  //start garmin login
   const handleGarminLogin = async () => {
     try {
       const response = await fetch("/api/auth/garmin", {
@@ -45,7 +45,7 @@ export default function GarminImportButton({ userId }: { userId: string }) {
     }
   };
 
-  // Garmin-Aktivitäten importieren
+  //import garmin data
   const handleGarminImport = async () => {
     setLoading(true);
     setImportSuccess(false);
@@ -89,7 +89,6 @@ export default function GarminImportButton({ userId }: { userId: string }) {
           : "Mit Garmin verbinden"}
       </button>
 
-      {/* Info-Icon mit Tooltip */}
       <div
         className="relative flex items-center"
         onMouseEnter={() => setShowTooltip(true)}
