@@ -11,7 +11,7 @@ export async function GET() {
   try {
     console.log("🚀 Cron-Job gestartet: Garmin-Datenimport für alle verbundenen Benutzer...");
 
-    // 🔹 Alle Benutzer abrufen, die mit Garmin verbunden sind
+    //check all users who are connected to Garmin
     const users = await prisma.user.findMany({
       where: { garminAccessToken: { not: null }, garminAccessTokenSecret: { not: null } },
       select: { id: true, garminAccessToken: true, garminAccessTokenSecret: true },
@@ -22,13 +22,13 @@ export async function GET() {
       return NextResponse.json({ message: "Keine Benutzer mit Garmin-Verbindung gefunden." });
     }
 
-    // 🔹 Zeitstempel berechnen (letzte 24h)
+    //timestamp for the last 24 hours
     const endTime = Math.floor(Date.now() / 1000);
     const startTime = endTime - 86400;
 
     const results = [];
 
-    // 🔹 Für jeden Benutzer die Garmin-Daten abrufen
+    //loop through all users
     for (const user of users) {
       console.log(`📡 Importiere Garmin-Daten für User ID: ${user.id}`);
 
@@ -40,7 +40,6 @@ export async function GET() {
         },
       });
 
-      // ✅ Fix: null-Werte in leeren String umwandeln
       const token = { 
         key: user.garminAccessToken || "", 
         secret: user.garminAccessTokenSecret || "" 
@@ -75,7 +74,7 @@ export async function GET() {
 
       console.log(`✅ Import erfolgreich für User ID ${user.id}:`, data.length, "Aktivitäten.");
 
-      // 🔹 **Speicherung in der Datenbank (auskommentiert)**
+      //store acitivites (commented)**
       /*
       for (const activity of data) {
         await prisma.runningExercise.create({
