@@ -3,10 +3,10 @@ import OAuth from "oauth-1.0a";
 import crypto from "crypto";
 import { prisma } from "@/prisma";
 
-const startTime = Math.floor(new Date("2024-02-11T00:00:00Z").getTime() / 1000);
-const endTime = Math.floor(new Date("2024-02-12T00:00:00Z").getTime() / 1000);
+const endTime = Math.floor(Date.now() / 1000);
+const startTime = endTime - 24 * 60 * 60;
 
-const GARMIN_MANUAL_ACTIVITY_URL = `https://apis.garmin.com/wellness-api/rest/activities?uploadStartTimeInSeconds=${startTime}&uploadEndTimeInSeconds=${endTime}`;
+const GARMIN_MANUAL_ACTIVITY_URL = `https://apis.garmin.com/wellness-api/rest/manuallyUpdatedActivities?uploadStartTimeInSeconds=${startTime}&uploadEndTimeInSeconds=${endTime}`;
 const GARMIN_CONSUMER_KEY = process.env.GARMIN_CONSUMER_KEY!;
 const GARMIN_CONSUMER_SECRET = process.env.GARMIN_CONSUMER_SECRET!;
 
@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
       method: "GET",
       headers: {
         Authorization: authHeader["Authorization"],
-        "Content-Type": "application/json",
+        Accept: "application/json",
       },
     });
 
