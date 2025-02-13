@@ -10,7 +10,7 @@ export default function GarminImportButton({ userId }: { userId: string }) {
   const [importSuccess, setImportSuccess] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
 
-  //check if garmin is connected
+  // Überprüfen, ob Garmin verbunden ist
   useEffect(() => {
     const checkGarminStatus = async () => {
       try {
@@ -25,7 +25,7 @@ export default function GarminImportButton({ userId }: { userId: string }) {
     checkGarminStatus();
   }, [userId]);
 
-  //start garmin login
+  // Garmin-Login starten
   const handleGarminLogin = async () => {
     try {
       const response = await fetch("/api/auth/garmin", {
@@ -45,7 +45,7 @@ export default function GarminImportButton({ userId }: { userId: string }) {
     }
   };
 
-  //import garmin activities
+  // Garmin-Aktivitäten importieren
   const handleGarminImport = async () => {
     setLoading(true);
     setImportSuccess(false);
@@ -71,13 +71,15 @@ export default function GarminImportButton({ userId }: { userId: string }) {
   };
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto">
       <button
         onClick={isGarminConnected ? handleGarminImport : handleGarminLogin}
-        className="flex items-center gap-2 bg-congress-blue-900 text-white rounded-lg px-4 py-2 font-semibold"
+        className="flex items-center justify-center gap-2 bg-congress-blue-900 text-white
+                   text-white rounded-lg w-full md:w-auto px-4 py-3 text-sm md:text-base font-semibold 
+                  disabled:opacity-50 disabled:cursor-not-allowed"
         disabled={loading}
       >
-        <SiGarmin className="w-7 h-7" />
+        <SiGarmin className="w-6 h-6 md:w-7 md:h-7" />
         {loading
           ? "Import läuft 📥"
           : importSuccess
@@ -87,16 +89,18 @@ export default function GarminImportButton({ userId }: { userId: string }) {
           : "Mit Garmin verbinden"}
       </button>
 
+      {/* Info-Icon mit Tooltip */}
       <div
-        className="relative"
+        className="relative flex items-center"
         onMouseEnter={() => setShowTooltip(true)}
         onMouseLeave={() => setShowTooltip(false)}
       >
-        <CiCircleInfo className="w-6 h-6 text-gray-600 cursor-pointer" />
+        <CiCircleInfo className="w-6 h-6 text-gray-600 cursor-pointer transition-transform duration-200 hover:scale-110" />
 
         {showTooltip && (
-          <div className="absolute left-8 bottom-0 bg-gray-800 text-white text-xs rounded-md p-2 shadow-lg w-56">
-            Die Garmin API erlaubt es nur, die Aktivitäten der letzten 24 Stunden zu importieren.
+          <div className="absolute left-1/2 top-8 bg-gold-500 text-black text-xs 
+                          rounded-md p-2 shadow-lg w-56 text-center z-10">
+            Die Garmin API erlaubt nur den Import von Aktivitäten der letzten 24 Stunden.
           </div>
         )}
       </div>
