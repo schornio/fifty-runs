@@ -16,22 +16,35 @@ const RUNNING_ACTIVITIES = [
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    //console.log("Garmin push body:", body);
+    console.log("Push erhalten", body);
 
-    if (!body.manuallyUpdatedActivities) {
+    //bring activities together (manual + automatic)
+    const allActivities = [
+      ...(body.manuallyUpdatedActivities || []), 
+      ...(body.activities || []),
+    ];
+
+    if (allActivities.length === 0) {
       return NextResponse.json({ error: "Keine Aktivitäten erhalten" }, { status: 400 });
     }
 
-    for (const activity of body.manuallyUpdatedActivities) {
+    for (const activity of allActivities) {
       if (!RUNNING_ACTIVITIES.includes(activity.activityType)) {
         continue;
       }
 
-      const { userAccessToken, activityId, distanceInMeters = 0, durationInSeconds = 0, activityName, activityDescription } = activity;
+      const {
+        userAccessToken,
+        activityId,
+        distanceInMeters = 0,
+        durationInSeconds = 0,
+        activityName,
+        activityDescription,
+      } = activity;
       const currentSeason = process.env.SEASON || "2025";
       const activityDate = new Date(activity.startTimeInSeconds * 1000);
 
-      //find user by garminAccessToken
+      //find user by garmin access token
       const user = await prisma.user.findFirst({
         where: { garminAccessToken: userAccessToken },
         select: { id: true },
@@ -45,11 +58,16 @@ export async function POST(req: NextRequest) {
       //check if activity already exists
       const existingActivity = await prisma.runningExercise.findUnique({
         where: { garminActivityId: activityId.toString() },
-        select: { id: true, distanceInMeters: true, durationInSeconds: true },
+        select: { 
+          id: true, 
+          distanceInMeters: true, 
+          durationInSeconds: true, 
+          postingId: true,
+        },
       });
 
       if (existingActivity) {
-        //case 1: activity already exists and has the same distance and duration, only type changed
+        //if distance or duration has not changed, skip update
         if (
           existingActivity.distanceInMeters === distanceInMeters &&
           existingActivity.durationInSeconds === durationInSeconds
@@ -57,23 +75,36 @@ export async function POST(req: NextRequest) {
           continue;
         }
 
-        //distance or duration changed
-        await prisma.runningStatistic.update({
-          where: { userId: user.id },
+        const diffDistance = distanceInMeters - existingActivity.distanceInMeters;
+        const diffDuration = durationInSeconds - existingActivity.durationInSeconds;
+
+        await prisma.posting.update({
+          where: { id: existingActivity.postingId },
           data: {
-            numberOfRuns: { decrement: 1 },
-            distanceInMeters: { decrement: existingActivity.distanceInMeters },
-            durationInSeconds: { decrement: existingActivity.durationInSeconds },
+            date: activityDate,
+            text: activityDescription || activityName,
           },
         });
 
-        //delete old activity
-        await prisma.runningExercise.delete({
+        await prisma.runningExercise.update({
           where: { garminActivityId: activityId.toString() },
+          data: {
+            distanceInMeters,
+            durationInSeconds,
+          },
         });
+
+        await prisma.runningStatistic.update({
+          where: { userId: user.id },
+          data: {
+            distanceInMeters: { increment: diffDistance },
+            durationInSeconds: { increment: diffDuration },
+          },
+        })
+        continue;
       }
 
-      //new posting
+      //create new posting if activity does not exist
       const newPosting = await prisma.posting.create({
         data: {
           date: activityDate,
@@ -84,7 +115,7 @@ export async function POST(req: NextRequest) {
         },
       });
 
-      //store new acitiviy in db and link it to posting
+      //store the new activity and link it to the posting
       await prisma.runningExercise.create({
         data: {
           garminActivityId: activityId.toString(),
@@ -94,7 +125,7 @@ export async function POST(req: NextRequest) {
         },
       });
 
-      //update running statistics
+      //update running statistic
       await prisma.runningStatistic.upsert({
         where: { userId: user.id },
         update: {
@@ -112,7 +143,7 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    return NextResponse.json({ message: "Aktivitäten erfolgreich verarbeitet & Posting erstellt" });
+    return NextResponse.json({ message: "Aktivitäten erfolgreich verarbeitet & Posting erstellt/aktualisiert" });
   } catch (error) {
     console.error("Webhook-Verarbeitungsfehler:", error);
     return NextResponse.json({ error: "Interner Serverfehler" }, { status: 500 });

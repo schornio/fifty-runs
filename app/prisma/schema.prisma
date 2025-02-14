@@ -24,20 +24,21 @@ model User {
   password                      String
   passwordResetToken            String?
   passwordResetTokenExpiry      DateTime?
-  garminAccessToken             String?
-  garminAccessTokenSecret       String?
   image                         String?
   runDonationMultiplier         DonationMultiplier?
   runDonationMultiplierAskAgain DateTime?
   groupId                       String?
   createdAt                     DateTime?           @default(now())
+  garminAccessToken             String?
+  garminAccessTokenSecret       String?
   comments                      Comment[]
+  GarminAuth                    GarminAuth?
   postings                      Posting[]
   reactions                     Reaction[]
+  readNotifications             ReadNotification[]
   runningStatistic              RunningStatistic?
   sessions                      Session[]
   group                         Group?              @relation(fields: [groupId], references: [id])
-  GarminAuth                    GarminAuth?
 
   @@unique([nameId, email])
   @@index([emailVerificationToken])
@@ -108,10 +109,10 @@ model Donation {
 
 model RunningExercise {
   id                String  @id @default(uuid())
-  garminActivityId  String? @unique             
   distanceInMeters  Int
   durationInSeconds Int
   postingId         String  @unique
+  garminActivityId  String? @unique
   posting           Posting @relation(fields: [postingId], references: [id], onDelete: Cascade)
 }
 
@@ -123,6 +124,16 @@ model RunningStatistic {
   userId            String @unique
   season            String
   user              User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model ReadNotification {
+  id             String   @id @default(uuid())
+  userId         String
+  notificationId String
+  readAt         DateTime @default(now())
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, notificationId])
 }
 
 enum Visibility {
