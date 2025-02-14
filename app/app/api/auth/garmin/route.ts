@@ -6,7 +6,7 @@ import { prisma } from "@/prisma";
 const GARMIN_REQUEST_TOKEN_URL = "https://connectapi.garmin.com/oauth-service/oauth/request_token";
 const GARMIN_CONSUMER_KEY = process.env.GARMIN_CONSUMER_KEY!;
 const GARMIN_CONSUMER_SECRET = process.env.GARMIN_CONSUMER_SECRET!;
-const GARMIN_REDIRECT_URI = "http://localhost:3000/api/auth/garmin/callback";
+const GARMIN_REDIRECT_URL = process.env.GARMIN_CALLBACK_URL!;
 
 export async function POST(req: NextRequest) {
   try {
@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
     const requestData = {
       url: GARMIN_REQUEST_TOKEN_URL,
       method: "POST",
-      data: { oauth_callback: GARMIN_REDIRECT_URI },
+      data: { oauth_callback: GARMIN_REDIRECT_URL },
     };
 
     const authHeader = oauth.toHeader(oauth.authorize(requestData));

@@ -108,6 +108,7 @@ model Donation {
 
 model RunningExercise {
   id                String  @id @default(uuid())
+  garminActivityId  String? @unique             
   distanceInMeters  Int
   durationInSeconds Int
   postingId         String  @unique
