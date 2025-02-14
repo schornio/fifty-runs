@@ -44,7 +44,7 @@ export async function GET() {
         title: "Neuer Lauf synchronisiert",
         description: `Gelaufen: ${(exercise.distanceInMeters / 1000).toFixed(2)} km in ${formatDuration(exercise.durationInSeconds)}`,
         date: exercise.posting.date.toISOString(),
-        read: readNotificationIds.includes(exercise.id), // Gibt zurück, ob die Nachricht gelesen wurde
+        read: readNotificationIds.includes(exercise.id),
       })),
     });
   } catch (error) {

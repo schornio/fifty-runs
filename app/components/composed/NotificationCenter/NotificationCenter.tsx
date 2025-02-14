@@ -29,7 +29,7 @@ export default function NotificationCenter() {
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // 📌 Markiere Benachrichtigungen als gelesen, wenn das Dropdown geschlossen wird
+  //mark all unread notifications as read
   async function markAsRead() {
     const unreadNotifications = notifications.filter((n) => !n.read);
     if (unreadNotifications.length > 0) {

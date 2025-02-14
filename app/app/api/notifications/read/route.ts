@@ -14,13 +14,13 @@ export async function PUT(req: NextRequest) {
       return NextResponse.json({ error: "Ungültige Daten" }, { status: 400 });
     }
 
-    // Speichere alle gelesenen Benachrichtigungen in der Datenbank
+    //store read notifications
     await prisma.readNotification.createMany({
       data: notificationIds.map((notificationId) => ({
         userId: session.userId,
         notificationId,
       })),
-      skipDuplicates: true, // Falls eine Notification bereits als gelesen markiert wurde, wird sie nicht doppelt gespeichert
+      skipDuplicates: true,
     });
 
     return NextResponse.json({ message: "Benachrichtigungen als gelesen markiert" });
