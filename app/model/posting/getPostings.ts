@@ -26,6 +26,7 @@ const selectPosting = {
   text: true,
   user: {
     select: {
+      id: true,
       image: true,
       name: true,
       nameId: true,

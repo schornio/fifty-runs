@@ -6,7 +6,6 @@ import { Reactions } from '@/components/composed/Reactions';
 import { RunningExercise } from '@/components/composed/RunningExercise';
 import { Text } from '@/components/atomics/Text';
 import { UserLabel } from '@/components/composed/UserLabel';
-import { FiEdit } from "react-icons/fi";
 
 const { format } = new Intl.DateTimeFormat('de-de', {
   dateStyle: 'medium',
@@ -52,19 +51,16 @@ export function Posting({
 }) {
   return (
     <div className="overflow-hidden rounded-xl border border-congress-blue-900">
-      <div className="flex items-center justify-between border-b border-congress-blue-900 p-4">
+      <div className="flex items-center justify-start border-b border-congress-blue-900 p-4">
         <UserLabel
           userImage={userImage}
           userName={userName}
           userNameId={userNameId}
         />
-        <div className="flex items-center gap-2">
-            <Text color="text" fontSize="sub">
-              {format(new Date(date))}
-            </Text>
-          <Link href={`/postings/${id}`}>
-            <FiEdit className="text-congress-blue-900 cursor-pointer" title="Post bearbeiten" />
-          </Link>
+        <div className="ml-4 flex items-center gap-2">
+          <Text color="text" fontSize="sub">
+            {format(new Date(date))}
+          </Text>
         </div>
       </div>
       {image ? <PostingImage image={image} /> : undefined}

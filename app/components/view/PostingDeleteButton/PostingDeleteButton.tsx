@@ -5,7 +5,7 @@ import { useCallback } from 'react';
 import { usePromise } from '@/util/usePromise';
 import { useRouter } from 'next/navigation';
 
-async function deletePosting(id: string) {
+export async function deletePosting(id: string) {
   const result = await fetch(`/api/posting/${id}`, {
     method: 'DELETE',
   });

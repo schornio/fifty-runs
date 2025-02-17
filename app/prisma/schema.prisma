@@ -114,6 +114,7 @@ model RunningExercise {
   postingId         String  @unique
   garminActivityId  String? @unique
   posting           Posting @relation(fields: [postingId], references: [id], onDelete: Cascade)
+  createdAt         DateTime @default(now())
 }
 
 model RunningStatistic {

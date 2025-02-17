@@ -81,7 +81,7 @@ export default function NotificationCenter() {
                       <p className="text-sm font-bold">{notification.title}</p>
                       <p className="text-xs text-gray-600">{notification.description}</p>
                       <p className="mt-1 text-xs text-gray-400">
-                        {new Date(notification.date).toLocaleString()}
+                        Laufdatum: {new Date(notification.date).toLocaleString()}
                       </p>
                     </div>
                   </li>
