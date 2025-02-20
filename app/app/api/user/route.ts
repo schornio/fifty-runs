@@ -64,6 +64,9 @@ export async function POST(request: Request) {
         create: {
           name: groupName,
           nameId: groupNameId,
+          createdById: user.id,
+          adminId: user.id,
+          users: { connect: { id: user.id } },
         },
         update: {},
         where: {

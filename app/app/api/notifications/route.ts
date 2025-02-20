@@ -16,14 +16,21 @@ export async function GET() {
       return NextResponse.json({ notifications: [] });
     }
 
-    // Gelesene Benachrichtigungen des Users laden
     const readNotifications = await prisma.readNotification.findMany({
       where: { userId: session.userId },
       select: { notificationId: true },
     });
     const readNotificationIds = readNotifications.map((n) => n.notificationId);
 
-    // Lauf-Synchronisierungen abrufen (nur eigene Läufe)
+    const adminNotifications = await prisma.groupRequest.findMany({
+      where: {
+        group: { adminId: session.userId },
+      },
+      include: { user: true, group: true },
+      orderBy: { createdAt: 'desc' },
+      take: 50,
+    });
+
     const runningNotifications = await prisma.runningExercise.findMany({
       where: {
         posting: { userId: session.userId },
@@ -33,7 +40,6 @@ export async function GET() {
       take: 50,
     });
 
-    // Kommentare abrufen (nur zu eigenen Beiträgen)
     const commentNotifications = await prisma.comment.findMany({
       where: { posting: { userId: session.userId } },
       include: { user: true, posting: true },
@@ -41,7 +47,6 @@ export async function GET() {
       take: 50,
     });
 
-    // Reaktionen abrufen (nur zu eigenen Beiträgen)
     const reactionNotifications = await prisma.reaction.findMany({
       where: { Posting: { userId: session.userId } },
       include: { user: true, Posting: true },
@@ -49,15 +54,22 @@ export async function GET() {
       take: 50,
     });
 
-    // Alle Benachrichtigungen zusammenführen
     const allNotifications = [
+      ...adminNotifications.map((request) => ({
+        id: request.id,
+        title: 'Neue Beitrittsanfrage',
+        description: `${request.user.name} möchte der Gruppe "${request.group.name}" beitreten.`,
+        date: request.createdAt.toISOString(),
+        read: readNotificationIds.includes(request.id),
+        userId: request.user.id,
+        groupId: request.group.id,
+      })),
       ...runningNotifications.map((exercise) => ({
         id: exercise.id,
         title: 'Neuer Lauf synchronisiert',
         description: `Gelaufen: ${(exercise.distanceInMeters / 1000).toFixed(2)} km in ${formatDuration(
           exercise.durationInSeconds
         )}`,
-        // Wichtig: Datum aus RunningExercise.createdAt statt posting.date
         date: exercise.createdAt.toISOString(),
         read: readNotificationIds.includes(exercise.id),
       })),
@@ -77,7 +89,6 @@ export async function GET() {
       })),
     ];
 
-    // Alle Benachrichtigungen nach Datum (neueste zuerst) sortieren
     allNotifications.sort(
       (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
     );
