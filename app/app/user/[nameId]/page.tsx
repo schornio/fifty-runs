@@ -10,10 +10,8 @@ import { getCurrentSession } from '@/util/server/getCurrentSession';
 import { getPostings } from '@/model/posting/getPostings';
 import { notFound } from 'next/navigation';
 import { prisma } from '@/prisma';
-import Link from 'next/link';
 import GarminConnectButton from '@/components/composed/GarminButton/GarminConnectButton';
 import GarminDisconnectButton from '@/components/composed/GarminButton/GarminDisconnectButton';
-import CreateTeam from '@/components/view/CreateTeam/CreateTeam';
 
 const { format: formatCurrency } = new Intl.NumberFormat('de-de', {
   currency: 'EUR',
@@ -93,12 +91,9 @@ export default async function UserByIdPage({
         </h1>
         {user.group ? (
           <div className="text-center">
-            <Link
-              href={`/team/${user.group.nameId}`}
-              className="text-xl font-bold text-congress-blue-900 hover:underline"
-            >
+            <span className="text-xl font-bold text-congress-blue-900">
               {user.group.name}
-            </Link>
+            </span>
           </div>
         ) : undefined}
 
@@ -149,7 +144,6 @@ export default async function UserByIdPage({
             <div className="flex justify-center">
               <QuickPostingForm />
             </div>
-            <CreateTeam user={user} />
             <PostingForm />
             <DonationMultiplierSetForm
               runDonationMultiplier={user.runDonationMultiplier}

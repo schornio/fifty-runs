@@ -13,9 +13,6 @@ export async function getCurrentSession() {
     where: {
       token,
     },
-    include: {
-      user: true,
-    },
   });
 
   if (!session || session.expiresAt < new Date()) {
