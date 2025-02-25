@@ -85,7 +85,7 @@ export async function GET(req: NextRequest) {
       where: { userId },
     });
 
-    return NextResponse.redirect(`http://localhost:3000/user`);
+    return NextResponse.redirect(`https://50runs.com/user`);
 
   } catch (error) {
     console.error("❌ Fehler bei Garmin OAuth Callback:", error);
