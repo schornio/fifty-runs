@@ -156,7 +156,7 @@ const TransferAdminButton = ({ groupId }: TransferAdminButtonProps) => {
                           <span>{member.name}</span>
                           <button
                             onClick={() => handleTransfer(member.id)}
-                            className="flex items-center rounded border border-blue-500 px-3 py-1 font-bold text-blue-500 hover:bg-gold-500 hover:text-black hover:border-gold-500"
+                            className="flex items-center rounded border border-congress-blue-900 px-3 py-1 font-bold text-congress-blue-900 hover:bg-gold-500 hover:text-black hover:border-gold-500"
                           >
                             <GrUserAdmin className="mr-2" />
                             Als Admin festlegen

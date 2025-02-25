@@ -44,13 +44,12 @@ export default function NotificationCenter() {
         throw new Error(`Fehler bei ${action}: ${await res.text()}`);
       }
 
-      mutate(); // UI aktualisieren
+      mutate();
     } catch (error) {
       console.error(`Fehler beim Verarbeiten der Anfrage:`, error);
     }
   }
 
-  // Markiere alle ungelesenen Benachrichtigungen als gelesen
   async function markAsRead() {
     const unreadNotifications = notifications.filter((n) => !n.read);
     if (unreadNotifications.length > 0) {
@@ -108,7 +107,6 @@ export default function NotificationCenter() {
                       </p>
                     </div>
                     
-                    {/* Falls es eine Beitrittsanfrage ist, zeige Admin-Buttons */}
                     {notification.title === 'Neue Beitrittsanfrage' && notification.userId && notification.groupId && (
                       <div className="flex gap-2">
                         <button onClick={() => handleRequest(notification.userId!, notification.groupId!, "approve")}>
