@@ -8,51 +8,10 @@ datasource db {
 }
 
 model Group {
-  id            String           @id @default(uuid())
-  name          String           @unique
-  nameId        String           @unique
-  
-  // Relation zu den Mitgliedern
-  users         User[]           @relation("GroupMembers")
-
-  // Ersteller der Gruppe
-  createdById   String
-  createdBy     User             @relation("GroupCreator", fields: [createdById], references: [id], onDelete: Cascade)
-
-  // Aktueller Admin der Gruppe
-  adminId       String?          
-  admin         User?            @relation("GroupAdmin", fields: [adminId], references: [id], onDelete: SetNull)
-
-  // Einladungen & Beitrittsanfragen
-  invitations   GroupInvitation[]
-  requests      GroupRequest[]
-
-  // Statistiken
-  totalDistance Int              @default(0)
-  totalDuration Int              @default(0)
-}
-
-model GroupInvitation {
-  id        String  @id @default(uuid())
-  groupId   String
-  group     Group   @relation(fields: [groupId], references: [id], onDelete: Cascade)
-  token     String  @unique
-  createdAt DateTime @default(now())
-  usedAt    DateTime?
-}
-
-model GroupRequest {
-  id        String  @id @default(uuid())
-  groupId   String
-  userId    String
-
-  // Relation zur Gruppe
-  group     Group   @relation(fields: [groupId], references: [id], onDelete: Cascade)
-
-  // Relation zum Benutzer (Fix!)
-  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
-  createdAt DateTime @default(now())
+  id     String @id @default(uuid())
+  name   String @unique
+  nameId String @unique
+  users  User[]
 }
 
 model User {
@@ -79,24 +38,12 @@ model User {
   readNotifications             ReadNotification[]
   runningStatistic              RunningStatistic?
   sessions                      Session[]
-
-  // Relation zur Gruppe (Fix!)
-  group                         Group?  @relation("GroupMembers", fields: [groupId], references: [id])
-
-  // Gruppen, die der User erstellt hat
-  createdGroups                 Group[] @relation("GroupCreator")
-
-  // Gruppen, bei denen der User Admin ist
-  adminGroups                   Group[] @relation("GroupAdmin")
-
-  // Alle Beitrittsanfragen des Users
-  requests                      GroupRequest[]
+  group                         Group?              @relation(fields: [groupId], references: [id])
 
   @@unique([nameId, email])
   @@index([emailVerificationToken])
   @@index([runDonationMultiplierAskAgain, runDonationMultiplier])
 }
-
 
 model GarminAuth {
   oauthToken       String @id

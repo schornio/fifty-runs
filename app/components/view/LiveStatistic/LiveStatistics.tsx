@@ -2,11 +2,14 @@
 
 import useSWR from 'swr';
 
+// Einfacher Fetcher für SWR
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
+// Komponente erhält die userId als Prop
 export function LiveStatistics({ userId }: { userId: string | number }) {
+  // In der URL hängen wir die userId als Query-Parameter an
   const { data, error } = useSWR(`/api/stats?userId=${userId}`, fetcher, {
-    refreshInterval: 5000,
+    refreshInterval: 5000, // Alle 5 Sekunden aktualisieren
   });
 
   if (error) return <div className="flex flex-col gap-3 py-5 text-center"> Fehler beim Laden der Statistik.</div>;

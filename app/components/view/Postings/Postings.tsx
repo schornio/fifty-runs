@@ -91,7 +91,6 @@ export function Postings({
             userImage={user.image}
             userName={user.name}
             userNameId={user.nameId}
-            userGroup={user.group?.name}
             userReactionType={reactions.find((reaction) => reaction.userId === userId)?.type}
           />
           {userId != user.id && (
