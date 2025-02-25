@@ -3,6 +3,7 @@ import { UserLabel } from '@/components/composed/UserLabel';
 import { cache } from 'react';
 import { getCurrentSession } from '@/util/server/getCurrentSession';
 import { prisma } from '@/prisma';
+import ViewTeam from '@/components/composed/ViewTeam/ViewTeam';
 
 const season = process.env.SEASON;
 
@@ -63,6 +64,9 @@ export default async function GroupUsersByRuns() {
           <h2 className="text-xl font-bold text-congress-blue-900">
             Leaderboard {group.name} - Läufe
           </h2>
+          <div className="mt-2">
+            <ViewTeam teamName={group.nameId} />
+          </div>
         </div>
         <table className="border-separate border-spacing-x-5">
           <tbody>

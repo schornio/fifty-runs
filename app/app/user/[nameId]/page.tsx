@@ -10,6 +10,10 @@ import { getCurrentSession } from '@/util/server/getCurrentSession';
 import { getPostings } from '@/model/posting/getPostings';
 import { notFound } from 'next/navigation';
 import { prisma } from '@/prisma';
+import Link from 'next/link';
+import GarminConnectButton from '@/components/composed/GarminButton/GarminConnectButton';
+import GarminDisconnectButton from '@/components/composed/GarminButton/GarminDisconnectButton';
+import CreateTeam from '@/components/view/CreateTeam/CreateTeam';
 
 const { format: formatCurrency } = new Intl.NumberFormat('de-de', {
   currency: 'EUR',
@@ -76,18 +80,28 @@ export default async function UserByIdPage({
       <div className="flex flex-col gap-5">
         {user.image && (
           <div className="flex justify-center">
-            <UserImage image={user.image} name={user.name} color="primary" size="standalone" />
+            <UserImage
+              image={user.image}
+              name={user.name}
+              color="primary"
+              size="standalone"
+            />
           </div>
         )}
-        <h1 className="text-center text-3xl font-bold text-congress-blue-900">{user.name}</h1>
+        <h1 className="text-center text-3xl font-bold text-congress-blue-900">
+          {user.name}
+        </h1>
         {user.group ? (
           <div className="text-center">
-            <span className="text-xl font-bold text-congress-blue-900">
+            <Link
+              href={`/team/${user.group.nameId}`}
+              className="text-xl font-bold text-congress-blue-900 hover:underline"
+            >
               {user.group.name}
-            </span>
+            </Link>
           </div>
         ) : undefined}
-        
+
         <div className="flex flex-col gap-3 py-5 text-center">
           <div>
             <span className="text-xl font-bold text-congress-blue-900">
@@ -98,15 +112,27 @@ export default async function UserByIdPage({
             <div>Gesamte Laufdauer</div>
           </div>
           <div>
-            <span className="text-xl font-bold text-congress-blue-900">{totalDistanceInKilometers} km 🚀</span>
+            <span className="text-xl font-bold text-congress-blue-900">
+              {totalDistanceInKilometers} km 🚀
+            </span>
             <div>Gesamte Kilometer</div>
           </div>
           <div>
             <span className="text-xl font-bold text-congress-blue-900">
-              {averageMinutesPerKilometer ? `${averageMinutesPerKilometer} min/km` : 'Keine Daten'} ⌚️
+              {averageMinutesPerKilometer
+                ? `${averageMinutesPerKilometer} min/km`
+                : 'Keine Daten'}{' '}
+              ⌚️
             </span>
             <div>Durchschnittliche Minuten pro Kilometer</div>
           </div>
+        </div>
+
+        <div className="flex justify-center">
+          <GarminConnectButton userId={user.id} />
+        </div>
+        <div className="flex justify-center">
+          <GarminDisconnectButton userId={user.id} />
         </div>
 
         {donationSum > 0 ? (
@@ -117,13 +143,17 @@ export default async function UserByIdPage({
             Spenden gesamt
           </div>
         ) : undefined}
+
         {isOwnProfile ? (
           <>
             <div className="flex justify-center">
               <QuickPostingForm />
             </div>
+            <CreateTeam user={user} />
             <PostingForm />
-            <DonationMultiplierSetForm runDonationMultiplier={user.runDonationMultiplier} />
+            <DonationMultiplierSetForm
+              runDonationMultiplier={user.runDonationMultiplier}
+            />
             <UserImageChangeForm />
             <PasswordChangeForm />
           </>
@@ -133,4 +163,3 @@ export default async function UserByIdPage({
     </div>
   );
 }
-

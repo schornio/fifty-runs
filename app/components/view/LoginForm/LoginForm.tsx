@@ -9,7 +9,7 @@ import { Stack } from '@/components/atomics/Stack';
 import { Text } from '@/components/atomics/Text';
 import { loginSchema } from '@/schema/login';
 import { usePromise } from '@/util/usePromise';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useValidation } from '@/util/form/useValidation';
 
 async function login(formData: FormData) {
@@ -18,14 +18,15 @@ async function login(formData: FormData) {
     method: 'POST',
   });
   if (!result.ok) {
-    throw new Error();
+    throw new Error('Login fehlgeschlagen');
   }
 }
 
 export function LoginForm() {
   const router = useRouter();
-  const { errors, formRef, validateForm, validateFormJustInTime } =
-    useValidation(loginSchema);
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get('redirect') || '/postings'; // Fallback auf /postings, falls kein redirect angegeben ist.
+  const { errors, formRef, validateForm, validateFormJustInTime } = useValidation(loginSchema);
   const { invoke: invokeLogin, status } = usePromise(login);
 
   const onSubmit = useCallback(
@@ -37,12 +38,12 @@ export function LoginForm() {
         const result = await invokeLogin(formData);
 
         if (result.status === 'resolved') {
-          router.push('/postings');
+          router.push(redirect);
           router.refresh();
         }
       }
     },
-    [validateForm, invokeLogin, router],
+    [validateForm, invokeLogin, router, redirect],
   );
 
   return (
@@ -77,6 +78,12 @@ export function LoginForm() {
           <Box textAlign="center">
             <Link href="/user/passwordForgotten">
               <Text color="primary">Passwort vergessen?</Text>
+            </Link>
+          </Box>
+          <Box textAlign="center">
+            {/* Link zur Registrierungsseite mit demselben Redirect-Parameter */}
+            <Link href={`/user/register?redirect=${encodeURIComponent(redirect)}`}>
+              <Text color="primary">Noch kein Konto? Registrieren</Text>
             </Link>
           </Box>
         </Stack>
