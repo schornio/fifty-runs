@@ -76,18 +76,17 @@ export default function GarminImportButton({ userId }: { userId: string }) {
       </button>
       <div
         className="relative flex items-center"
-        onMouseEnter={() => { if (isGarminConnected) setShowTooltip(true); }}
+        onMouseEnter={() => {
+          if (isGarminConnected) setShowTooltip(true);
+        }}
         onMouseLeave={() => setShowTooltip(false)}
       >
-       
         {showTooltip && isGarminConnected && (
           <>
             <CiCircleInfo className="h-6 w-6 cursor-pointer text-gray-600 transition-transform duration-200 hover:scale-110" />
-            <div
-              className="absolute left-1/2 top-8 z-10 w-56 -translate-x-1/2 rounded-md 
-                         bg-gold-500 p-2 text-center text-xs text-black shadow-lg"
-            >
-              ✅ Garmin-Integration aktiv: Aktivitäten werden automatisch synchronisiert.
+            <div className="absolute left-1/2 top-8 z-10 w-auto max-w-[calc(100vw-2rem)] -translate-x-1/2 rounded-md bg-gold-500 p-2 text-center text-xs text-black shadow-lg sm:w-56">
+              ✅ Garmin-Integration aktiv: Aktivitäten werden automatisch
+              synchronisiert.
             </div>
           </>
         )}

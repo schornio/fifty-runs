@@ -31,7 +31,7 @@ export function Posting({
   userImage,
   userName,
   userNameId,
-  userGroup, // Name der Gruppe
+  userGroup,
   userReactionType,
 }: {
   commentCount: number;
@@ -50,7 +50,7 @@ export function Posting({
   userImage?: string | null;
   userName: string;
   userNameId: string;
-  userGroup?: string; // Gruppen-Name, aber nicht die ID!
+  userGroup?: string;
   userReactionType?: string;
 }) {
   const [groupId, setGroupId] = useState<string | null>(null);

@@ -99,9 +99,9 @@ export default function GarminDisconnectButton({ userId }: { userId: string }) {
 
           {showTooltip && (
             <div
-              className="absolute left-1/2 top-8 z-10 w-56 rounded-md 
-                         bg-gold-500 p-2 text-center text-xs text-black shadow-lg"
-            >
+            className="absolute left-1/2 top-8 z-10 w-auto sm:w-56 max-w-[calc(100vw-2rem)] -translate-x-1/2 rounded-md 
+                       bg-gold-500 p-2 text-center text-xs text-black shadow-lg"
+          >
               ⚠️ Achtung: Nach dem Trennen werden deine Garmin-Aktivitäten nicht
               mehr synchronisiert.
             </div>

@@ -98,7 +98,7 @@ export function Postings({
             <div className="absolute top-4 right-4 flex gap-3 bg-white p-2">
               <Link href={`/postings/${id}`}>
               <FaRegCommentDots
-                className="cursor-pointer text-congress-blue-900 hover:text-blue-700"
+                className="cursor-pointer text-congress-blue-900 hover:text-blue-700 text-2xl"
                 title="Datum bearbeiten"
               />
                </Link>
@@ -122,7 +122,7 @@ export function Postings({
                 </>
               ) : (
                 <FiCalendar
-                  className="cursor-pointer text-congress-blue-900 hover:text-blue-700"
+                  className="cursor-pointer text-congress-blue-900 hover:text-blue-700 text-2xl"
                   title="Datum bearbeiten"
                   onClick={() => {
                     setIsEditing(id);
@@ -131,10 +131,10 @@ export function Postings({
                 />
               )}
               <Link href={`/postings/${id}`}>
-                <FiEdit className="cursor-pointer text-congress-blue-900 hover:text-blue-700 transition-colors" title="Post bearbeiten" />
+                <FiEdit className="cursor-pointer text-congress-blue-900 hover:text-blue-700 transition-colors text-2xl" title="Post bearbeiten" />
               </Link>
               <FiTrash
-                className="cursor-pointer text-red-600 hover:text-red-400 transition-colors"
+                className="cursor-pointer text-red-600 hover:text-red-400 transition-colors text-2xl"
                 title="Post löschen"
                 onClick={() => setShowConfirmModal(id)}
               />
